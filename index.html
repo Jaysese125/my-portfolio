@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-palette="ember">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Christian Jay Sese — aspiring cybersecurity engineer building secure systems, learning technology, and developing real-world projects.">
+    <meta name="description" content="Portfolio of Christian Jay Sese — IT infrastructure, networking, and systems automation specialist.">
     <meta name="theme-color" content="#101110">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Christian Jay Sese | Portfolio">
+    <meta property="og:description" content="IT Infrastructure & Network Specialist — building secure systems, managing Linux environments, and automating infrastructure workflows.">
+    <meta property="og:url" content="https://jaysese125.github.io/">
+    <meta property="og:image" content="assets/images/og-preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Christian Jay Sese | Portfolio">
+    <meta name="twitter:description" content="IT Infrastructure & Network Specialist">
+
     <title>Christian Jay Sese | Portfolio</title>
-    <link rel="icon" href="data:,">
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20x='1'%20y='1'%20width='30'%20height='30'%20fill='%23ffffff'%20stroke='%23101110'%20stroke-width='2'/%3E%3Crect%20x='6'%20y='6'%20width='20'%20height='20'%20fill='none'%20stroke='%23101110'%20stroke-width='1'/%3E%3Ctext%20x='16'%20y='19'%20font-family='monospace'%20font-size='7'%20font-weight='700'%20fill='%23101110'%20text-anchor='middle'%20letter-spacing='1'%3EJAY%3C/text%3E%3C/svg%3E">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,11 +27,32 @@
 </head>
 <body>
 
+    <a href="#main-content" class="ark-skip-link">Skip to content</a>
+
+    <noscript>
+        <style>
+            .ark-boot { display: none !important; }
+            .ark-skip-link { display: none !important; }
+            [data-reveal],
+            .ark-about-content,
+            .ark-visual-img,
+            .ark-hero-img,
+            .ark-hero-panel,
+            .ark-card,
+            .ark-skill,
+            .ark-contact > * {
+                opacity: 1 !important;
+                transform: none !important;
+                clip-path: none !important;
+            }
+        </style>
+    </noscript>
+
     <div class="ark-boot" id="arkBoot" aria-hidden="true">
         <div class="ark-boot-shutter ark-boot-shutter-top"></div>
         <div class="ark-boot-shutter ark-boot-shutter-bot"></div>
         <div class="ark-boot-content">
-            <div class="ark-boot-mark">CJS</div>
+            <div class="ark-boot-mark">JAY</div>
             <div class="ark-boot-log" id="bootLog"></div>
             <div class="ark-boot-bar">
                 <div class="ark-boot-bar-fill" id="bootBar"></div>
@@ -34,12 +67,18 @@
         <div class="ark-bg-grid"></div>
         <div class="ark-bg-contour"></div>
         <div class="ark-bg-glow"></div>
-        <div class="ark-bg-scan"></div>
+        <div class="ark-bg-scan-wrap">
+            <div class="ark-bg-scan"></div>
+        </div>
         <div class="ark-bg-noise"></div>
+        <div class="ark-bg-watermark" aria-hidden="true">JAYFIELD</div>
     </div>
 
-    <aside class="ark-rail" aria-label="Section rail">
-        <a href="#home" class="ark-rail-mark" aria-label="Back to home">CJS</a>
+    <aside class="ark-rail" id="arkRail" aria-label="Section rail">
+        <a href="#home" class="ark-rail-mark" aria-label="Back to home">
+            <span class="ark-rail-mark-short">JAY</span>
+            <span class="ark-rail-mark-long">JAYFIELD</span>
+        </a>
 
         <nav class="ark-rail-nav" aria-label="Primary navigation">
             <a href="#home" class="ark-rail-link active">
@@ -120,7 +159,14 @@
             <span class="ark-topbar-readout">
                 <span class="ark-topbar-dot" aria-hidden="true"></span>
                 SECURE CONNECTION
+                <span class="ark-topbar-date" id="liveDate">-- --- ----</span>
                 <span class="ark-topbar-time" id="liveClock">--:--:-- LOCAL</span>
+
+                <button class="ark-palette-toggle" id="paletteToggle" type="button" aria-label="Toggle accent palette">
+                    <span class="ark-palette-swatch ark-palette-swatch--ember" aria-hidden="true"></span>
+                    <span class="ark-palette-swatch ark-palette-swatch--tidal" aria-hidden="true"></span>
+                    <span class="ark-palette-label" id="paletteLabel">EMBER</span>
+                </button>
             </span>
         </header>
 
@@ -145,54 +191,65 @@
             </div>
         </div>
 
-        <main class="ark-stage">
+        <main class="ark-stage" id="main-content">
 
-            <section id="home" class="ark-section is-active">
-                <p class="ark-kicker" data-reveal>01 / PORTFOLIO / <span class="js-year">2026</span></p>
-                <h1 class="ark-display" data-reveal>Christian Jay Sese</h1>
-                <div class="ark-rule" data-reveal aria-hidden="true"></div>
-                <h2 class="ark-subtitle" data-reveal>IT Infrastructure &amp; Network Specialist</h2>
-                <p class="ark-lead" data-reveal>
-                    Building secure systems, managing Linux environments,
-                    and automating infrastructure workflows.
-                </p>
-                <div class="ark-status" data-reveal>
-                    <span class="ark-status-dot" aria-hidden="true"></span>
-                    SYSTEM STATUS: ONLINE
+            <section id="home" class="ark-section ark-hero-section is-active">
+                <div class="ark-hero-visual" aria-hidden="true">
+                    <img class="ark-hero-img" src="assets/images/homeimg.png" alt="" width="1200" height="1600" decoding="async">
                 </div>
-                <div class="ark-meta" data-reveal>
-                    <div>
-                        <span>FOCUS</span>
-                        <strong>INFRASTRUCTURE</strong>
-                    </div>
-                    <div>
-                        <span>MODE</span>
-                        <strong>OPEN TO WORK</strong>
-                    </div>
-                    <div>
-                        <span>YEAR</span>
-                        <strong class="js-year">2026</strong>
+                <div class="ark-hero-scrim" aria-hidden="true"></div>
+                <div class="ark-hero-grid" aria-hidden="true"></div>
+
+                <div class="ark-hero-content">
+                    <div class="ark-hero-panel" data-reveal>
+                        <p class="ark-kicker">
+                            01 / PORTFOLIO / <span class="js-year">2026</span>
+                            <span class="ark-kicker-code">// FIELD.JAY</span>
+                        </p>
+                        <h1 class="ark-display">Christian Jay Sese</h1>
+                        <div class="ark-rule" aria-hidden="true"></div>
+                        <h2 class="ark-subtitle">IT Infrastructure &amp; Network Specialist</h2>
+                        <p class="ark-lead">
+                            Building secure systems, managing Linux environments,
+                            and automating infrastructure workflows.
+                        </p>
+                        <div class="ark-status">
+                            <span class="ark-status-dot" aria-hidden="true"></span>
+                            SYSTEM STATUS: ONLINE
+                            <span class="ark-status-verified">VERIFIED</span>
+                        </div>
+                        <div class="ark-meta">
+                            <div><span>FOCUS</span><strong>INFRASTRUCTURE</strong></div>
+                            <div><span>MODE</span><strong>OPEN TO WORK</strong></div>
+                            <div><span>YEAR</span><strong class="js-year">2026</strong></div>
+                        </div>
                     </div>
                 </div>
+
+                <span class="ark-field-label ark-field-label--br" aria-hidden="true">
+                    <span class="ark-field-label-dot"></span>
+                    FIELD / JAY-001
+                </span>
+
+                <span class="ark-section-numeral" aria-hidden="true">01</span>
             </section>
 
             <section id="about" class="ark-section ark-about-section">
-                <p class="ark-kicker" data-reveal>02 / PROFILE</p>
+                <span class="ark-section-numeral ark-section-numeral--light" aria-hidden="true">02</span>
+
+                <p class="ark-kicker" data-reveal>
+                    02 / PROFILE
+                    <span class="ark-kicker-code">// SECTOR.ABT</span>
+                </p>
                 <h2 class="ark-title" data-reveal>About Me</h2>
 
                 <div class="ark-about-visual">
-                    <img
-                        class="ark-visual-img"
-                        src="assets/images/aboutmeimg.png"
-                        alt="Portrait of Christian Jay Sese"
-                        decoding="async"
-                    >
+                    <img class="ark-visual-img" src="assets/images/aboutmeimg.png" alt="Portrait of Christian Jay Sese" width="1200" height="1600" loading="lazy" decoding="async">
                 </div>
 
                 <div class="ark-about-layout">
-
                     <div class="ark-about-content">
-                        <div class="ark-split-main">
+                        <div class="ark-split-main" tabindex="0" role="region" aria-label="Profile details">
                             <h3>Professional Summary</h3>
                             <p class="ark-about-summary">
                                 Information Technology graduate specializing in
@@ -206,88 +263,42 @@
                             </p>
 
                             <h3>Detailed Background</h3>
-                            <p>
-                                Hello! I'm Christian Jay Sese, an Information
-                                Technology graduate from Quezon City University
-                                with a strong focus on IT infrastructure,
-                                networking, and system security.
-                            </p>
-                            <p>
-                                My technical journey is driven by a hands-on
-                                approach to problem-solving. During my internship
-                                as an IT Infrastructure &amp; Network Intern at
-                                DENSO TEN Solutions Philippines Corporation, I
-                                gained real-world experience diagnosing network
-                                issues, handling asset management, and improving
-                                service desk efficiency by building automated
-                                workflows with Microsoft Power Apps and Power
-                                Automate.
-                            </p>
-                            <p>
-                                Beyond corporate experience, I love challenging
-                                myself through self-hosted labs and development
-                                projects. I regularly work with Ubuntu Server,
-                                Oracle VirtualBox, Nginx, and security tools
-                                like UFW and Fail2Ban. Whether I am leading a
-                                capstone project on predictive analytics or
-                                containerizing full-stack applications with
-                                Docker and Oracle Database, I am always eager to
-                                bridge the gap between software development and
-                                robust IT operations.
-                            </p>
+                            <p>Hello! I'm Christian Jay Sese, an Information Technology graduate from Quezon City University with a strong focus on IT infrastructure, networking, and system security.</p>
+                            <p>My technical journey is driven by a hands-on approach to problem-solving. During my internship as an IT Infrastructure &amp; Network Intern at DENSO TEN Solutions Philippines Corporation, I gained real-world experience diagnosing network issues, handling asset management, and improving service desk efficiency by building automated workflows with Microsoft Power Apps and Power Automate.</p>
+                            <p>Beyond corporate experience, I love challenging myself through self-hosted labs and development projects. I regularly work with Ubuntu Server, Oracle VirtualBox, Nginx, and security tools like UFW and Fail2Ban. Whether I am leading a capstone project on predictive analytics or containerizing full-stack applications with Docker and Oracle Database, I am always eager to bridge the gap between software development and robust IT operations.</p>
 
                             <h3>Core Focus Areas</h3>
                             <ul class="ark-about-list">
-                                <li>
-                                    <strong>Infrastructure &amp; Security:</strong>
-                                    Linux/Ubuntu server administration,
-                                    networking fundamentals, firewalls (UFW,
-                                    Fail2Ban), and web servers (Nginx).
-                                </li>
-                                <li>
-                                    <strong>Automation &amp; Development:</strong>
-                                    Workflow automation (Power Automate),
-                                    scripting (Python, PHP, JavaScript), and
-                                    containerization (Docker).
-                                </li>
-                                <li>
-                                    <strong>Collaboration &amp; Management:</strong>
-                                    Project leadership, technical documentation,
-                                    Git/GitHub version control, and
-                                    cross-functional team coordination.
-                                </li>
+                                <li><strong>Infrastructure &amp; Security:</strong> Linux/Ubuntu server administration, networking fundamentals, firewalls (UFW, Fail2Ban), and web servers (Nginx).</li>
+                                <li><strong>Automation &amp; Development:</strong> Workflow automation (Power Automate), scripting (Python, PHP, JavaScript), and containerization (Docker).</li>
+                                <li><strong>Collaboration &amp; Management:</strong> Project leadership, technical documentation, Git/GitHub version control, and cross-functional team coordination.</li>
                             </ul>
                         </div>
 
                         <div class="ark-split-side">
-                            <div class="ark-keyrow">
-                                <span>STATUS</span>
-                                <strong>OPEN TO WORK</strong>
-                            </div>
-                            <div class="ark-keyrow">
-                                <span>FOCUS</span>
-                                <strong>INFRASTRUCTURE</strong>
-                            </div>
-                            <div class="ark-keyrow">
-                                <span>FOUNDATION</span>
-                                <strong>NETWORKING</strong>
-                            </div>
+                            <div class="ark-keyrow"><span>STATUS</span><strong>OPEN TO WORK</strong></div>
+                            <div class="ark-keyrow"><span>FOCUS</span><strong>INFRASTRUCTURE</strong></div>
+                            <div class="ark-keyrow"><span>FOUNDATION</span><strong>NETWORKING</strong></div>
                         </div>
                     </div>
 
                     <span class="ark-visual-crosshair tl" aria-hidden="true"></span>
                     <span class="ark-visual-crosshair br" aria-hidden="true"></span>
-
-                    <span class="ark-visual-label">
-                        <span class="ark-visual-label-dot" aria-hidden="true"></span>
-                        PROFILE / CJS-01
-                    </span>
-
                 </div>
+
+                <span class="ark-field-label ark-field-label--light ark-field-label--br" aria-hidden="true">
+                    <span class="ark-field-label-dot"></span>
+                    SECTOR / ABT-02
+                </span>
             </section>
 
             <section id="projects" class="ark-section">
-                <p class="ark-kicker" data-reveal>03 / PROJECTS</p>
+                <span class="ark-section-numeral" aria-hidden="true">03</span>
+
+                <p class="ark-kicker" data-reveal>
+                    03 / PROJECTS
+                    <span class="ark-kicker-code">// ARCHIVE.03</span>
+                </p>
                 <h2 class="ark-title" data-reveal>Selected Projects</h2>
                 <div class="ark-card-grid">
                     <article class="ark-card">
@@ -295,11 +306,7 @@
                         <span class="ark-card-corner br" aria-hidden="true"></span>
                         <p class="ark-card-index">PROJECT / 01</p>
                         <h3>Ubuntu Active Defense Lab</h3>
-                        <p>
-                            A hardened Ubuntu Server environment focused on
-                            host security, intrusion prevention, and automated
-                            defense. Uses UFW, Fail2Ban, and Nginx hardening.
-                        </p>
+                        <p>A hardened Ubuntu Server environment focused on host security, intrusion prevention, and automated defense. Uses UFW, Fail2Ban, and Nginx hardening.</p>
                         <span class="ark-card-tags">LINUX · SECURITY · NETWORKING</span>
                     </article>
                     <article class="ark-card">
@@ -307,84 +314,71 @@
                         <span class="ark-card-corner br" aria-hidden="true"></span>
                         <p class="ark-card-index">PROJECT / 02</p>
                         <h3>Containerized Full-Stack App</h3>
-                        <p>
-                            A full-stack application deployed with Docker and
-                            Oracle Database, with scripts and configuration
-                            managed through Git and GitHub.
-                        </p>
+                        <p>A full-stack application deployed with Docker and Oracle Database, with scripts and configuration managed through Git and GitHub.</p>
                         <span class="ark-card-tags">DOCKER · ORACLE · DEVOPS</span>
                     </article>
                 </div>
+
+                <span class="ark-field-label ark-field-label--br" aria-hidden="true">
+                    <span class="ark-field-label-dot"></span>
+                    ARCHIVE / 03
+                </span>
             </section>
 
             <section id="skills" class="ark-section">
-                <p class="ark-kicker" data-reveal>04 / SYSTEM CAPABILITIES</p>
+                <span class="ark-section-numeral" aria-hidden="true">04</span>
+
+                <p class="ark-kicker" data-reveal>
+                    04 / SYSTEM CAPABILITIES
+                    <span class="ark-kicker-code">// SYSTEM.04</span>
+                </p>
                 <h2 class="ark-title" data-reveal>Skills</h2>
                 <div class="ark-skill-grid">
-                    <div class="ark-skill">
-                        <span>01</span>
-                        <h3>PROGRAMMING</h3>
-                        <p>Python · PHP · JavaScript</p>
-                    </div>
-                    <div class="ark-skill">
-                        <span>02</span>
-                        <h3>LINUX</h3>
-                        <p>Ubuntu Server · Nginx · Bash</p>
-                    </div>
-                    <div class="ark-skill">
-                        <span>03</span>
-                        <h3>NETWORKING</h3>
-                        <p>TCP/IP · Nmap · Wireshark</p>
-                    </div>
-                    <div class="ark-skill">
-                        <span>04</span>
-                        <h3>SECURITY</h3>
-                        <p>UFW · Fail2Ban · Hardening</p>
-                    </div>
-                    <div class="ark-skill">
-                        <span>05</span>
-                        <h3>AUTOMATION</h3>
-                        <p>Power Automate · Power Apps</p>
-                    </div>
-                    <div class="ark-skill">
-                        <span>06</span>
-                        <h3>TOOLS</h3>
-                        <p>Git · GitHub · Docker · VirtualBox</p>
-                    </div>
+                    <div class="ark-skill"><span>01</span><h3>PROGRAMMING</h3><p>Python · PHP · JavaScript</p></div>
+                    <div class="ark-skill"><span>02</span><h3>LINUX</h3><p>Ubuntu Server · Nginx · Bash</p></div>
+                    <div class="ark-skill"><span>03</span><h3>NETWORKING</h3><p>TCP/IP · Nmap · Wireshark</p></div>
+                    <div class="ark-skill"><span>04</span><h3>SECURITY</h3><p>UFW · Fail2Ban · Hardening</p></div>
+                    <div class="ark-skill"><span>05</span><h3>AUTOMATION</h3><p>Power Automate · Power Apps</p></div>
+                    <div class="ark-skill"><span>06</span><h3>TOOLS</h3><p>Git · GitHub · Docker · VirtualBox</p></div>
                 </div>
+
+                <span class="ark-field-label ark-field-label--br" aria-hidden="true">
+                    <span class="ark-field-label-dot"></span>
+                    SYSTEM / 04
+                </span>
             </section>
 
             <section id="contact" class="ark-section">
-                <p class="ark-kicker" data-reveal>05 / COMMUNICATION</p>
+                <span class="ark-section-numeral" aria-hidden="true">05</span>
+
+                <p class="ark-kicker" data-reveal>
+                    05 / COMMUNICATION
+                    <span class="ark-kicker-code">// CHANNEL.05</span>
+                </p>
                 <h2 class="ark-title" data-reveal>Contact</h2>
                 <div class="ark-contact">
                     <div class="ark-contact-message">
                         <span class="ark-contact-tag">SYS / CONTACT</span>
                         <h3>Let's build something.</h3>
-                        <p>
-                            I'm currently open to opportunities in IT
-                            infrastructure, network administration, and
-                            systems automation. Feel free to reach out.
-                        </p>
+                        <p>I'm currently open to opportunities in IT infrastructure, network administration, and systems automation. Feel free to reach out.</p>
                     </div>
                     <div class="ark-contact-links">
-                        <a href="https://github.com/Jaysese125" target="_blank" rel="noopener noreferrer">
-                            <span>01</span>
-                            GITHUB
-                        </a>
-                        <a href="mailto:sese.christianjay.bayaron@gmail.com">
-                            <span>02</span>
-                            EMAIL
-                        </a>
+                        <a href="https://github.com/Jaysese125" target="_blank" rel="noopener noreferrer"><span>01</span>GITHUB</a>
+                        <a href="mailto:sese.christianjay.bayaron@gmail.com"><span>02</span>EMAIL</a>
                     </div>
                 </div>
+
+                <span class="ark-field-label ark-field-label--br" aria-hidden="true">
+                    <span class="ark-field-label-dot"></span>
+                    CHANNEL / 05
+                </span>
             </section>
 
         </main>
 
         <footer class="ark-footer">
             <span>© <span class="js-year">2026</span> Christian Jay Sese</span>
-            <span>ENDFIELD / EDITORIAL REV <span class="js-year">2026</span></span>
+            <span>JAYFIELD / EDITORIAL REV <span class="js-year">2026</span></span>
         </footer>
 
     </div>
