@@ -218,23 +218,32 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.6rem;
+    
+    /* CHANGED THIS: Reduced from 1.6rem to 0.5rem */
+    gap: 0.5rem; 
+    
     z-index: 2;
     transition: opacity 0.35s ease;
 }
 
 .ark-boot-mark {
-    font-family: var(--mono);
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 0.24em;
-    color: var(--ink);
-    border: 1px solid var(--ink);
-    padding: 0.6rem 0.85rem 0.6rem 1rem;
-    line-height: 1;
+    /* Remove old text styling (font, border, padding) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
     opacity: 0;
     transform: scale(0.9);
     animation: bootMarkIn 0.7s var(--rail-ease) 0.1s forwards;
+}
+
+/* Add this new class for the image */
+.ark-boot-logo {
+    /* Change this number to make it bigger! (e.g., 120px, 150px, 200px) */
+    width: 150px; 
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
 }
 
 @keyframes bootMarkIn {
@@ -472,7 +481,6 @@ a {
     pointer-events: none;
 }
 
-
 /* ═══════════════════════════════════════════════════════════════
    PART 06 — LEFT RAIL
    ═══════════════════════════════════════════════════════════════ */
@@ -502,78 +510,75 @@ a {
     box-shadow: var(--rail-shadow-hover);
 }
 
+/* --- THE LOGO & TEXT CONTAINER --- */
 .ark-rail-mark {
     position: absolute;
     top: 1.1rem;
     left: calc((var(--rail-w) - 2.4rem) / 2);
     width: 2.4rem;
-    height: 1.55rem;
-    text-align: center;
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    color: var(--rail-ink);
-    background: var(--rail-bg);
-    border: 2px solid var(--rail-ink);
-    padding: 0.3rem 0;
-    line-height: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    transition:
-        left 0.55s var(--rail-ease),
-        width 0.55s var(--rail-ease),
-        font-size 0.4s ease,
-        letter-spacing 0.4s ease,
-        padding 0.4s ease,
-        background 0.3s ease,
-        color 0.3s ease,
-        border-color 0.3s ease;
-}
-
-.ark-rail-mark-long {
+    height: 2.4rem; 
+    
+    background: transparent;
+    border: none;
+    padding: 0;
+    
     display: flex;
-    position: absolute;
-    inset: 0;
     align-items: center;
-    justify-content: center;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    white-space: nowrap;
+    justify-content: flex-start; /* Align to the left, logo stays put */
+    text-decoration: none;
+    transition: left 0.55s var(--rail-ease), width 0.55s var(--rail-ease);
+    z-index: 10;
 }
 
-.ark-rail-mark-short {
-    opacity: 1;
-}
-
-.ark-rail-mark-long {
-    opacity: 0;
-    letter-spacing: 0.34em;
-    padding-left: 0.34em;
-}
-
+/* Expanded state for the logo container */
 .ark-rail.is-open .ark-rail-mark {
     left: 1.25rem;
     width: calc(var(--rail-w-open) - 2.5rem);
+    height: 2.4rem;
+}
+
+/* --- THE LOGO IMAGE --- */
+.ark-rail-logo {
+    width: 2.4rem;
+    height: 2.4rem;
+    flex-shrink: 0; /* CRITICAL FIX: Prevents logo from disappearing */
+    object-fit: contain;
+    transition: transform 0.3s var(--ease-out), filter 0.3s ease;
+    
+    /* Adds a tiny glow to the white sticker so it pops on dark backgrounds */
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.2)); 
+}
+
+/* Hover effect for the logo */
+.ark-rail-mark:hover .ark-rail-logo {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
+}
+
+/* --- THE TEXT --- */
+.ark-rail-mark-text {
+    font-family: var(--mono);
     font-size: 0.85rem;
-    padding: 0.45rem 0;
-    height: 1.75rem;
-}
-
-.ark-rail.is-open .ark-rail-mark-short {
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--rail-ink);
+    white-space: nowrap;
+    
+    /* Hide text by default */
     opacity: 0;
+    width: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, width 0.3s ease, margin-left 0.3s ease;
+    pointer-events: none;
 }
 
-.ark-rail.is-open .ark-rail-mark-long {
+.ark-rail.is-open .ark-rail-mark-text {
     opacity: 1;
+    width: auto;
+    margin-left: 0.75rem; /* Space between logo and text */
 }
 
-.ark-rail-mark:hover {
-    border-color: var(--rail-ink);
-    background: var(--rail-ink);
-    color: var(--rail-bg);
-}
-
+/* --- NAVIGATION LINKS (Unchanged) --- */
 .ark-rail-nav {
     position: absolute;
     top: 50%;
@@ -737,6 +742,40 @@ a {
     opacity: 0;
 }
 
+/* ==========================================================================
+   MOBILE OVERRIDES FOR THE LOGO
+   ========================================================================== */
+@media (max-width: 900px), (orientation: portrait) and (max-width: 1100px) {
+    .ark-rail-mark {
+        position: static;
+        left: auto;
+        width: auto;
+        height: auto;
+        padding: 0.25rem 0.5rem;
+        justify-content: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .ark-rail.is-open .ark-rail-mark {
+        left: auto;
+        width: auto;
+        height: auto;
+    }
+    
+    .ark-rail-logo {
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    /* Force text to show on mobile */
+    .ark-rail-mark-text {
+        display: block !important;
+        opacity: 1 !important;
+        width: auto !important;
+        margin-left: 0.5rem !important;
+        font-size: 0.75rem;
+    }
+}
 
 /* ═══════════════════════════════════════════════════════════════
    PART 08 — SHELL
@@ -1008,6 +1047,8 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     box-shadow: 0 0 6px currentColor;
     animation: dotPulse 2.4s ease-in-out infinite;
     flex-shrink: 0;
+        /* ADD THIS LINE */
+    border: 1px solid #101110;
 }
 
 
@@ -1260,7 +1301,7 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
 
 
 /* ═══════════════════════════════════════════════════════════════
-   PART 14 — ABOUT SECTION (LIGHT THEME)
+   PART 14 — ABOUT SECTION (BOTTOM-ALIGNED OPERATOR LAYOUT)
    ═══════════════════════════════════════════════════════════════ */
 
 .ark-about-section {
@@ -1283,25 +1324,118 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     --line-l2: var(--line-light-l2);
     position: relative;
     overflow: hidden;
+    
     padding:
         clamp(1.75rem, 3.5vh, 2.75rem)
         calc(var(--rail-buffer) + clamp(2rem, 4vw, 4rem))
-        clamp(1rem, 2vh, 1.5rem)
+        clamp(2rem, 4vh, 3rem) /* Increased bottom padding */
         calc(var(--rail-buffer) + clamp(2rem, 4vw, 4rem));
 }
 
-.ark-about-section::before {
-    top: 1.15rem;
-    height: 4px;
+/* --- GIANT BACKGROUND WATERMARK --- */
+.ark-about-watermark {
+    position: absolute;
+    top: 10%;
+    left: 25%;
+    font-family: var(--sans);
+    font-size: 28vw;
+    font-weight: 700;
+    color: rgba(16, 17, 16, 0.025);
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    text-transform: uppercase;
+}
+
+.ark-about-layout {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Pushes content to the bottom */
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+    overflow: visible;
+    z-index: 2;
+    padding-bottom: 1rem; 
+}
+
+/* --- IMAGE VISUAL --- */
+.ark-about-visual {
+    position: absolute;
+    top: 0;
+    right: 0%;
+    bottom: 0;
+    left: auto;
+    width: 70%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.ark-visual-img {
+    display: block;
+    height: 110%;
+    width: auto;
+    max-width: none;
+    max-height: none;
+    object-fit: contain;
+    object-position: right center;
+    opacity: 0;
+    transform: translate3d(35%, 0, 0) scale(1.3);
+    transform-origin: right center;
+    transition: none;
+    pointer-events: none;
+    mix-blend-mode: multiply; 
+}
+
+.ark-section.is-revealed .ark-visual-img {
     opacity: 1;
-    box-shadow:
-        0 0 0 1px #101110,
-        0 0 14px rgba(var(--signal-rgb), 0.6);
+    transform: translate3d(0, 0, 0) scale(1.3);
+    transition:
+        opacity 1.4s var(--ease-out),
+        transform 5s var(--ease-out);
+    transition-delay: 0.15s;
+}
+
+/* --- TEXT CONTENT --- */
+.ark-about-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Tighter gap between elements */
+    width: min(45%, 32rem); 
+    min-width: 0;
+    max-width: 32rem;
+    
+    opacity: 0;
+    transform: translate3d(-40px, 0, 0);
+    transition: none;
+}
+
+.ark-section.is-revealed .ark-about-content {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition:
+        opacity 0.9s var(--ease-out),
+        transform 1.6s var(--ease-out);
+    transition-delay: 0.5s;
+}
+
+/* Header Group */
+.ark-about-header {
+    margin-bottom: 0.25rem;
 }
 
 .ark-about-section .ark-kicker {
     color: var(--ink-light-mute);
-    margin-bottom: clamp(0.4rem, 1vh, 0.75rem);
+    margin-bottom: 0.5rem;
 }
 
 .ark-about-section .ark-kicker::before {
@@ -1316,119 +1450,53 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     color: var(--ink-light);
 }
 
+/* Smaller Title */
 .ark-about-section .ark-title {
     color: var(--ink-light);
-    font-size: clamp(1.6rem, 3.2vw, 2.5rem);
-    margin-bottom: clamp(0.6rem, 1.2vh, 1rem);
+    font-size: clamp(1.8rem, 2.5vw, 2.2rem); /* Reduced from 3rem */
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0;
+    text-transform: uppercase;
 }
 
-.ark-about-layout {
+/* Progress Bar */
+.ark-op-progress {
+    width: 100%;
+    height: 6px;
+    background: var(--line-light-l2);
     position: relative;
-    display: block;
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow: visible;
-}
-
-.ark-about-visual {
-    position: absolute;
-    top: 0;
-    right: 5%;
-    bottom: 0;
-    left: auto;
-    width: 65%;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
     overflow: hidden;
-    pointer-events: none;
 }
 
-.ark-visual-img {
-    display: block;
-    height: 100%;
-    width: auto;
-    max-width: none;
-    max-height: none;
-    object-fit: contain;
-    object-position: right center;
-    opacity: 0;
-    transform: translate3d(35%, 0, 0) scale(1.5);
-    transform-origin: right center;
-    transition: none;
-    pointer-events: none;
-}
-
-.ark-section.is-revealed .ark-visual-img {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1.5);
-    transition:
-        opacity 1.4s var(--ease-out),
-        transform 5s var(--ease-out);
-    transition-delay: 0.15s;
-}
-
-.ark-visual-crosshair {
+.ark-op-progress-fill {
     position: absolute;
-    width: 14px;
-    height: 14px;
-    z-index: 3;
-    pointer-events: none;
+    inset: 0;
+    width: 85%; 
+    background: var(--signal);
+    box-shadow: 0 0 8px rgba(var(--signal-rgb), 0.5);
 }
 
-.ark-visual-crosshair.tl {
-    top: 0;
-    left: 0;
-    border-top: 1px solid var(--signal);
-    border-left: 1px solid var(--signal);
-    box-shadow: -2px -2px 12px rgba(var(--signal-rgb), 0.25);
+/* Quote Block */
+.ark-op-quote {
+    font-family: var(--mono);
+    font-size: 0.8rem; 
+    color: var(--ink-light-soft);
+    line-height: 1.6;
+    border-left: 2px solid var(--signal);
+    padding-left: 1rem;
+    margin: 0;
+    font-style: italic;
 }
 
-.ark-visual-crosshair.br {
-    bottom: 0;
-    right: 0;
-    border-bottom: 1px solid var(--signal);
-    border-right: 1px solid var(--signal);
-    box-shadow: 2px 2px 12px rgba(var(--signal-rgb), 0.25);
-}
-
-.ark-about-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: clamp(0.4rem, 0.8vh, 0.65rem);
-    width: min(38%, 26rem);
-    min-width: 0;
-    max-width: 26rem;
-    max-height: 100%;
-    opacity: 0;
-    transform: translate3d(60px, 0, 0);
-    transition: none;
-}
-
-.ark-section.is-revealed .ark-about-content {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition:
-        opacity 0.9s var(--ease-out),
-        transform 1.6s var(--ease-out);
-    transition-delay: 0.9s;
-}
-
+/* Detailed Text */
 .ark-split-main {
-    border-left: 3px solid var(--signal);
-    box-shadow:
-        -1px 0 0 0 #101110,
-        inset 1px 0 0 0 #101110,
-        -5px 0 18px -8px rgba(var(--signal-rgb), 0.55);
+    padding: 0;
+    border: none;
+    box-shadow: none;
     background: none;
-    padding: 0.6rem 0.9rem 0.6rem clamp(1rem, 1.5vw, 1.35rem);
-    padding-right: 0;
-    position: relative;
-    max-height: min(44vh, 28rem);
+    max-height: min(30vh, 18rem); 
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: none;
@@ -1436,381 +1504,604 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
 }
 
 .ark-split-main::-webkit-scrollbar {
-    width: 0;
-    height: 0;
     display: none;
-}
-
-.ark-split-main:focus-visible {
-    outline: 2px solid var(--signal);
-    outline-offset: 2px;
-}
-
-.ark-split-main h3 {
-    font-family: var(--sans);
-    font-size: clamp(0.95rem, 1.4vw, 1.15rem);
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: clamp(0.3rem, 0.7vh, 0.55rem);
-    color: var(--ink-light);
-}
-
-.ark-split-main h3:not(:first-child) {
-    margin-top: clamp(0.75rem, 1.5vh, 1.1rem);
 }
 
 .ark-split-main p {
     max-width: 40rem;
-    margin-bottom: clamp(0.3rem, 0.6vh, 0.5rem);
+    margin-bottom: 0.75rem;
     color: var(--ink-light-soft);
-    font-size: clamp(0.85rem, 0.75vh + 0.35vw, 0.95rem);
-    line-height: 1.55;
+    font-size: 0.75rem;
+    line-height: 1.6;
 }
 
 .ark-split-main p:last-child {
     margin-bottom: 0;
 }
 
-.ark-about-summary {
-    font-weight: 500;
-    color: var(--ink-light-soft);
+.ark-visual-crosshair {
+    display: none; 
 }
 
-.ark-about-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
+/* Mobile Responsive Adjustments */
+@media (max-width: 900px) {
+    .ark-about-watermark {
+        font-size: 40vw;
+        top: 20%;
+        left: 5%;
+    }
+    
+    .ark-about-layout {
+        justify-content: flex-start; 
+        padding-bottom: 0;
+    }
+    
+    .ark-about-content {
+        width: 100%;
+        max-width: none;
+        padding-top: 2rem;
+        gap: 1rem;
+    }
+    
+    .ark-about-visual {
+        width: 100%;
+        opacity: 0.3; 
+        justify-content: center;
+    }
+    
+    .ark-visual-img {
+        height: 100%;
+    }
 }
-
-.ark-about-list li {
-    position: relative;
-    padding-left: 1rem;
-    color: var(--ink-light-soft);
-    font-size: clamp(0.85rem, 0.75vh + 0.35vw, 0.95rem);
-    line-height: 1.5;
-}
-
-.ark-about-list li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.55em;
-    width: 5px;
-    height: 5px;
-    background: var(--signal);
-    box-shadow:
-        0 0 0 1px #101110,
-        0 0 6px rgba(var(--signal-rgb), 0.6);
-}
-
-.ark-about-list strong {
-    color: var(--ink-light);
-    font-weight: 700;
-}
-
-.ark-split-side {
-    background: #101110;
-    border-top: 2px solid var(--signal);
-    margin-top: clamp(0.6rem, 1.4vh, 1rem);
-    padding: 0.5rem 0.9rem 0.55rem clamp(1rem, 1.5vw, 1.35rem);
-    box-shadow:
-        0 -1px 12px rgba(var(--signal-rgb), 0.12),
-        0 10px 24px rgba(0, 0, 0, 0.18);
-}
-
-.ark-split-side .ark-keyrow {
-    border-bottom-color: #2a2c29;
-    gap: 1rem;
-    padding: 0.32rem 0;
-}
-
-.ark-split-side .ark-keyrow:last-child {
-    border-bottom: none;
-}
-
-.ark-split-side .ark-keyrow span {
-    color: #8a8e8a;
-    font-size: 0.65rem;
-}
-
-.ark-split-side .ark-keyrow strong {
-    color: var(--signal);
-    font-size: 0.8rem;
-    text-shadow: 0 0 10px currentColor;
-}
-
-.ark-split-side .ark-keyrow:hover {
-    background: rgba(var(--signal-rgb), 0.045);
-}
-
-.ark-keyrow {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1.25rem;
-    padding: clamp(0.3rem, 0.7vh, 0.5rem) 0;
-    border-bottom: 1px solid var(--line-light-l1);
-    transition: padding-left 0.25s, border-color 0.25s, background 0.25s;
-    position: relative;
-}
-
-.ark-keyrow::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 0;
-    height: 1px;
-    background: var(--signal);
-    transition: width 0.3s;
-    pointer-events: none;
-}
-
-.ark-keyrow:hover {
-    padding-left: 0.75rem;
-}
-
-.ark-keyrow:hover::before {
-    width: 0.5rem;
-}
-
-.ark-keyrow:last-child {
-    border-bottom: none;
-}
-
-.ark-keyrow span {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.22em;
-    color: var(--ink-light-mute);
-    text-transform: uppercase;
-    flex-shrink: 0;
-}
-
-.ark-keyrow strong {
-    font-family: var(--mono);
-    font-size: 0.85rem;
-    letter-spacing: 0.14em;
-    font-weight: 700;
-    color: var(--ink-light);
-    text-transform: uppercase;
-    text-align: right;
-    min-width: 0;
-}
-
 
 /* ═══════════════════════════════════════════════════════════════
-   PART 16 — SKILLS
+   PART 16 — SKILLS (YOUR CUSTOM LAYOUT)
    ═══════════════════════════════════════════════════════════════ */
 
-.ark-skill-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--line-l1);
-    border: 1px solid var(--line-l1);
-    margin-top: clamp(0.5rem, 1.5vh, 1.25rem);
+#skills {
+    --paper: #ffffff;
+    --paper-layer: #ffffff;
+    --ink: #101110;
+    --ink-soft: #4a4c48;
+    --ink-mute: #888888;
+    --line-l2: #e0e0e0;
+    
+    padding: 0; 
+    display: flex;
+    justify-content: flex-start;
+    overflow: hidden;
+    background-color: var(--paper);
+    
+    /* ADD THESE LINES */
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    /* ----------------- */
+    
+    min-height: calc(100vh - var(--topbar-h) - var(--marquee-h));
 }
 
-.ark-skill {
-    background: var(--paper-layer);
-    padding: clamp(1rem, 2vw, 1.75rem) clamp(1rem, 1.75vw, 1.5rem);
+#skills::before {
+    display: none;
+}
+
+/* Make the big number visible on the white background */
+#skills .ark-section-numeral {
+    display: block;
+    color: rgba(16, 17, 16, 0.05); /* Dark gray instead of invisible white */
+}
+
+/* --- FIX: INVISIBLE TEXT CONTRAST --- */
+#skills .ark-kicker {
+    color: var(--ink-mute); 
+    margin-bottom: 0.5rem;
+}
+
+#skills .ark-kicker::before {
+    background: var(--signal);
+    box-shadow: none;
+}
+
+#skills .ark-kicker-code {
+    color: var(--ink); /* Makes the text black instead of invisible white */
+    border: 1px solid var(--line-l2);
+    background: transparent;
+}
+
+/* --- MAIN LAYOUT CONTAINER --- */
+.ark-skills-layout {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-height: calc(100vh - var(--topbar-h) - var(--marquee-h));
+    
+    padding: 2rem; 
+    gap: 2.5rem; 
+    box-sizing: border-box;
+}
+
+/* --- LEFT YELLOW BANNER --- */
+.ark-skills-banner {
+    /* YOUR EXACT SIZE AND POSITION */
+    width: 50px; 
+    flex-shrink: 0;
+    background-color: var(--signal); 
+    color: var(--ink);
+    align-self: flex-start; 
+    height: 420px;
+    margin-top: 0rem;
+    margin-left: 10rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    padding: 2rem 0;
+    z-index: 10;
+    border-radius: 0;
+}
+
+.ark-skills-banner-text-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.ark-skills-banner-text {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 1.1rem;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    letter-spacing: 0.05em;
+    color: var(--ink);
+}
+
+.ark-skills-banner-line {
+    width: 2px;
+    height: 40px;
+    background-color: var(--ink);
+    opacity: 0.6;
+}
+
+.ark-skills-banner-vertical {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 1rem;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    letter-spacing: 0.2em;
+    color: var(--ink);
+}
+
+/* --- RIGHT MAIN CONTENT --- */
+.ark-skills-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0; 
+    position: relative;
+    
+    /* FIX: Adds a bit of padding on the right so text doesn't touch the edge */
+    padding-right: 2rem; 
+}
+
+/* --- HEADER AREA --- */
+.ark-skills-header {
+    margin-bottom: 1.5rem; 
+}
+
+.ark-skills-news-title {
+    font-family: var(--sans);
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.ark-skills-breadcrumb {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.1em;
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.ark-skills-subtitle {
+    font-family: var(--sans);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
+}
+
+.ark-skills-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--line-l2);
+}
+
+/* --- SLIDER CONTAINER --- */
+.ark-skills-slider-wrap {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+    padding-top: 0.5rem;    
+    padding-bottom: 1rem; 
+}
+
+.ark-skills-slider-wrap::-webkit-scrollbar {
+    display: none;
+}
+
+.ark-skills-track {
+    display: flex;
+    gap: 0rem; 
+    align-items: center; 
+    width: max-content; 
+    padding-left: 0; 
+    padding-right: 100vw; 
+}
+
+/* --- CARDS --- */
+.ark-skill-slide {
+    /* CHANGE THIS: From 420px to 300px */
+    flex: 0 0 320px; 
+    
+    /* CHANGE THIS: From 260px to 220px */
+    height: 180px; 
+    
+    opacity: 0.4;
+    filter: grayscale(1);
+    transform: scale(0.85); 
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, filter 0.5s ease;
+}
+
+.ark-skill-slide.is-active {
+    transform: scale(1); 
+    opacity: 1;
+    filter: grayscale(0);
+    z-index: 5;
+}
+
+.ark-skill-card {
+    background: #f8f8f8;
+    border: 1px solid var(--line-l2);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
     position: relative;
     overflow: hidden;
-    transition: background 0.3s;
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
+    height: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
 }
 
-.ark-section.is-revealed .ark-skill {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition:
-        opacity 0.65s var(--ease-out),
-        transform 0.65s var(--ease-out),
-        background 0.3s;
+.ark-skill-slide.is-active .ark-skill-card {
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border-color: var(--ink-mute);
 }
 
-.ark-section.is-revealed .ark-skill:nth-child(1) { transition-delay: 0.30s, 0.30s, 0s; }
-.ark-section.is-revealed .ark-skill:nth-child(2) { transition-delay: 0.36s, 0.36s, 0s; }
-.ark-section.is-revealed .ark-skill:nth-child(3) { transition-delay: 0.42s, 0.42s, 0s; }
-.ark-section.is-revealed .ark-skill:nth-child(4) { transition-delay: 0.48s, 0.48s, 0s; }
-.ark-section.is-revealed .ark-skill:nth-child(5) { transition-delay: 0.54s, 0.54s, 0s; }
-.ark-section.is-revealed .ark-skill:nth-child(6) { transition-delay: 0.60s, 0.60s, 0s; }
-
-.ark-skill::after {
-    content: "";
+.ark-skill-card-num {
     position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 2px;
-    width: 0;
-    background: var(--signal);
-    box-shadow: 0 0 12px currentColor;
-    transition: width 0.4s var(--ease-out);
-    pointer-events: none;
-}
-
-.ark-skill:hover {
-    background: var(--paper-sink);
-}
-
-.ark-skill:hover::after {
-    width: 100%;
-}
-
-.ark-skill span {
+    top: -1rem;
+    right: 1rem;
     font-family: var(--mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    color: var(--signal);
+    
+    /* CHANGE THIS: From 8rem to 6rem */
+    font-size: 6rem; 
+    
     font-weight: 700;
-    text-shadow: 0 0 8px currentColor;
+    color: rgba(0, 0, 0, 0.03);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
 }
 
-.ark-skill h3 {
+.ark-skill-card h3 {
     font-family: var(--sans);
-    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    
+    /* CHANGE THIS: From 1.4rem to 1.2rem */
+    font-size: 1.2rem; 
+    
     font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    letter-spacing: 0.02em;
     color: var(--ink);
-    margin: 0.85rem 0 0.35rem;
-    transition: color 0.3s;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+    text-transform: uppercase;
 }
 
-.ark-skill:hover h3 {
-    color: var(--signal);
-}
-
-.ark-skill p {
+.ark-skill-card p {
     font-family: var(--mono);
-    font-size: clamp(0.75rem, 0.6vh + 0.4vw, 0.82rem);
-    letter-spacing: 0.06em;
+    
+    /* CHANGE THIS: From 0.8rem to 0.75rem */
+    font-size: 0.75rem; 
+    
     color: var(--ink-soft);
-    line-height: 1.65;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+    margin-bottom: auto;
 }
 
-
-/* ═══════════════════════════════════════════════════════════════
-   PART 17 — CONTACT
-   ═══════════════════════════════════════════════════════════════ */
-
-.ark-contact {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: clamp(2rem, 4.5vw, 4rem);
-    align-items: start;
-    margin-top: clamp(0.5rem, 1.5vh, 1.25rem);
+.ark-skill-card-tags {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--ink-mute);
+    margin-top: 1.5rem;
+    position: relative;
+    z-index: 1;
+    font-weight: 700;
 }
 
-.ark-contact > * {
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
+/* --- CONTROLS --- */
+.ark-skills-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: -1rem; 
+    margin-left: 0.5rem; 
 }
 
-.ark-section.is-revealed .ark-contact > * {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition:
-        opacity 0.7s var(--ease-out),
-        transform 0.7s var(--ease-out);
+.ark-skills-arrows {
+    display: flex;
+    background: #ffffff;
+    border: 1px solid var(--line-l2);
+    border-radius: 50px;
+    overflow: hidden;
 }
 
-.ark-section.is-revealed .ark-contact > *:nth-child(1) { transition-delay: 0.32s; }
-.ark-section.is-revealed .ark-contact > *:nth-child(2) { transition-delay: 0.42s; }
+.ark-skills-arrows button {
+    background: transparent;
+    border: none;
+    width: 45px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-mute);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 
-.ark-contact-message {
-    border-left: 2px solid var(--ink);
-    padding-left: clamp(1.25rem, 2vw, 1.75rem);
+.ark-skills-arrows button:first-child {
+    border-right: 1px solid var(--line-l2);
+}
+
+.ark-skills-arrows button svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.5;
+}
+
+.ark-skills-arrows button:hover {
+    background: #f0f0f0;
+    color: var(--ink);
+}
+
+.ark-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.5rem;
+    background: #2a2c29; 
+    color: #ffffff;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
     position: relative;
 }
 
-.ark-contact-message::before {
-    content: "";
+.ark-more-btn:hover {
+    background: #101110;
+}
+
+.ark-more-btn-line {
     position: absolute;
-    left: -2px;
+    left: 0;
     top: 0;
-    width: 2px;
-    height: 40%;
-    background: var(--signal);
-    box-shadow: 0 0 12px currentColor;
-    pointer-events: none;
+    bottom: 0;
+    width: 4px;
+    background: var(--signal); 
 }
 
-.ark-contact-tag {
-    display: block;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.22em;
-    color: var(--signal);
-    text-transform: uppercase;
-    margin-bottom: 0.85rem;
-    text-shadow: 0 0 10px currentColor;
+.ark-more-btn-icon {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+    stroke: none;
+    margin-left: 0.5rem;
 }
 
-.ark-contact-message h3 {
+/* Mobile Responsive */
+@media (max-width: 900px) {
+    .ark-skills-layout {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .ark-skills-banner {
+        width: 100%;
+        height: 60px;
+        margin-left: 0; /* Reset margin on mobile */
+        flex-direction: row;
+        padding: 0 1.5rem;
+    }
+    
+    .ark-skills-banner-text-group {
+        margin-bottom: 0;
+        flex-direction: row;
+        gap: 1rem;
+    }
+    
+    .ark-skills-banner-line {
+        width: 20px;
+        height: 2px;
+    }
+    
+    .ark-skills-banner-text, 
+    .ark-skills-banner-vertical {
+        writing-mode: horizontal-tb;
+        transform: none;
+        font-size: 1rem;
+    }
+    
+    .ark-skills-news-title {
+        font-size: 2rem;
+    }
+    
+    .ark-skills-content {
+        padding-right: 0;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PART 17 — CONTACT (CENTERED LAYOUT WITH LINES)
+   ═══════════════════════════════════════════════════════════════ */
+
+#contact {
+    min-height: auto; 
+    justify-content: flex-start; 
+    padding-top: 3rem; 
+    padding-bottom: 3rem; 
+    background-color: var(--paper);
+    background-image: 
+        /* Horizontal line */
+        linear-gradient(to bottom, transparent calc(50% - 1px), rgba(255, 255, 255, 0.05) 50%, transparent calc(50% + 1px)),
+        /* Left line */
+        linear-gradient(to right, transparent calc(20% - 1px), rgba(255, 255, 255, 0.05) 20%, transparent calc(20% + 1px)),
+        /* Right line */
+        linear-gradient(to right, transparent calc(80% - 1px), rgba(255, 255, 255, 0.05) 80%, transparent calc(80% + 1px));
+}
+
+/* Use Flexbox to center everything */
+.ark-contact-endfield {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: center;
+    gap: 8rem; 
+    width: 100%;
+    max-width: 900px; 
+    margin: 0 auto;
+    padding-top: 1rem;
+}
+
+/* Logo sizing */
+.ark-contact-logo {
+    width: 140px; 
+    height: auto;
+    filter: drop-shadow(0 0 15px rgba(255,255,255,0.15)); 
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.ark-contact-logo:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 25px rgba(255,255,255,0.3));
+}
+
+/* Vertical Links with Divider Lines */
+.ark-contact-links-row {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 0; /* No gap so the lines connect smoothly */
+}
+
+.ark-contact-links-row a {
     font-family: var(--sans);
-    font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+    font-size: 1.1rem; 
     font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    margin-bottom: 0.85rem;
-}
-
-.ark-contact-message p {
-    max-width: 32rem;
+    letter-spacing: 0.15em;
     color: var(--ink-soft);
-    font-size: clamp(0.95rem, 0.8vh + 0.45vw, 1.05rem);
-    line-height: 1.7;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    
+    /* The Lines */
+    padding: 1rem 3rem; /* Vertical and Horizontal padding */
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid var(--line-l2); /* Adds the line under each link */
 }
 
-.ark-contact-links {
+/* Hover effect for links */
+.ark-contact-links-row a:hover {
+    color: var(--signal);
+    text-shadow: 0 0 10px rgba(var(--signal-rgb), 0.5);
+}
+
+/* Remove the line from the very last link */
+.ark-contact-links-row a:last-child {
+    border-bottom: none;
+}
+
+/* Legal text */
+.ark-contact-legal {
+    flex-basis: 100%; 
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--ink-mute);
+    line-height: 1.8;
+    margin-top: -6rem; 
+    opacity: 0.6;
     display: flex;
     flex-direction: column;
-    padding-right: 2rem;
+    gap: 0.8rem;
+    text-align: center; 
 }
 
-.ark-contact-links a {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1.5rem;
-    padding: clamp(1rem, 1.5vh, 1.25rem) 0;
-    border-top: 1px solid var(--line-l2);
-    font-family: var(--mono);
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
-    color: var(--ink);
-    text-transform: uppercase;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    transition: padding-left 0.25s, color 0.25s, text-shadow 0.25s;
+.ark-contact-legal p {
+    margin: 0;
 }
 
-.ark-contact-links a:last-child {
-    border-bottom: 1px solid var(--line-l2);
-}
-
-.ark-contact-links a span {
-    font-size: 0.7rem;
-    color: var(--ink-mute);
-    transition: color 0.25s;
-}
-
-.ark-contact-links a:hover {
-    padding-left: 0.75rem;
+.ark-contact-copyright {
     color: var(--signal);
-    text-shadow: 0 0 12px currentColor;
+    margin-top: 1rem !important;
+    font-weight: 700;
+    letter-spacing: 0.1em;
 }
 
-.ark-contact-links a:hover span {
-    color: var(--signal);
+/* Hide old elements */
+.ark-contact-divider,
+.ark-contact {
+    display: none; 
 }
+
+/* Mobile Responsive Fix */
+@media (max-width: 768px) {
+    #contact {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    
+    .ark-contact-endfield {
+        flex-direction: column; 
+        gap: 2rem; 
+    }
+}
+
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1859,6 +2150,8 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     box-shadow: 0 0 8px currentColor;
     vertical-align: middle;
     animation: dotPulse 2.4s ease-in-out infinite;
+        /* ADD THIS LINE */
+    border: 1px solid #101110; 
 }
 
 .ark-kicker-code {
@@ -2547,7 +2840,29 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
         calc(var(--rail-buffer) + clamp(2rem, 4vw, 4rem));
     
     overflow: hidden;
-    background: var(--paper);
+    background-color: var(--paper);
+    
+    /* DENSE GRID LINES SPANNING THE ENTIRE SECTION */
+    background-image: 
+        /* 1. Main Horizontal Line (Centered) */
+        linear-gradient(to bottom, transparent calc(50% - 1px), rgba(255, 255, 255, 0.08) 50%, transparent calc(50% + 1px)),
+        
+        /* 2. Far Left Lines (Framing the edge) */
+        linear-gradient(to right, transparent calc(3% - 1px), rgba(255, 255, 255, 0.08) 3%, transparent calc(3% + 1px)),
+        linear-gradient(to right, transparent calc(7% - 1px), rgba(255, 255, 255, 0.08) 7%, transparent calc(7% + 1px)),
+        
+        /* 3. Inner Left Line */
+        linear-gradient(to right, transparent calc(15% - 1px), rgba(255, 255, 255, 0.05) 15%, transparent calc(15% + 1px)),
+        
+        /* 4. Center Vertical Line (Aligns perfectly with the Radar) */
+        linear-gradient(to right, transparent calc(35% - 1px), rgba(255, 255, 255, 0.08) 35%, transparent calc(35% + 1px)),
+        
+        /* 5. Inner Right Line */
+        linear-gradient(to right, transparent calc(85% - 1px), rgba(255, 255, 255, 0.05) 85%, transparent calc(85% + 1px)),
+        
+        /* 6. Far Right Lines (Framing the edge) */
+        linear-gradient(to right, transparent calc(93% - 1px), rgba(255, 255, 255, 0.08) 93%, transparent calc(93% + 1px)),
+        linear-gradient(to right, transparent calc(97% - 1px), rgba(255, 255, 255, 0.08) 97%, transparent calc(97% + 1px));
 }
 
 .ark-project-viewer {
@@ -2560,6 +2875,13 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     padding-top: 1rem; 
     padding-bottom: 0; 
 }
+
+/* Remove the old pseudo-elements */
+.ark-project-viewer::before,
+.ark-project-viewer::after {
+    display: none;
+}
+
 
 /* ==========================================================================
    2. BACKGROUND RADAR DECORATION
@@ -2578,18 +2900,56 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     
     z-index: 1;
     pointer-events: none;
-    opacity: 0.4; 
+    opacity: 0.85; 
+    filter: drop-shadow(0 0 15px rgba(255,255,255,0.08));
     transition: transform 1s var(--ease-out);
 }
 
 .ark-radar-decor.spin-burst { animation: radarBurstSpin 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-.ark-radar-ring-outer { position: absolute; inset: 0; border-radius: 50%; border: 1px dashed var(--line-l2); animation: radarSpin 40s linear infinite; }
-.ark-radar-ring-outer::before, .ark-radar-ring-outer::after { content: ""; position: absolute; background: var(--signal); }
-.ark-radar-ring-outer::before { top: -4px; left: 50%; width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 10px var(--signal); }
-.ark-radar-ring-outer::after { bottom: -4px; left: 50%; width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 10px var(--signal); }
-.ark-radar-ring-inner { position: absolute; inset: 15%; border-radius: 50%; border: 1px solid var(--line-l2); border-top-color: var(--signal); border-bottom-color: var(--signal); animation: radarSpinReverse 30s linear infinite; }
-.ark-radar-crosshair-x { position: absolute; top: 50%; left: -10%; width: 120%; height: 1px; background: linear-gradient(to right, transparent, var(--line-l2) 20%, var(--line-l2) 80%, transparent); }
-.ark-radar-crosshair-y { position: absolute; left: 50%; top: -10%; height: 120%; width: 1px; background: linear-gradient(to bottom, transparent, var(--line-l2) 20%, var(--line-l2) 80%, transparent); }
+
+.ark-radar-ring-outer { 
+    position: absolute; 
+    inset: 0; 
+    border-radius: 50%; 
+    border: 2px dashed rgba(255, 255, 255, 0.3); 
+    animation: radarSpin 40s linear infinite; 
+}
+
+.ark-radar-ring-outer::before, .ark-radar-ring-outer::after { 
+    content: ""; 
+    position: absolute; 
+    background: var(--signal); 
+}
+.ark-radar-ring-outer::before { top: -6px; left: 50%; width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 12px var(--signal); }
+.ark-radar-ring-outer::after { bottom: -6px; left: 50%; width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 12px var(--signal); }
+
+.ark-radar-ring-inner { 
+    position: absolute; 
+    inset: 15%; 
+    border-radius: 50%; 
+    border: 2px solid rgba(255, 255, 255, 0.15); 
+    border-top-color: var(--signal); 
+    border-bottom-color: var(--signal); 
+    animation: radarSpinReverse 30s linear infinite; 
+}
+
+.ark-radar-crosshair-x { 
+    position: absolute; 
+    top: 50%; 
+    left: -10%; 
+    width: 120%; 
+    height: 1px; 
+    background: rgba(255, 255, 255, 0.15); 
+}
+.ark-radar-crosshair-y { 
+    position: absolute; 
+    left: 50%; 
+    top: -10%; 
+    height: 120%; 
+    width: 1px; 
+    background: rgba(255, 255, 255, 0.15); 
+}
+
 @keyframes radarBurstSpin { 0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); } 50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.05); } 100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); } }
 @keyframes radarSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes radarSpinReverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
@@ -2611,8 +2971,8 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     inset: 0;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
-    transform: translateX(40px);
+    /* Cleaned up duplicate transition rule here */
+    transition: opacity 0.3s ease, visibility 0.3s;
     
     display: flex;
     justify-content: space-between;
@@ -2624,11 +2984,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
 .ark-project-slide.is-active {
     opacity: 1;
     visibility: visible;
-    transform: translateX(0);
-}
-
-.ark-project-slide.is-prev {
-    transform: translateX(-40px);
 }
 
 /* ==========================================================================
@@ -2641,7 +2996,7 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     display: flex;
     align-items: center; 
     justify-content: center;
-    perspective: 1500px; /* Strong perspective for the 3D effect */
+    perspective: 1500px; 
 }
 
 .ark-project-img-wrapper {
@@ -2649,12 +3004,16 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     width: 90%;
     height: 65vh;
     transform-style: preserve-3d;
+    /* Ensure no CSS transitions interfere with JS animations */
+    transition: none; 
+    /* Hardware acceleration to prevent flicker */
+    will-change: transform;
 }
 
 .ark-board-face {
     position: absolute;
     inset: 0;
-    backface-visibility: hidden; /* Hides the mirrored side */
+    backface-visibility: hidden; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2670,7 +3029,7 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
 }
 
 .ark-board-back {
-    transform: rotateY(180deg); /* Faces backwards by default */
+    transform: rotateY(180deg); 
     z-index: 1;
 }
 
@@ -2679,13 +3038,13 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     height: 100%;
     object-fit: contain;
     filter: grayscale(1) brightness(1.2) contrast(1.2); 
-    mix-blend-mode: screen;
     transition: filter 0.4s ease;
 }
 
 .ark-project-visual:hover .ark-board-face img {
     filter: grayscale(0) brightness(1.5) contrast(1.1) drop-shadow(0 0 20px rgba(var(--signal-rgb), 0.5));
 }
+
 /* ==========================================================================
    5. RIGHT COLUMN: TEXT INFO
    ========================================================================== */

@@ -17,11 +17,21 @@
 
     <title>Christian Jay Sese | Portfolio</title>
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20x='3'%20y='3'%20width='26'%20height='26'%20fill='%23101110'%20stroke='%23fff500'%20stroke-width='2.5'/%3E%3Ctext%20x='16'%20y='23'%20font-family='monospace'%20font-size='13'%20font-weight='800'%20fill='%23fff500'%20text-anchor='middle'%20textLength='20'%20lengthAdjust='spacingAndGlyphs'%3EJAY%3C/text%3E%3C/svg%3E">
+    <!-- BULLETPROOF FAVICON SETUP -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+    <link rel="shortcut icon" href="assets/icons/favicon.ico" type="image/x-icon">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Preload critical assets for faster loading -->
+    <link rel="preload" as="image" href="assets/images/logo.png">
+    <link rel="preload" as="image" href="assets/images/homeimg.png" fetchpriority="high">
+
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js" defer></script>
 </head>
@@ -51,11 +61,14 @@
         </style>
     </noscript>
 
+    <!-- BOOT LOADER -->
     <div class="ark-boot" id="arkBoot" aria-hidden="true">
         <div class="ark-boot-shutter ark-boot-shutter-top"></div>
         <div class="ark-boot-shutter ark-boot-shutter-bot"></div>
         <div class="ark-boot-content">
-            <div class="ark-boot-mark">JAY</div>
+            <div class="ark-boot-mark">
+                <img src="assets/images/logo.png" alt="Logo" class="ark-boot-logo" fetchpriority="high">
+            </div>
             <div class="ark-boot-log" id="bootLog"></div>
             <div class="ark-boot-bar">
                 <div class="ark-boot-bar-fill" id="bootBar"></div>
@@ -78,9 +91,10 @@
     </div>
 
     <aside class="ark-rail" id="arkRail" aria-label="Section rail">
+        
         <a href="#home" class="ark-rail-mark" aria-label="Back to home">
-            <span class="ark-rail-mark-short">JAY</span>
-            <span class="ark-rail-mark-long">JAYFIELD</span>
+            <img src="assets/images/logo.png" alt="Jayfield Logo" class="ark-rail-logo" fetchpriority="high">
+            <span class="ark-rail-mark-text">JAY</span>
         </a>
 
         <nav class="ark-rail-nav" aria-label="Primary navigation">
@@ -236,49 +250,45 @@
                 <span class="ark-section-numeral" aria-hidden="true">01</span>
             </section>
 
+            <!-- UPDATED ABOUT SECTION -->
             <section id="about" class="ark-section ark-about-section">
+                <!-- Giant Background Watermark -->
+                <div class="ark-about-watermark" aria-hidden="true">JAY</div>
+
                 <span class="ark-section-numeral ark-section-numeral--light" aria-hidden="true">02</span>
 
-                <p class="ark-kicker" data-reveal>
-                    02 / PROFILE
-                    <span class="ark-kicker-code">// ARCHIVE.02</span>
-                </p>
-                <h2 class="ark-title" data-reveal>About Me</h2>
-
+                <!-- Visual -->
                 <div class="ark-about-visual">
                     <img class="ark-visual-img" src="assets/images/aboutmeimg.png" alt="Portrait of Christian Jay Sese" width="1200" height="1600" loading="lazy" decoding="async">
                 </div>
 
                 <div class="ark-about-layout">
                     <div class="ark-about-content">
-                        <div class="ark-split-main" tabindex="0" role="region" aria-label="Profile details">
-                            <h3>Professional Summary</h3>
-                            <p class="ark-about-summary">
-                                Highly adaptable IT graduate with hands-on experience in full-stack 
-                                software development, AI/Machine Learning (PyTorch), and enterprise 
-                                IT infrastructure support. Quick to learn new technologies, with proven 
-                                automation work during a corporate internship. Actively studying Japanese 
-                                (Marugoto) and seeking to apply technical and troubleshooting skills in 
-                                a global, Japanese-oriented technology company.
+                        
+                        <!-- Header moved to the bottom content block -->
+                        <div class="ark-about-header-bottom" data-reveal>
+                            <p class="ark-kicker" style="margin-bottom: 0.25rem;">
+                                02 / PROFILE
+                                <span class="ark-kicker-code">// ARCHIVE.02</span>
                             </p>
+                            <h2 class="ark-title" style="font-size: 1.8rem; margin-bottom: 0.5rem;">About Me</h2>
+                        </div>
 
-                            <h3>Detailed Background</h3>
+                        <!-- Progress Bar -->
+                        <div class="ark-op-progress" data-reveal>
+                            <div class="ark-op-progress-fill"></div>
+                        </div>
+
+                        <!-- Quote Block -->
+                        <blockquote class="ark-op-quote" data-reveal>
+                            "Highly adaptable IT graduate with hands-on experience in full-stack software development, AI/Machine Learning (PyTorch), and enterprise IT infrastructure support."
+                        </blockquote>
+
+                        <!-- Detailed Background Text -->
+                        <div class="ark-split-main" tabindex="0" role="region" aria-label="Profile details" data-reveal>
                             <p>Hello! I'm Christian Jay Sese, an Information Technology graduate from Quezon City University with a strong focus on software engineering, database management, and full-stack architecture.</p>
                             <p>During my internship at DENSO TEN Solutions Philippines Corporation, I provided first and second-line technical support, engineered automated ticket reassignment workflows using Power Apps and Power Automate, and performed remote diagnostics across enterprise subnets.</p>
                             <p>Beyond corporate experience, I lead end-to-end development projects. Whether I'm architecting a campus asset tracking system with predictive analytics, containerizing applications with Docker and Oracle Database, or building machine learning pipelines with PyTorch to classify brain MRI images, I thrive on bridging the gap between robust backend systems and intuitive user experiences.</p>
-
-                            <h3>Core Focus Areas</h3>
-                            <ul class="ark-about-list">
-                                <li><strong>Full-Stack Development:</strong> Building scalable applications using Python, Java, JavaScript, PHP, Flask, and REST APIs.</li>
-                                <li><strong>Databases &amp; Containers:</strong> Database administration (MySQL, Oracle), SQL query optimization, and Docker containerization.</li>
-                                <li><strong>Workflow Automation &amp; ML:</strong> Enterprise automation (Power Apps), plus machine learning pipelines using PyTorch and Scikit-learn.</li>
-                            </ul>
-                        </div>
-
-                        <div class="ark-split-side">
-                            <div class="ark-keyrow"><span>STATUS</span><strong>OPEN TO WORK</strong></div>
-                            <div class="ark-keyrow"><span>FOCUS</span><strong>FULL STACK</strong></div>
-                            <div class="ark-keyrow"><span>LANGUAGE</span><strong>JP / EN</strong></div>
                         </div>
                     </div>
 
@@ -319,7 +329,7 @@
                                         <img src="assets/images/project-mri.png" alt="Brain MRI Classification" class="ark-project-img" loading="lazy">
                                     </div>
                                     <div class="ark-board-face ark-board-back">
-                                        <img src="assets/images/project-mri.png" alt="" class="ark-project-img" style="transform: scaleX(-1);" loading="lazy">
+                                        <img src="assets/images/project-mri.png" alt="" class="ark-project-img" loading="lazy">
                                     </div>
                                 </div>
                             </div>
@@ -342,7 +352,7 @@
                                         <img src="assets/images/project-asset.jpg" alt="Asset Management System" class="ark-project-img" loading="lazy">
                                     </div>
                                     <div class="ark-board-face ark-board-back">
-                                        <img src="assets/images/project-asset.jpg" alt="" class="ark-project-img" style="transform: scaleX(-1);" loading="lazy">
+                                        <img src="assets/images/project-asset.jpg" alt="" class="ark-project-img" loading="lazy">
                                     </div>
                                 </div>
                             </div>
@@ -365,7 +375,7 @@
                                         <img src="assets/images/project-active-defense.png" alt="Active Defense Lab" class="ark-project-img" loading="lazy">
                                     </div>
                                     <div class="ark-board-face ark-board-back">
-                                        <img src="assets/images/project-active-defense.png" alt="" class="ark-project-img" style="transform: scaleX(-1);" loading="lazy">
+                                        <img src="assets/images/project-active-defense.png" alt="" class="ark-project-img" loading="lazy">
                                     </div>
                                 </div>
                             </div>
@@ -388,7 +398,7 @@
                                         <img src="assets/images/project-alumni.png" alt="QCU Alumni Website" class="ark-project-img" loading="lazy">
                                     </div>
                                     <div class="ark-board-face ark-board-back">
-                                        <img src="assets/images/project-alumni.png" alt="" class="ark-project-img" style="transform: scaleX(-1);" loading="lazy">
+                                        <img src="assets/images/project-alumni.png" alt="" class="ark-project-img" loading="lazy">
                                     </div>
                                 </div>
                             </div>
@@ -439,21 +449,121 @@
                 </span>
             </section>
 
+            <!-- SKILLS SLIDER SECTION -->
             <section id="skills" class="ark-section">
+                
                 <span class="ark-section-numeral" aria-hidden="true">04</span>
 
-                <p class="ark-kicker" data-reveal>
-                    04 / SYSTEM CAPABILITIES
-                    <span class="ark-kicker-code">// ARCHIVE.04</span>
-                </p>
-                <h2 class="ark-title" data-reveal>Skills</h2>
-                <div class="ark-skill-grid">
-                    <div class="ark-skill"><span>01</span><h3>PROGRAMMING</h3><p>Python · Java · JavaScript · PHP · Bash</p></div>
-                    <div class="ark-skill"><span>02</span><h3>WEB &amp; FRAMEWORKS</h3><p>HTML5 · CSS3 · REST APIs · Flask</p></div>
-                    <div class="ark-skill"><span>03</span><h3>DATABASES</h3><p>MySQL · Oracle · SQL Optimization</p></div>
-                    <div class="ark-skill"><span>04</span><h3>DEVOPS &amp; TOOLS</h3><p>Docker · Git · GitHub · VS Code · Eclipse</p></div>
-                    <div class="ark-skill"><span>05</span><h3>AUTOMATION</h3><p>Power Apps · Power Automate</p></div>
-                    <div class="ark-skill"><span>06</span><h3>MACHINE LEARNING</h3><p>PyTorch · Scikit-learn · OpenCV</p></div>
+                <div class="ark-skills-layout">
+                    
+                    <!-- Left Vertical Yellow Banner -->
+                    <aside class="ark-skills-banner">
+                        <div class="ark-skills-banner-text-group">
+                            <span class="ark-skills-banner-text">Latest</span>
+                            <span class="ark-skills-banner-line"></span>
+                            <span class="ark-skills-banner-vertical">SKILLS</span>
+                        </div>
+                    </aside>
+
+                    <!-- Main Slider Content -->
+                    <div class="ark-skills-content">
+                        
+                        <!-- Header Area -->
+                        <div class="ark-skills-header">
+                            <div class="ark-skills-breadcrumb">
+                                <span>// Updated</span>
+                                <span>2026-11-04</span>
+                            </div>
+                            <h3 class="ark-skills-subtitle">[ Technical Arsenal ] System Capabilities</h3>
+                            <div class="ark-skills-divider"></div>
+                        </div>
+
+                        <!-- Native Scroll Container -->
+                        <div class="ark-skills-slider-wrap" id="skillsWrap">
+                            <div class="ark-skills-track">
+                                
+                                <!-- Slide 1 -->
+                                <div class="ark-skill-slide is-active">
+                                    <div class="ark-skill-card">
+                                        <div class="ark-skill-card-num">01</div>
+                                        <h3>PROGRAMMING</h3>
+                                        <p>Python · Java · JavaScript · PHP · Bash · C++ (Learning)</p>
+                                        <div class="ark-skill-card-tags">CODE · LOGIC</div>
+                                    </div>
+                                </div>
+
+                                <!-- Slide 2 -->
+                                <div class="ark-skill-slide">
+                                    <div class="ark-skill-card">
+                                        <div class="ark-skill-card-num">02</div>
+                                        <h3>WEB &amp; FRAMEWORKS</h3>
+                                        <p>HTML5 · CSS3 · Flask · REST APIs · Full-Stack Architecture</p>
+                                        <div class="ark-skill-card-tags">FRONTEND · BACKEND</div>
+                                    </div>
+                                </div>
+
+                                <!-- Slide 3 -->
+                                <div class="ark-skill-slide">
+                                    <div class="ark-skill-card">
+                                        <div class="ark-skill-card-num">03</div>
+                                        <h3>DATABASES</h3>
+                                        <p>MySQL · Oracle DB · Docker · SQL Optimization</p>
+                                        <div class="ark-skill-card-tags">STORAGE · QUERY</div>
+                                    </div>
+                                </div>
+
+                                <!-- Slide 4 -->
+                                <div class="ark-skill-slide">
+                                    <div class="ark-skill-card">
+                                        <div class="ark-skill-card-num">04</div>
+                                        <h3>DEVOPS &amp; TOOLS</h3>
+                                        <p>Git · GitHub · VS Code · Eclipse · XAMPP · Replit</p>
+                                        <div class="ark-skill-card-tags">VERSION CONTROL</div>
+                                    </div>
+                                </div>
+
+                                <!-- Slide 5 -->
+                                <div class="ark-skill-slide">
+                                    <div class="ark-skill-card">
+                                        <div class="ark-skill-card-num">05</div>
+                                        <h3>AUTOMATION &amp; SECURITY</h3>
+                                        <p>Power Apps · Power Automate · Linux · Ethical Hacking</p>
+                                        <div class="ark-skill-card-tags">SYSTEMS · DEFENSE</div>
+                                    </div>
+                                </div>
+
+                                <!-- Slide 6 -->
+                                <div class="ark-skill-slide">
+                                    <div class="ark-skill-card">
+                                        <div class="ark-skill-card-num">06</div>
+                                        <h3>MACHINE LEARNING</h3>
+                                        <p>PyTorch · Scikit-learn · OpenCV · Linear Regression</p>
+                                        <div class="ark-skill-card-tags">AI · DATA</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="ark-skills-controls">
+                            <div class="ark-skills-arrows">
+                                <button class="skills-prev" aria-label="Previous skill" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                                </button>
+                                <button class="skills-next" aria-label="Next skill" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                            </div>
+                            
+                            <!-- MORE INTEL -> GITHUB -->
+                            <a href="https://github.com/Jaysese125" target="_blank" rel="noopener noreferrer" class="ark-more-btn">
+                                <span class="ark-more-btn-line"></span>
+                                More Intel
+                                <svg class="ark-more-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <span class="ark-field-label ark-field-label--br" aria-hidden="true">
@@ -462,6 +572,7 @@
                 </span>
             </section>
 
+            <!-- UPDATED CONTACT SECTION -->
             <section id="contact" class="ark-section">
                 <span class="ark-section-numeral" aria-hidden="true">05</span>
 
@@ -469,17 +580,24 @@
                     05 / COMMUNICATION
                     <span class="ark-kicker-code">// ARCHIVE.05</span>
                 </p>
-                <h2 class="ark-title" data-reveal>Contact</h2>
-                <div class="ark-contact">
-                    <div class="ark-contact-message">
-                        <span class="ark-contact-tag">SYS / CONTACT</span>
-                        <h3>Let's build something.</h3>
-                        <p>I'm currently open to opportunities in full-stack development, database management, and software engineering. Feel free to reach out.</p>
+                
+                <div class="ark-contact-endfield">
+                    <!-- Logo Left -->
+                    <img src="assets/images/logo.png" alt="Jayfield Logo" class="ark-contact-logo">
+
+                    <!-- Links Right (Vertical) -->
+                    <div class="ark-contact-links-row">
+                        <a href="https://github.com/Jaysese125" target="_blank" rel="noopener noreferrer">GITHUB</a>
+                        <a href="https://www.linkedin.com/in/sesechristianjayb0125/" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+                        <a href="mailto:sese.christianjay.bayaron@gmail.com">EMAIL</a>
                     </div>
-                    <div class="ark-contact-links">
-                        <a href="https://github.com/Jaysese125" target="_blank" rel="noopener noreferrer"><span>01</span>GITHUB</a>
-                        <a href="https://linkedin.com/in/sesechristianjayb0125" target="_blank" rel="noopener noreferrer"><span>02</span>LINKEDIN</a>
-                        <a href="mailto:sese.christianjay.bayaron@gmail.com"><span>03</span>EMAIL</a>
+
+                    <!-- Legal Text Below -->
+                    <div class="ark-contact-legal">
+                        <p>"Christian Jay Sese Portfolio" is a personal project developed for professional showcase purposes.</p>
+                        <p>All trademarks, logos, and brand names are the property of their respective owners. The use of any trade name or trademark is for identification and reference purposes only and does not imply any association with the trademark holder of their product brand.</p>
+                        <p>This website is built using HTML5, CSS3, and vanilla JavaScript. No cookies, trackers, or personal data are collected during your visit.</p>
+                        <p class="ark-contact-copyright">© 2026 JAYFIELD / EDITORIAL REV. All Rights Reserved.</p>
                     </div>
                 </div>
 

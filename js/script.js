@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   CJS INTERACTION LAYER — v16
+   CJS INTERACTION LAYER — v17
    ═══════════════════════════════════════════════════════════════ */
 
 (() => {
@@ -99,7 +99,7 @@
     })();
 
     /* ═══════════════════════════════════════════════════════
-       2. PALETTE TOGGLE + DYNAMIC FAVICON
+       2. PALETTE TOGGLE (FAVICON LOGIC REMOVED)
        ═══════════════════════════════════════════════════════ */
 
     (function paletteToggle() {
@@ -109,27 +109,12 @@
 
         const STORAGE_KEY = "jayfield-palette";
         const PALETTES = { ember: "EMBER", tidal: "TIDAL" };
-        const SIGNAL_HEX = { ember: "%23fff500", tidal: "%2314d0d0" };
-        const faviconEl = document.querySelector("link[rel='icon']");
-
-        function updateFavicon(name) {
-            if (!faviconEl) return;
-            const signal = SIGNAL_HEX[name] || SIGNAL_HEX.ember;
-            faviconEl.href =
-                "data:image/svg+xml," +
-                "%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E" +
-                "%3Crect%20x='3'%20y='3'%20width='26'%20height='26'%20fill='%23101110'%20stroke='" + signal +
-                "'%20stroke-width='2.5'/%3E" +
-                "%3Ctext%20x='16'%20y='23'%20font-family='monospace'%20font-size='13'%20font-weight='800'%20fill='" + signal +
-                "'%20text-anchor='middle'%20textLength='20'%20lengthAdjust='spacingAndGlyphs'%3EJAY%3C/text%3E%3C/svg%3E";
-        }
 
         function applyPalette(name) {
             const safe = PALETTES[name] ? name : "ember";
             root.setAttribute("data-palette", safe);
             label.textContent = PALETTES[safe];
             toggle.setAttribute("aria-label", `Toggle accent palette (currently ${PALETTES[safe]})`);
-            updateFavicon(safe);
         }
 
         let saved = "ember";
@@ -434,7 +419,7 @@
         scheduleRepair(50);
     });
 
-       /* ═══════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        11. PROJECT SLIDER & ANIMATIONS
        ═══════════════════════════════════════════════════════ */
 
@@ -454,16 +439,19 @@
         let isAnimating = false;
         let globalRotation = 0; 
         let slowSpinAnim = null;
+        let typewriterTimeout = null; // Prevent overlapping text if clicked rapidly
 
         // --- TYPEWRITER FUNCTION ---
         function typeWriter(element, text, speed, callback) {
+            if (typewriterTimeout) clearTimeout(typewriterTimeout);
+            
             element.textContent = "";
             let i = 0;
             function type() {
                 if (i < text.length) {
                     element.textContent += text.charAt(i);
                     i++;
-                    setTimeout(type, speed);
+                    typewriterTimeout = setTimeout(type, speed);
                 } else {
                     if (callback) callback();
                 }
@@ -484,6 +472,7 @@
         function startSlowSpin(wrapper, startAngle = 0) {
             if (!wrapper) return;
             if (slowSpinAnim) slowSpinAnim.cancel();
+            if (prefersReduced) return; // Respect accessibility settings
             
             slowSpinAnim = wrapper.animate(
                 [
@@ -525,31 +514,11 @@
             const currentWrapper = currentSlide.querySelector(".ark-project-img-wrapper");
             
             // 1. Radar Burst
-            if (radarDecor) {
+            if (radarDecor && !prefersReduced) {
                 radarDecor.classList.remove("spin-burst");
                 void radarDecor.offsetWidth;
                 radarDecor.classList.add("spin-burst");
             }
-
-            // 2. Fast Double Spin Calculation
-            const currentAngle = getCurrentRotation(currentWrapper);
-            const spinDir = direction === 'next' ? 1 : -1;
-            const targetAngle = currentAngle + (360 * 2 * spinDir); // 720 degrees!
-
-            if (slowSpinAnim) slowSpinAnim.cancel();
-
-            // Animate the current board spinning fast
-            const fastSpin = currentWrapper.animate(
-                [
-                    { transform: `rotateY(${currentAngle}deg)` },
-                    { transform: `rotateY(${targetAngle}deg)` }
-                ],
-                {
-                    duration: 1200, // 1.2 seconds total for the fast spin
-                    easing: 'cubic-bezier(0.4, 0, 0.2, 1)', // Smooth ease-in-out
-                    fill: 'forwards'
-                }
-            );
 
             // Prepare next text
             const nextInfo = nextSlide.querySelector(".ark-project-info");
@@ -557,19 +526,63 @@
             nextInfo.classList.remove("show-text");
             nextTitle.textContent = ""; 
 
-            // 3. THE MAGIC TRICK: Swap slides exactly at 600ms (when the board is sideways)
-            setTimeout(() => {
-                fastSpin.cancel(); // Stop the current animation
-                const midAngle = currentAngle + (360 * spinDir); // It's currently at 360deg (sideways)
+            // Accessibility: Skip the spin if user prefers reduced motion
+            if (prefersReduced) {
+                currentSlide.classList.remove("is-active");
+                if (direction === "next") currentSlide.classList.add("is-prev");
+                else currentSlide.classList.remove("is-prev");
                 
-                // Swap DOM classes
+                nextSlide.classList.remove("is-prev");
+                nextSlide.classList.add("is-active");
+
+                currentIndex = index;
+                
+                currentNumEls.forEach(el => el.textContent = String(currentIndex + 1).padStart(2, "0"));
+                progressSegments.forEach((seg, i) => seg.classList.toggle("is-active", i === currentIndex));
+
+                if (globalProjectBtn) {
+                    const newLinkEl = nextSlide.querySelector(".hidden-project-link");
+                    if (newLinkEl) globalProjectBtn.href = newLinkEl.getAttribute("href");
+                }
+
+                nextInfo.classList.add("show-text");
+                nextTitle.textContent = nextTitle.dataset.original;
+                isAnimating = false;
+                return;
+            }
+
+            const currentAngle = getCurrentRotation(currentWrapper);
+            const spinDir = direction === 'next' ? 1 : -1;
+            const targetAngle = currentAngle + (360 * spinDir); 
+            
+            // Angle when board is completely edge-on (invisible)
+            const midAngle = currentAngle + (90 * spinDir); 
+
+            if (slowSpinAnim) slowSpinAnim.cancel();
+
+            // 2. Fast Spin (First Half: 0 to 90 degrees)
+            const firstHalfSpin = currentWrapper.animate(
+                [
+                    { transform: `rotateY(${currentAngle}deg)` },
+                    { transform: `rotateY(${midAngle}deg)` }
+                ],
+                {
+                    duration: 150, // Fast 150ms
+                    easing: 'ease-in', // Accelerate into the invisible edge
+                    fill: 'forwards'
+                }
+            );
+
+            // 3. THE MAGIC MOMENT: When the board is a thin line
+            firstHalfSpin.onfinish = () => {
+                
+                // Instantly swap the active classes (no fade during spin)
                 currentSlide.classList.remove("is-active");
                 if (direction === "next") {
                     currentSlide.classList.add("is-prev");
                 } else {
                     currentSlide.classList.remove("is-prev");
                 }
-
                 nextSlide.classList.remove("is-prev");
                 nextSlide.classList.add("is-active");
 
@@ -584,21 +597,25 @@
                     if (newLinkEl) globalProjectBtn.href = newLinkEl.getAttribute("href");
                 }
 
-                // 4. Animate the new board for the remaining 360 degrees
                 const nextWrapper = nextSlide.querySelector(".ark-project-img-wrapper");
+                
+                // Pre-position the new board exactly at the thin line (90deg)
+                nextWrapper.style.transform = `rotateY(${midAngle}deg)`; 
+
+                // 4. Fast Spin (Second Half: 90 to 360 degrees)
                 const secondHalfSpin = nextWrapper.animate(
                     [
                         { transform: `rotateY(${midAngle}deg)` },
                         { transform: `rotateY(${targetAngle}deg)` }
                     ],
                     {
-                        duration: 600, // Remaining 0.6 seconds
-                        easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                        duration: 450, // Remaining 450ms
+                        easing: 'ease-out', // Decelerate out of the edge
                         fill: 'forwards'
                     }
                 );
 
-                // 5. When the fast spin finishes, hand it over to the slow infinite spin
+                // 5. Hand over to the endless slow spin
                 secondHalfSpin.onfinish = () => {
                     secondHalfSpin.cancel();
                     globalRotation = targetAngle % 360;
@@ -610,8 +627,7 @@
                         isAnimating = false;
                     });
                 };
-
-            }, 600); // 600ms is exactly halfway through the 1200ms fast spin
+            };
         }
 
         nextBtns.forEach(btn => btn.addEventListener("click", () => updateSlide((currentIndex + 1) % slides.length, "next")));
@@ -627,4 +643,57 @@
         }, 500);
     })();
 
+    /* ═══════════════════════════════════════════════════════
+       12. SKILLS SLIDER (STABLE SCROLL)
+       ═══════════════════════════════════════════════════════ */
+
+    (function skillsSlider() {
+        const wrap = document.getElementById("skillsWrap");
+        const slides = Array.from(document.querySelectorAll(".ark-skill-slide"));
+        const prevBtn = document.querySelector(".skills-prev");
+        const nextBtn = document.querySelector(".skills-next");
+        
+        if (!wrap || !slides.length || !prevBtn || !nextBtn) return;
+
+        let currentIndex = 0;
+
+        function updateSlider() {
+            // 1. Update classes to trigger the scale effect
+            slides.forEach((slide, index) => {
+                slide.classList.toggle("is-active", index === currentIndex);
+            });
+
+            // 2. Calculate and scroll immediately (no delays needed!)
+            const activeSlide = slides[currentIndex];
+            
+            // Scroll to the exact offset of the card minus 20px padding
+            wrap.scrollTo({
+                left: activeSlide.offsetLeft - 20,
+                behavior: 'smooth'
+            });
+
+            // 3. Update button states
+            prevBtn.style.opacity = currentIndex === 0 ? "0.3" : "1";
+            nextBtn.style.opacity = currentIndex === slides.length - 1 ? "0.3" : "1";
+            prevBtn.style.pointerEvents = currentIndex === 0 ? "none" : "auto";
+            nextBtn.style.pointerEvents = currentIndex === slides.length - 1 ? "none" : "auto";
+        }
+
+        nextBtn.addEventListener("click", () => {
+            if (currentIndex < slides.length - 1) {
+                currentIndex++;
+                updateSlider();
+            }
+        });
+
+        prevBtn.addEventListener("click", () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlider();
+            }
+        });
+
+        // Initialize
+        setTimeout(updateSlider, 100);
+    })();
 })();
