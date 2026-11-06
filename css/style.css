@@ -21,8 +21,6 @@
     --line-l2:      #4a4d49;
 
     --signal:       #fff500;
-    /* RGB triplet of --signal. Used where a colour needs variable
-       alpha via rgba(). Keep in sync with --signal per palette. */
     --signal-rgb:   255, 245, 0;
 
     --verified:     #7dff9a;
@@ -79,9 +77,6 @@
     --hero-grid-fade: 30%;
 }
 
-/* TIDAL — cyan accent. `--signal-rgb` MUST be kept in sync with
-   `--signal` so rgba()-based effects (scan line, etc.) follow the
-   palette switch automatically. */
 html[data-palette="tidal"] {
     --signal: #14d0d0;
     --signal-rgb: 20, 208, 208;
@@ -99,12 +94,16 @@ html[data-palette="tidal"] {
     box-sizing: border-box;
 }
 
+::selection {
+    background: var(--signal);
+    color: var(--paper);
+    text-shadow: none;
+}
+
 html {
     min-height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-    /* scroll-behavior must stay `auto`. Smooth scroll is invoked
-       explicitly via scrollIntoView() from JS. */
     scroll-behavior: auto;
     -webkit-text-size-adjust: 100%;
     overflow-anchor: none;
@@ -112,6 +111,11 @@ html {
 
 html.ark-no-scroll {
     overflow: hidden;
+}
+
+html.ark-scroll-lock {
+    scrollbar-gutter: stable;
+    padding-right: var(--scrollbar-w, 0px);
 }
 
 body {
@@ -125,8 +129,15 @@ body {
     position: relative;
 }
 
-img, svg, video, canvas { max-width: 100%; display: block; }
-a { color: inherit; text-decoration: none; }
+img, svg, video, canvas {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
 
 :focus-visible {
     outline: 2px solid var(--signal);
@@ -156,7 +167,9 @@ a { color: inherit; text-decoration: none; }
     transition: top 0.2s ease;
 }
 
-.ark-skip-link:focus { top: 0.5rem; }
+.ark-skip-link:focus {
+    top: 0.5rem;
+}
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -189,8 +202,14 @@ a { color: inherit; text-decoration: none; }
     transition: transform 0.9s var(--rail-ease);
 }
 
-.ark-boot-shutter-top { top: 0; }
-.ark-boot-shutter-bot { bottom: 0; border-top: 1px solid var(--line-l1); }
+.ark-boot-shutter-top {
+    top: 0;
+}
+
+.ark-boot-shutter-bot {
+    bottom: 0;
+    border-top: 1px solid var(--line-l1);
+}
 
 .ark-boot-content {
     position: absolute;
@@ -218,7 +237,12 @@ a { color: inherit; text-decoration: none; }
     animation: bootMarkIn 0.7s var(--rail-ease) 0.1s forwards;
 }
 
-@keyframes bootMarkIn { to { opacity: 1; transform: scale(1); } }
+@keyframes bootMarkIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 
 .ark-boot-log {
     height: 6.5rem;
@@ -240,8 +264,15 @@ a { color: inherit; text-decoration: none; }
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.ark-boot-log-line.is-visible { opacity: 1; transform: translateY(0); }
-.ark-boot-log-line:last-child { color: var(--signal); text-shadow: 0 0 10px currentColor; }
+.ark-boot-log-line.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ark-boot-log-line:last-child {
+    color: var(--signal);
+    text-shadow: 0 0 10px currentColor;
+}
 
 .ark-boot-bar {
     width: 220px;
@@ -269,25 +300,35 @@ a { color: inherit; text-decoration: none; }
     font-variant-numeric: tabular-nums;
 }
 
-.ark-boot-counter::after { content: " / 100"; color: var(--ink-mute); text-shadow: none; }
+.ark-boot-counter::after {
+    content: " / 100";
+    color: var(--ink-mute);
+    text-shadow: none;
+}
 
-.ark-boot.is-revealing { pointer-events: none; }
-.ark-boot.is-revealing .ark-boot-content { opacity: 0; }
-.ark-boot.is-revealing .ark-boot-shutter { transition-delay: 0.15s; }
-.ark-boot.is-revealing .ark-boot-shutter-top { transform: translateY(-100%); }
-.ark-boot.is-revealing .ark-boot-shutter-bot { transform: translateY(100%); }
+.ark-boot.is-revealing {
+    pointer-events: none;
+}
+
+.ark-boot.is-revealing .ark-boot-content {
+    opacity: 0;
+}
+
+.ark-boot.is-revealing .ark-boot-shutter {
+    transition-delay: 0.15s;
+}
+
+.ark-boot.is-revealing .ark-boot-shutter-top {
+    transform: translateY(-100%);
+}
+
+.ark-boot.is-revealing .ark-boot-shutter-bot {
+    transform: translateY(100%);
+}
 
 
 /* ═══════════════════════════════════════════════════════════════
    PART 05 — AMBIENT BACKGROUND
-   Grid, contour, glow, scan all animate via transform / opacity
-   so they composite on the GPU.
-
-   Note: `mix-blend-mode: overlay` was removed from the noise
-   layer. It forced Chromium to keep the entire page above it in a
-   blending context, which is one of the compositor states that can
-   desync hit-testing during rapid navigation. The visual weight
-   is preserved by a slightly higher opacity instead.
    ═══════════════════════════════════════════════════════════════ */
 
 .ark-bg {
@@ -312,7 +353,7 @@ a { color: inherit; text-decoration: none; }
 
 @keyframes gridDrift {
     from { transform: translate3d(0, 0, 0); }
-    to   { transform: translate3d(80px, 80px, 0); }
+    to { transform: translate3d(80px, 80px, 0); }
 }
 
 .ark-bg-contour {
@@ -323,7 +364,7 @@ a { color: inherit; text-decoration: none; }
         repeating-radial-gradient(
             circle at 20% 30%,
             transparent 0px, transparent 18px,
-            rgba(255, 245, 0, 0.4) 19px, transparent 20px, transparent 38px
+            rgba(var(--signal-rgb), 0.4) 19px, transparent 20px, transparent 38px
         ),
         repeating-radial-gradient(
             circle at 80% 70%,
@@ -333,23 +374,9 @@ a { color: inherit; text-decoration: none; }
     animation: contourDrift 40s ease-in-out infinite alternate;
 }
 
-html[data-palette="tidal"] .ark-bg-contour {
-    background-image:
-        repeating-radial-gradient(
-            circle at 20% 30%,
-            transparent 0px, transparent 18px,
-            rgba(20, 208, 208, 0.35) 19px, transparent 20px, transparent 38px
-        ),
-        repeating-radial-gradient(
-            circle at 80% 70%,
-            transparent 0px, transparent 24px,
-            rgba(255, 255, 255, 0.15) 25px, transparent 26px, transparent 50px
-        );
-}
-
 @keyframes contourDrift {
     from { transform: translate(0, 0) scale(1); }
-    to   { transform: translate(-4%, 3%) scale(1.08); }
+    to { transform: translate(-4%, 3%) scale(1.08); }
 }
 
 .ark-bg-glow {
@@ -362,25 +389,16 @@ html[data-palette="tidal"] .ark-bg-contour {
     max-height: 1100px;
     background: radial-gradient(
         circle at center,
-        rgba(255, 245, 0, 0.07) 0%,
-        rgba(255, 245, 0, 0.025) 30%,
+        rgba(var(--signal-rgb), 0.07) 0%,
+        rgba(var(--signal-rgb), 0.025) 30%,
         transparent 65%
     );
     animation: glowPulse 8s ease-in-out infinite;
 }
 
-html[data-palette="tidal"] .ark-bg-glow {
-    background: radial-gradient(
-        circle at center,
-        rgba(20, 208, 208, 0.08) 0%,
-        rgba(20, 208, 208, 0.025) 30%,
-        transparent 65%
-    );
-}
-
 @keyframes glowPulse {
     0%, 100% { opacity: 0.85; transform: scale(1); }
-    50%      { opacity: 1;    transform: scale(1.08); }
+    50% { opacity: 1; transform: scale(1.08); }
 }
 
 .ark-bg-scan-wrap {
@@ -389,8 +407,6 @@ html[data-palette="tidal"] .ark-bg-glow {
     overflow: hidden;
 }
 
-/* Scan line: colours derive from --signal-rgb so switching palette
-   updates both the gradient and the glow in one place. */
 .ark-bg-scan {
     position: absolute;
     left: 0;
@@ -411,13 +427,12 @@ html[data-palette="tidal"] .ark-bg-glow {
 }
 
 @keyframes scanSweep {
-    0%   { transform: translateY(-5vh); opacity: 0; }
-    10%  { opacity: 0.4; }
-    90%  { opacity: 0.4; }
+    0% { transform: translateY(-5vh); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.4; }
     100% { transform: translateY(105vh); opacity: 0; }
 }
 
-/* mix-blend-mode removed — see the note above PART 05. */
 .ark-bg-noise {
     position: absolute;
     inset: -2%;
@@ -427,8 +442,8 @@ html[data-palette="tidal"] .ark-bg-glow {
 }
 
 @keyframes noiseShift {
-    0%   { transform: translate3d(0, 0, 0); }
-    50%  { transform: translate3d(-1%, 1%, 0); }
+    0% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(-1%, 1%, 0); }
     100% { transform: translate3d(0, 0, 0); }
 }
 
@@ -495,12 +510,12 @@ html[data-palette="tidal"] .ark-bg-glow {
     height: 1.55rem;
     text-align: center;
     font-family: var(--mono);
-    font-size: 0.65rem;
+    font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     color: var(--rail-ink);
     background: var(--rail-bg);
-    border: 1px solid var(--rail-ink);
+    border: 2px solid var(--rail-ink);
     padding: 0.3rem 0;
     line-height: 1;
     white-space: nowrap;
@@ -516,7 +531,6 @@ html[data-palette="tidal"] .ark-bg-glow {
         border-color 0.3s ease;
 }
 
-.ark-rail-mark-short,
 .ark-rail-mark-long {
     display: flex;
     position: absolute;
@@ -528,8 +542,15 @@ html[data-palette="tidal"] .ark-bg-glow {
     white-space: nowrap;
 }
 
-.ark-rail-mark-short { opacity: 1; }
-.ark-rail-mark-long  { opacity: 0; letter-spacing: 0.34em; padding-left: 0.34em; }
+.ark-rail-mark-short {
+    opacity: 1;
+}
+
+.ark-rail-mark-long {
+    opacity: 0;
+    letter-spacing: 0.34em;
+    padding-left: 0.34em;
+}
 
 .ark-rail.is-open .ark-rail-mark {
     left: 1.25rem;
@@ -539,8 +560,13 @@ html[data-palette="tidal"] .ark-bg-glow {
     height: 1.75rem;
 }
 
-.ark-rail.is-open .ark-rail-mark-short { opacity: 0; }
-.ark-rail.is-open .ark-rail-mark-long  { opacity: 1; }
+.ark-rail.is-open .ark-rail-mark-short {
+    opacity: 0;
+}
+
+.ark-rail.is-open .ark-rail-mark-long {
+    opacity: 1;
+}
 
 .ark-rail-mark:hover {
     border-color: var(--rail-ink);
@@ -582,7 +608,9 @@ html[data-palette="tidal"] .ark-bg-glow {
     animation: railEnter 0.6s var(--ease-out) both;
 }
 
-.ark-rail.is-open .ark-rail-link { padding-left: 1.25rem; }
+.ark-rail.is-open .ark-rail-link {
+    padding-left: 1.25rem;
+}
 
 .ark-rail-nav .ark-rail-link:nth-child(1) { animation-delay: 0.12s; }
 .ark-rail-nav .ark-rail-link:nth-child(2) { animation-delay: 0.19s; }
@@ -592,7 +620,7 @@ html[data-palette="tidal"] .ark-bg-glow {
 
 @keyframes railEnter {
     from { opacity: 0; transform: translateX(-14px); }
-    to   { opacity: 1; transform: translateX(0); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 .ark-rail-link-icon {
@@ -612,7 +640,7 @@ html[data-palette="tidal"] .ark-bg-glow {
     height: 100%;
     stroke: currentColor;
     fill: none;
-    stroke-width: 1.5;
+    stroke-width: 2;
     pointer-events: none;
 }
 
@@ -628,7 +656,10 @@ html[data-palette="tidal"] .ark-bg-glow {
     pointer-events: none;
 }
 
-.ark-rail.is-open .ark-rail-link-text { opacity: 1; transform: translateX(0); }
+.ark-rail.is-open .ark-rail-link-text {
+    opacity: 1;
+    transform: translateX(0);
+}
 
 .ark-rail-link-index {
     font-size: 0.62rem;
@@ -636,7 +667,10 @@ html[data-palette="tidal"] .ark-bg-glow {
     color: var(--rail-ink-mute);
     transition: color 0.25s ease;
 }
-.ark-rail-link-label { letter-spacing: 0.2em; }
+
+.ark-rail-link-label {
+    letter-spacing: 0.2em;
+}
 
 .ark-rail-link::before {
     content: "";
@@ -651,12 +685,15 @@ html[data-palette="tidal"] .ark-bg-glow {
     pointer-events: none;
 }
 
-.ark-rail-link.active::before { width: 5px; }
+.ark-rail-link.active::before {
+    width: 5px;
+}
 
 .ark-rail-link:hover {
     color: var(--rail-ink);
     background: var(--rail-hover-bg);
 }
+
 .ark-rail-link:hover .ark-rail-link-icon {
     color: var(--rail-ink);
     transform: scale(1.05);
@@ -666,12 +703,19 @@ html[data-palette="tidal"] .ark-bg-glow {
     color: var(--rail-ink);
     background: var(--rail-selected-bg);
 }
-.ark-rail-link.active .ark-rail-link-icon { color: var(--rail-ink); }
+
+.ark-rail-link.active .ark-rail-link-icon {
+    color: var(--rail-ink);
+}
+
 .ark-rail-link.active .ark-rail-link-index {
     color: var(--rail-ink);
     font-weight: 700;
 }
-.ark-rail-link.active:hover { background: var(--rail-selected-bg); }
+
+.ark-rail-link.active:hover {
+    background: var(--rail-selected-bg);
+}
 
 .ark-rail-foot {
     position: absolute;
@@ -689,7 +733,9 @@ html[data-palette="tidal"] .ark-bg-glow {
     transition: opacity 0.25s ease;
 }
 
-.ark-rail.is-open .ark-rail-foot { opacity: 0; }
+.ark-rail.is-open .ark-rail-foot {
+    opacity: 0;
+}
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -808,14 +854,16 @@ html[data-palette="tidal"] .ark-bg-glow {
 .ark-palette-swatch--ember { background: #fff500; }
 .ark-palette-swatch--tidal { background: #14d0d0; }
 
-.ark-palette-label { font-variant-numeric: tabular-nums; }
+.ark-palette-label {
+    font-variant-numeric: tabular-nums;
+}
 
-html[data-palette="tidal"]  .ark-palette-swatch--ember { opacity: 0.35; }
-html[data-palette="ember"]  .ark-palette-swatch--tidal { opacity: 0.35; }
+html[data-palette="tidal"] .ark-palette-swatch--ember { opacity: 0.35; }
+html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
 
 @keyframes dotPulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: 0.4; transform: scale(0.85); }
+    50% { opacity: 0.4; transform: scale(0.85); }
 }
 
 
@@ -840,6 +888,7 @@ html[data-palette="ember"]  .ark-palette-swatch--tidal { opacity: 0.35; }
     text-transform: uppercase;
     white-space: nowrap;
     pointer-events: none;
+    --marquee-distance: 100%;
 }
 
 .ark-marquee-track {
@@ -851,11 +900,14 @@ html[data-palette="ember"]  .ark-palette-swatch--tidal { opacity: 0.35; }
     animation: marqueeScroll 30s linear infinite;
 }
 
-.ark-marquee-sep { color: var(--signal); text-shadow: 0 0 8px currentColor; }
+.ark-marquee-sep {
+    color: var(--signal);
+    text-shadow: 0 0 8px currentColor;
+}
 
 @keyframes marqueeScroll {
     from { transform: translateX(0); }
-    to   { transform: translateX(-100%); }
+    to { transform: translateX(calc(-1 * var(--marquee-distance))); }
 }
 
 
@@ -976,11 +1028,15 @@ html[data-palette="ember"]  .ark-palette-swatch--tidal { opacity: 0.35; }
     max-height: calc(100svh - var(--topbar-h) - var(--marquee-h));
 }
 
-.ark-hero-section::before { display: none; }
+.ark-hero-section::before {
+    display: none;
+}
 
 .ark-hero-visual {
     position: absolute;
-    top: 0; bottom: 0; left: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
     width: 100%;
     z-index: 1;
     display: flex;
@@ -1042,34 +1098,18 @@ html[data-palette="ember"]  .ark-palette-swatch--tidal { opacity: 0.35; }
     max-height: 800px;
     background: radial-gradient(
         circle at center,
-        rgba(255, 245, 0, 0.10) 0%,
-        rgba(255, 245, 0, 0.03) 30%,
+        rgba(var(--signal-rgb), 0.10) 0%,
+        rgba(var(--signal-rgb), 0.03) 30%,
         transparent 65%
     );
     pointer-events: none;
     animation: heroGlow 6s ease-in-out infinite;
 }
 
-html[data-palette="tidal"] .ark-hero-scrim::after {
-    background: radial-gradient(
-        circle at center,
-        rgba(20, 208, 208, 0.12) 0%,
-        rgba(20, 208, 208, 0.03) 30%,
-        transparent 65%
-    );
-}
-
 @keyframes heroGlow {
     0%, 100% { opacity: 0.85; transform: translate(50%, -50%) scale(1); }
-    50%      { opacity: 1;    transform: translate(50%, -50%) scale(1.04); }
+    50% { opacity: 1; transform: translate(50%, -50%) scale(1.04); }
 }
-
-/* ───────────────────────────────────────────────────────────
-   HERO GRID
-   Mask stays on the parent; the pattern lives on ::before and
-   animates its transform. Translating by 80px matches the tile
-   size, so the loop is visually seamless.
-   ─────────────────────────────────────────────────────────── */
 
 .ark-hero-grid {
     position: absolute;
@@ -1077,7 +1117,6 @@ html[data-palette="tidal"] .ark-hero-scrim::after {
     z-index: 3;
     pointer-events: none;
     overflow: hidden;
-
     -webkit-mask-image: linear-gradient(
         to right,
         transparent 0%,
@@ -1101,8 +1140,8 @@ html[data-palette="tidal"] .ark-hero-scrim::after {
     position: absolute;
     inset: -100px;
     background-image:
-        linear-gradient(rgba(255, 245, 0, 0.09) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 245, 0, 0.09) 1px, transparent 1px),
+        linear-gradient(rgba(var(--signal-rgb), 0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--signal-rgb), 0.09) 1px, transparent 1px),
         linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
     background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
@@ -1110,17 +1149,9 @@ html[data-palette="tidal"] .ark-hero-scrim::after {
     pointer-events: none;
 }
 
-html[data-palette="tidal"] .ark-hero-grid::before {
-    background-image:
-        linear-gradient(rgba(20, 208, 208, 0.10) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(20, 208, 208, 0.10) 1px, transparent 1px),
-        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-}
-
 @keyframes heroGridDrift {
     from { transform: translate3d(0, 0, 0); }
-    to   { transform: translate3d(80px, 80px, 0); }
+    to { transform: translate3d(80px, 80px, 0); }
 }
 
 .ark-hero-content {
@@ -1153,18 +1184,11 @@ html[data-palette="tidal"] .ark-hero-grid::before {
     box-shadow:
         0 0 0 1px rgba(16, 17, 16, 0.8),
         0 24px 64px rgba(0, 0, 0, 0.55),
-        0 0 48px rgba(255, 245, 0, 0.06);
+        0 0 48px rgba(var(--signal-rgb), 0.06);
     padding: clamp(1.25rem, 2vw, 1.75rem) clamp(1.25rem, 2vw, 2rem);
     opacity: 0;
     transform: translate3d(40px, 0, 0);
     transition: none;
-}
-
-html[data-palette="tidal"] .ark-hero-panel {
-    box-shadow:
-        0 0 0 1px rgba(16, 17, 16, 0.8),
-        0 24px 64px rgba(0, 0, 0, 0.55),
-        0 0 48px rgba(20, 208, 208, 0.08);
 }
 
 .ark-section.is-revealed .ark-hero-panel {
@@ -1179,8 +1203,10 @@ html[data-palette="tidal"] .ark-hero-panel {
 .ark-hero-panel::before {
     content: "";
     position: absolute;
-    top: -1px; left: -1px;
-    width: 24px; height: 24px;
+    top: -1px;
+    left: -1px;
+    width: 24px;
+    height: 24px;
     border-top: 1px solid var(--signal);
     border-left: 1px solid var(--signal);
     opacity: 0.6;
@@ -1190,8 +1216,10 @@ html[data-palette="tidal"] .ark-hero-panel {
 .ark-hero-panel::after {
     content: "";
     position: absolute;
-    bottom: -1px; left: -1px;
-    width: 24px; height: 24px;
+    bottom: -1px;
+    left: -1px;
+    width: 24px;
+    height: 24px;
     border-bottom: 1px solid var(--signal);
     border-left: 1px solid var(--signal);
     opacity: 0.6;
@@ -1218,7 +1246,9 @@ html[data-palette="tidal"] .ark-hero-panel {
         clip-path 0.9s var(--ease-out);
 }
 
-#skills [data-reveal] { --reveal-clip: inset(0 0 0 100%); }
+#skills [data-reveal] {
+    --reveal-clip: inset(0 0 0 100%);
+}
 
 .ark-section.is-revealed > [data-reveal]:nth-child(1) { transition-delay: 0.10s; }
 .ark-section.is-revealed > [data-reveal]:nth-child(2) { transition-delay: 0.18s; }
@@ -1243,14 +1273,14 @@ html[data-palette="tidal"] .ark-hero-panel {
         rgba(16, 17, 16, 0.045) 10px
     );
     color: var(--ink-light);
-    --paper:       var(--paper-light);
+    --paper: var(--paper-light);
     --paper-layer: var(--paper-light-layer);
-    --paper-sink:  var(--paper-light-sink);
-    --ink:         var(--ink-light);
-    --ink-soft:    var(--ink-light-soft);
-    --ink-mute:    var(--ink-light-mute);
-    --line-l1:     var(--line-light-l1);
-    --line-l2:     var(--line-light-l2);
+    --paper-sink: var(--paper-light-sink);
+    --ink: var(--ink-light);
+    --ink-soft: var(--ink-light-soft);
+    --ink-mute: var(--ink-light-mute);
+    --line-l1: var(--line-light-l1);
+    --line-l2: var(--line-light-l2);
     position: relative;
     overflow: hidden;
     padding:
@@ -1266,7 +1296,7 @@ html[data-palette="tidal"] .ark-hero-panel {
     opacity: 1;
     box-shadow:
         0 0 0 1px #101110,
-        0 0 14px rgba(255, 245, 0, 0.6);
+        0 0 14px rgba(var(--signal-rgb), 0.6);
 }
 
 .ark-about-section .ark-kicker {
@@ -1277,7 +1307,13 @@ html[data-palette="tidal"] .ark-hero-panel {
 .ark-about-section .ark-kicker::before {
     box-shadow:
         0 0 0 1px #101110,
-        0 0 8px rgba(255, 245, 0, 0.6);
+        0 0 8px rgba(var(--signal-rgb), 0.6);
+}
+
+.ark-about-section .ark-kicker-code {
+    background: var(--paper-light-layer);
+    border-color: var(--line-light-l2);
+    color: var(--ink-light);
 }
 
 .ark-about-section .ark-title {
@@ -1296,7 +1332,10 @@ html[data-palette="tidal"] .ark-hero-panel {
 
 .ark-about-visual {
     position: absolute;
-    top: 0; right: 5%; bottom: 0; left: auto;
+    top: 0;
+    right: 5%;
+    bottom: 0;
+    left: auto;
     width: 65%;
     z-index: 1;
     display: flex;
@@ -1339,17 +1378,19 @@ html[data-palette="tidal"] .ark-hero-panel {
 }
 
 .ark-visual-crosshair.tl {
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     border-top: 1px solid var(--signal);
     border-left: 1px solid var(--signal);
-    box-shadow: -2px -2px 12px rgba(255, 245, 0, 0.25);
+    box-shadow: -2px -2px 12px rgba(var(--signal-rgb), 0.25);
 }
 
 .ark-visual-crosshair.br {
-    bottom: 0; right: 0;
+    bottom: 0;
+    right: 0;
     border-bottom: 1px solid var(--signal);
     border-right: 1px solid var(--signal);
-    box-shadow: 2px 2px 12px rgba(255, 245, 0, 0.25);
+    box-shadow: 2px 2px 12px rgba(var(--signal-rgb), 0.25);
 }
 
 .ark-about-content {
@@ -1382,7 +1423,7 @@ html[data-palette="tidal"] .ark-hero-panel {
     box-shadow:
         -1px 0 0 0 #101110,
         inset 1px 0 0 0 #101110,
-        -5px 0 18px -8px rgba(255, 245, 0, 0.55);
+        -5px 0 18px -8px rgba(var(--signal-rgb), 0.55);
     background: none;
     padding: 0.6rem 0.9rem 0.6rem clamp(1rem, 1.5vw, 1.35rem);
     padding-right: 0;
@@ -1427,7 +1468,9 @@ html[data-palette="tidal"] .ark-hero-panel {
     line-height: 1.55;
 }
 
-.ark-split-main p:last-child { margin-bottom: 0; }
+.ark-split-main p:last-child {
+    margin-bottom: 0;
+}
 
 .ark-about-summary {
     font-weight: 500;
@@ -1461,7 +1504,7 @@ html[data-palette="tidal"] .ark-hero-panel {
     background: var(--signal);
     box-shadow:
         0 0 0 1px #101110,
-        0 0 6px rgba(255, 245, 0, 0.6);
+        0 0 6px rgba(var(--signal-rgb), 0.6);
 }
 
 .ark-about-list strong {
@@ -1475,7 +1518,7 @@ html[data-palette="tidal"] .ark-hero-panel {
     margin-top: clamp(0.6rem, 1.4vh, 1rem);
     padding: 0.5rem 0.9rem 0.55rem clamp(1rem, 1.5vw, 1.35rem);
     box-shadow:
-        0 -1px 12px rgba(255, 245, 0, 0.12),
+        0 -1px 12px rgba(var(--signal-rgb), 0.12),
         0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
@@ -1485,11 +1528,24 @@ html[data-palette="tidal"] .ark-hero-panel {
     padding: 0.32rem 0;
 }
 
-.ark-split-side .ark-keyrow:last-child { border-bottom: none; }
+.ark-split-side .ark-keyrow:last-child {
+    border-bottom: none;
+}
 
-.ark-split-side .ark-keyrow span { color: #8a8e8a; font-size: 0.65rem; }
-.ark-split-side .ark-keyrow strong { color: var(--signal); font-size: 0.8rem; text-shadow: 0 0 10px currentColor; }
-.ark-split-side .ark-keyrow:hover { background: rgba(var(--signal-rgb), 0.045); }
+.ark-split-side .ark-keyrow span {
+    color: #8a8e8a;
+    font-size: 0.65rem;
+}
+
+.ark-split-side .ark-keyrow strong {
+    color: var(--signal);
+    font-size: 0.8rem;
+    text-shadow: 0 0 10px currentColor;
+}
+
+.ark-split-side .ark-keyrow:hover {
+    background: rgba(var(--signal-rgb), 0.045);
+}
 
 .ark-keyrow {
     display: flex;
@@ -1514,9 +1570,17 @@ html[data-palette="tidal"] .ark-hero-panel {
     pointer-events: none;
 }
 
-.ark-keyrow:hover { padding-left: 0.75rem; }
-.ark-keyrow:hover::before { width: 0.5rem; }
-.ark-keyrow:last-child { border-bottom: none; }
+.ark-keyrow:hover {
+    padding-left: 0.75rem;
+}
+
+.ark-keyrow:hover::before {
+    width: 0.5rem;
+}
+
+.ark-keyrow:last-child {
+    border-bottom: none;
+}
 
 .ark-keyrow span {
     font-family: var(--mono);
@@ -1537,122 +1601,6 @@ html[data-palette="tidal"] .ark-hero-panel {
     text-align: right;
     min-width: 0;
 }
-
-
-/* ═══════════════════════════════════════════════════════════════
-   PART 15 — PROJECT CARDS
-   ═══════════════════════════════════════════════════════════════ */
-
-.ark-card-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--line-l1);
-    border: 1px solid var(--line-l1);
-    margin-top: clamp(0.5rem, 1.5vh, 1.25rem);
-}
-
-.ark-card {
-    background: var(--paper-layer);
-    padding: clamp(1.25rem, 2.5vw, 2rem) clamp(1.25rem, 2vw, 1.75rem);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s;
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
-}
-
-.ark-section.is-revealed .ark-card {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition:
-        opacity 0.7s var(--ease-out),
-        transform 0.7s var(--ease-out),
-        background 0.3s;
-}
-
-.ark-section.is-revealed .ark-card:nth-child(1) { transition-delay: 0.32s, 0.32s, 0s; }
-.ark-section.is-revealed .ark-card:nth-child(2) { transition-delay: 0.42s, 0.42s, 0s; }
-
-.ark-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(var(--signal-rgb), 0.06), transparent);
-    transition: left 0.6s var(--ease-out);
-    pointer-events: none;
-}
-
-.ark-card:hover::before { left: 130%; }
-.ark-card:hover { background: var(--paper-sink); }
-
-.ark-card-corner {
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    pointer-events: none;
-    transition: width 0.3s, height 0.3s, opacity 0.3s;
-    opacity: 0.5;
-}
-
-.ark-card-corner.tl { top: 8px; left: 8px; border-top: 1px solid var(--signal); border-left: 1px solid var(--signal); }
-.ark-card-corner.br { bottom: 8px; right: 8px; border-bottom: 1px solid var(--signal); border-right: 1px solid var(--signal); }
-
-.ark-card:hover .ark-card-corner {
-    width: 22px;
-    height: 22px;
-    opacity: 1;
-    box-shadow: 0 0 12px rgba(var(--signal-rgb), 0.35);
-}
-
-.ark-card-index {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.22em;
-    color: var(--ink-mute);
-    text-transform: uppercase;
-}
-
-.ark-card h3 {
-    font-family: var(--sans);
-    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: var(--ink);
-    margin: 0.85rem 0 0.6rem;
-    transition: color 0.3s, text-shadow 0.3s;
-}
-
-.ark-card:hover h3 { color: var(--signal); text-shadow: 0 0 14px currentColor; }
-
-.ark-card p {
-    color: var(--ink-soft);
-    font-size: clamp(0.95rem, 0.8vh + 0.45vw, 1.05rem);
-    line-height: 1.65;
-    flex: 1;
-    position: relative;
-    z-index: 1;
-}
-
-.ark-card-tags {
-    display: block;
-    margin-top: 1.25rem;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    color: var(--ink-mute);
-    text-transform: uppercase;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--line-l1);
-    transition: color 0.3s, border-color 0.3s;
-}
-
-.ark-card:hover .ark-card-tags { color: var(--signal); border-color: var(--signal); }
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1707,8 +1655,13 @@ html[data-palette="tidal"] .ark-hero-panel {
     pointer-events: none;
 }
 
-.ark-skill:hover { background: var(--paper-sink); }
-.ark-skill:hover::after { width: 100%; }
+.ark-skill:hover {
+    background: var(--paper-sink);
+}
+
+.ark-skill:hover::after {
+    width: 100%;
+}
 
 .ark-skill span {
     font-family: var(--mono);
@@ -1730,7 +1683,9 @@ html[data-palette="tidal"] .ark-hero-panel {
     transition: color 0.3s;
 }
 
-.ark-skill:hover h3 { color: var(--signal); }
+.ark-skill:hover h3 {
+    color: var(--signal);
+}
 
 .ark-skill p {
     font-family: var(--mono);
@@ -1837,8 +1792,15 @@ html[data-palette="tidal"] .ark-hero-panel {
     transition: padding-left 0.25s, color 0.25s, text-shadow 0.25s;
 }
 
-.ark-contact-links a:last-child { border-bottom: 1px solid var(--line-l2); }
-.ark-contact-links a span { font-size: 0.7rem; color: var(--ink-mute); transition: color 0.25s; }
+.ark-contact-links a:last-child {
+    border-bottom: 1px solid var(--line-l2);
+}
+
+.ark-contact-links a span {
+    font-size: 0.7rem;
+    color: var(--ink-mute);
+    transition: color 0.25s;
+}
 
 .ark-contact-links a:hover {
     padding-left: 0.75rem;
@@ -1846,14 +1808,13 @@ html[data-palette="tidal"] .ark-hero-panel {
     text-shadow: 0 0 12px currentColor;
 }
 
-.ark-contact-links a:hover span { color: var(--signal); }
+.ark-contact-links a:hover span {
+    color: var(--signal);
+}
 
 
 /* ═══════════════════════════════════════════════════════════════
    PART 18 — FOOTER
-   `backdrop-filter` removed — it forces an extra compositor layer
-   that contributes to hit-test desync during rapid navigation.
-   A translucent solid background reads almost identically here.
    ═══════════════════════════════════════════════════════════════ */
 
 .ark-footer {
@@ -1877,6 +1838,10 @@ html[data-palette="tidal"] .ark-hero-panel {
    ═══════════════════════════════════════════════════════════════ */
 
 .ark-kicker {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     font-family: var(--mono);
     font-size: 0.8rem;
     letter-spacing: 0.28em;
@@ -1891,7 +1856,6 @@ html[data-palette="tidal"] .ark-hero-panel {
     width: 6px;
     height: 6px;
     background: var(--signal);
-    margin-right: 0.75rem;
     box-shadow: 0 0 8px currentColor;
     vertical-align: middle;
     animation: dotPulse 2.4s ease-in-out infinite;
@@ -1899,20 +1863,14 @@ html[data-palette="tidal"] .ark-hero-panel {
 
 .ark-kicker-code {
     display: inline-block;
-    margin-left: 1rem;
-    padding-left: 1rem;
-    border-left: 1px solid var(--line-l1);
+    padding: 0.2rem 0.6rem;
+    background: var(--paper-layer);
+    border: 1px solid var(--line-l2);
     font-size: 0.65rem;
-    font-weight: 400;
-    color: var(--ink-mute);
+    font-weight: 600;
+    color: var(--signal);
     letter-spacing: 0.2em;
-    opacity: 0.7;
     vertical-align: middle;
-}
-
-.ark-about-section .ark-kicker-code {
-    border-left-color: var(--line-light-l1);
-    color: var(--ink-light-mute);
 }
 
 .ark-display {
@@ -1985,7 +1943,10 @@ html[data-palette="tidal"] .ark-hero-panel {
     pointer-events: none;
 }
 
-@keyframes squarePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes squarePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -2027,7 +1988,7 @@ html[data-palette="tidal"] .ark-hero-panel {
 
 @keyframes statusPulse {
     0%, 100% { opacity: 1; box-shadow: 0 0 0 1px var(--signal), 0 0 14px var(--signal); }
-    50%      { opacity: 0.5; box-shadow: 0 0 0 1px var(--signal), 0 0 4px var(--signal); }
+    50% { opacity: 0.5; box-shadow: 0 0 0 1px var(--signal), 0 0 4px var(--signal); }
 }
 
 .ark-meta {
@@ -2072,7 +2033,10 @@ html[data-palette="tidal"] .ark-hero-panel {
     transition: color 0.3s, text-shadow 0.3s;
 }
 
-.ark-meta > div:hover strong { color: var(--signal); text-shadow: 0 0 10px currentColor; }
+.ark-meta > div:hover strong {
+    color: var(--signal);
+    text-shadow: 0 0 10px currentColor;
+}
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -2081,11 +2045,19 @@ html[data-palette="tidal"] .ark-hero-panel {
 
 @media (max-width: 900px), (orientation: portrait) and (max-width: 1100px) {
 
-    .ark-bg-glow { width: 100vw; height: 100vw; top: -30%; right: -30%; }
+    .ark-bg-glow {
+        width: 100vw;
+        height: 100vw;
+        top: -30%;
+        right: -30%;
+    }
 
     .ark-rail {
         position: fixed;
-        top: 0; left: 0; right: 0; bottom: auto;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: auto;
         width: 100%;
         height: var(--rail-mobile-h);
         display: flex;
@@ -2134,8 +2106,14 @@ html[data-palette="tidal"] .ark-hero-panel {
         padding: 0.28rem 0.5rem;
     }
 
-    .ark-rail-mark-short { position: static; opacity: 1 !important; }
-    .ark-rail-mark-long { display: none !important; }
+    .ark-rail-mark-short {
+        position: static;
+        opacity: 1 !important;
+    }
+
+    .ark-rail-mark-long {
+        display: none !important;
+    }
 
     .ark-rail-nav {
         position: static;
@@ -2150,10 +2128,20 @@ html[data-palette="tidal"] .ark-hero-panel {
         gap: 0;
         animation: none;
     }
-    .ark-rail.is-open .ark-rail-link { padding-left: 0.6rem; }
 
-    .ark-rail-link-icon { width: 17px; height: 17px; color: var(--rail-ink-icon); }
-    .ark-rail-link-text { display: none; }
+    .ark-rail.is-open .ark-rail-link {
+        padding-left: 0.6rem;
+    }
+
+    .ark-rail-link-icon {
+        width: 17px;
+        height: 17px;
+        color: var(--rail-ink-icon);
+    }
+
+    .ark-rail-link-text {
+        display: none;
+    }
 
     .ark-rail-link::before {
         left: 50%;
@@ -2165,20 +2153,32 @@ html[data-palette="tidal"] .ark-hero-panel {
         transition: width 0.3s var(--ease-out), height 0.3s var(--ease-out);
     }
 
-    .ark-rail-link.active::before { width: 60%; height: 3px; }
+    .ark-rail-link.active::before {
+        width: 60%;
+        height: 3px;
+    }
 
     .ark-rail-link.active {
         background: var(--rail-selected-bg);
         color: var(--rail-ink);
     }
-    .ark-rail-link.active .ark-rail-link-icon { color: var(--rail-ink); }
+
+    .ark-rail-link.active .ark-rail-link-icon {
+        color: var(--rail-ink);
+    }
+
     .ark-rail-link:hover {
         background: var(--rail-hover-bg);
         color: var(--rail-ink);
     }
-    .ark-rail-link:hover .ark-rail-link-icon { color: var(--rail-ink); }
 
-    .ark-rail-foot { display: none; }
+    .ark-rail-link:hover .ark-rail-link-icon {
+        color: var(--rail-ink);
+    }
+
+    .ark-rail-foot {
+        display: none;
+    }
 
     .ark-shell {
         margin-left: 0;
@@ -2191,7 +2191,10 @@ html[data-palette="tidal"] .ark-hero-panel {
         top: var(--rail-mobile-h);
         padding: 0 1.25rem;
     }
-    .ark-marquee { top: calc(var(--rail-mobile-h) + var(--topbar-h)); }
+
+    .ark-marquee {
+        top: calc(var(--rail-mobile-h) + var(--topbar-h));
+    }
 
     .ark-section {
         min-height: calc(100vh - var(--rail-mobile-h) - var(--topbar-h) - var(--marquee-h));
@@ -2201,11 +2204,19 @@ html[data-palette="tidal"] .ark-hero-panel {
         scroll-margin-top: calc(var(--rail-mobile-h) + var(--topbar-h) + var(--marquee-h));
     }
 
-    .ark-section::before { left: 1.25rem; top: 0.75rem; }
+    .ark-section::before {
+        left: 1.25rem;
+        top: 0.75rem;
+    }
 
-    .ark-section-numeral { display: none; }
+    .ark-section-numeral {
+        display: none;
+    }
 
-    .ark-field-label--br { bottom: 0.75rem; right: 1.25rem; }
+    .ark-field-label--br {
+        bottom: 0.75rem;
+        right: 1.25rem;
+    }
 
     .ark-hero-section {
         padding: 0;
@@ -2218,14 +2229,23 @@ html[data-palette="tidal"] .ark-hero-panel {
     }
 
     .ark-hero-visual {
-        top: 0; right: 0; bottom: 0; left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         width: 100%;
         justify-content: flex-end;
         align-items: flex-end;
     }
 
-    .ark-hero-img { object-fit: cover; object-position: right 25%; }
-    .ark-section.is-revealed .ark-hero-img { opacity: 0.55; }
+    .ark-hero-img {
+        object-fit: cover;
+        object-position: right 25%;
+    }
+
+    .ark-section.is-revealed .ark-hero-img {
+        opacity: 0.55;
+    }
 
     .ark-hero-scrim {
         background:
@@ -2244,8 +2264,9 @@ html[data-palette="tidal"] .ark-hero-panel {
         mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 40%, transparent 75%);
     }
 
-    /* Slow the drifting grid on mobile — cheaper and less distracting. */
-    .ark-hero-grid::before { animation-duration: 70s; }
+    .ark-hero-grid::before {
+        animation-duration: 70s;
+    }
 
     .ark-hero-content {
         width: 100%;
@@ -2264,29 +2285,50 @@ html[data-palette="tidal"] .ark-hero-panel {
         transform: translate3d(0, 30px, 0);
     }
 
-    .ark-section.is-revealed .ark-hero-panel { transform: translate3d(0, 0, 0); }
+    .ark-section.is-revealed .ark-hero-panel {
+        transform: translate3d(0, 0, 0);
+    }
+
     .ark-hero-panel::before,
-    .ark-hero-panel::after { display: none; }
+    .ark-hero-panel::after {
+        display: none;
+    }
 
-    .ark-display { font-size: clamp(1.8rem, min(9vw, 8vh), 3.5rem); }
-    .ark-title { font-size: clamp(1.5rem, min(6vw, 5.5vh), 2.25rem); margin-bottom: 0.5rem; }
+    .ark-display {
+        font-size: clamp(1.8rem, min(9vw, 8vh), 3.5rem);
+    }
 
-    .ark-meta { flex-wrap: wrap; gap: 1.75rem; }
-    .ark-meta > div:not(:last-child)::after { right: -0.85rem; }
+    .ark-title {
+        font-size: clamp(1.5rem, min(6vw, 5.5vh), 2.25rem);
+        margin-bottom: 0.5rem;
+    }
+
+    .ark-meta {
+        flex-wrap: wrap;
+        gap: 1.75rem;
+    }
+
+    .ark-meta > div:not(:last-child)::after {
+        right: -0.85rem;
+    }
 
     .ark-about-section {
         padding: 1.5rem 1.25rem 1rem;
         overflow: hidden;
     }
 
-    .ark-about-section::before { top: 0.95rem; }
+    .ark-about-section::before {
+        top: 0.95rem;
+    }
 
     .ark-about-section .ark-title {
         font-size: clamp(1.4rem, min(6vw, 5vh), 2rem);
         margin-bottom: 0.5rem;
     }
 
-    .ark-about-layout { min-height: 0; }
+    .ark-about-layout {
+        min-height: 0;
+    }
 
     .ark-about-content {
         width: 100%;
@@ -2296,7 +2338,10 @@ html[data-palette="tidal"] .ark-hero-panel {
     }
 
     .ark-about-visual {
-        top: 0; right: 0; bottom: 0; left: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: auto;
         width: 90%;
         align-items: flex-end;
         justify-content: flex-end;
@@ -2318,26 +2363,40 @@ html[data-palette="tidal"] .ark-hero-panel {
             transform 5s var(--ease-out);
     }
 
-    .ark-visual-crosshair { display: none; }
+    .ark-visual-crosshair {
+        display: none;
+    }
 
     .ark-split-main {
         max-height: min(38vh, 20rem);
         overscroll-behavior: auto;
     }
 
-    .ark-split-main p { font-size: clamp(0.85rem, 1vh + 0.3vw, 0.92rem); }
+    .ark-split-main p {
+        font-size: clamp(0.85rem, 1vh + 0.3vw, 0.92rem);
+    }
 
     .ark-split-side {
         margin-top: 0.6rem;
         padding: 0.5rem 0.9rem 0.55rem 1.25rem;
     }
 
-    .ark-contact { grid-template-columns: 1fr; gap: 1.75rem; }
-    .ark-contact-message { padding-left: 1.25rem; }
-    .ark-contact-links { padding-right: 0; }
+    .ark-contact {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+    }
 
-    .ark-card-grid { grid-template-columns: 1fr; }
-    .ark-skill-grid { grid-template-columns: repeat(2, 1fr); }
+    .ark-contact-message {
+        padding-left: 1.25rem;
+    }
+
+    .ark-contact-links {
+        padding-right: 0;
+    }
+
+    .ark-skill-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
     .ark-footer {
         flex-direction: column;
@@ -2347,7 +2406,11 @@ html[data-palette="tidal"] .ark-hero-panel {
         font-size: 0.65rem;
     }
 
-    .ark-marquee { font-size: 0.65rem; letter-spacing: 0.2em; padding: 0.6rem 0; }
+    .ark-marquee {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        padding: 0.6rem 0;
+    }
 }
 
 
@@ -2356,21 +2419,58 @@ html[data-palette="tidal"] .ark-hero-panel {
    ═══════════════════════════════════════════════════════════════ */
 
 @media (max-width: 640px) {
-    .ark-topbar-date { display: none; }
+    .ark-topbar-date {
+        display: none;
+    }
 }
 
 @media (max-width: 520px) {
-    .ark-skill-grid { grid-template-columns: repeat(2, 1fr); }
-    .ark-topbar-readout { display: none; }
-    .ark-boot-log { font-size: 0.6rem; letter-spacing: 0.16em; }
-    .ark-boot-bar { width: 160px; }
-    .ark-marquee { font-size: 0.6rem; letter-spacing: 0.16em; }
-    .ark-kicker-code { display: none; }
-    .ark-status-verified { display: none; }
-    .ark-hero-panel { padding: 0.85rem 0.9rem 1rem; }
-    .ark-palette-label { display: none; }
-    .ark-palette-toggle { padding: 0.28rem 0.4rem; }
-    .ark-field-label { font-size: 0.55rem; padding: 0.25rem 0.5rem; }
+    .ark-skill-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ark-topbar-readout {
+        display: none;
+    }
+
+    .ark-boot-log {
+        font-size: 0.6rem;
+        letter-spacing: 0.16em;
+    }
+
+    .ark-boot-bar {
+        width: 160px;
+    }
+
+    .ark-marquee {
+        font-size: 0.6rem;
+        letter-spacing: 0.16em;
+    }
+
+    .ark-kicker-code {
+        display: none;
+    }
+
+    .ark-status-verified {
+        display: none;
+    }
+
+    .ark-hero-panel {
+        padding: 0.85rem 0.9rem 1rem;
+    }
+
+    .ark-palette-label {
+        display: none;
+    }
+
+    .ark-palette-toggle {
+        padding: 0.28rem 0.4rem;
+    }
+
+    .ark-field-label {
+        font-size: 0.55rem;
+        padding: 0.25rem 0.5rem;
+    }
 }
 
 
@@ -2389,10 +2489,17 @@ html[data-palette="tidal"] .ark-hero-panel {
     .ark-bg-contour,
     .ark-bg-scan,
     .ark-bg-noise,
-    .ark-hero-grid { display: none; }
+    .ark-hero-grid {
+        display: none;
+    }
 
-    .ark-boot { display: none; }
-    .ark-marquee-track { animation: none; }
+    .ark-boot {
+        display: none;
+    }
+
+    .ark-marquee-track {
+        animation: none;
+    }
 
     [data-reveal] {
         opacity: 1 !important;
@@ -2413,5 +2520,464 @@ html[data-palette="tidal"] .ark-hero-panel {
         transition: none !important;
     }
 
-    .ark-hero-scrim::after { animation: none !important; }
+    .ark-hero-scrim::after {
+        animation: none !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PART 24 — ENDFIELD PROJECT VIEWER (CINEMATIC LAYOUT)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ==========================================================================
+   1. THE OUTER SECTION CONTAINER
+   ========================================================================== */
+
+.ark-project-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    
+    min-height: calc(100vh - var(--topbar-h) - var(--marquee-h));
+    min-height: calc(100svh - var(--topbar-h) - var(--marquee-h));
+    height: auto; 
+    
+    padding:
+        clamp(2rem, 5vh, 4rem)
+        calc(var(--rail-buffer) + clamp(2rem, 4vw, 4rem));
+    
+    overflow: hidden;
+    background: var(--paper);
+}
+
+.ark-project-viewer {
+    position: relative;
+    width: 100%;
+    flex: 1; 
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    padding-top: 1rem; 
+    padding-bottom: 0; 
+}
+
+/* ==========================================================================
+   2. BACKGROUND RADAR DECORATION
+   ========================================================================== */
+
+.ark-radar-decor {
+    position: absolute;
+    top: 50%; 
+    left: 35%; 
+    transform: translate(-50%, -50%);
+    
+    width: 90vh; 
+    height: 90vh;
+    max-width: 900px;
+    max-height: 900px;
+    
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.4; 
+    transition: transform 1s var(--ease-out);
+}
+
+.ark-radar-decor.spin-burst { animation: radarBurstSpin 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.ark-radar-ring-outer { position: absolute; inset: 0; border-radius: 50%; border: 1px dashed var(--line-l2); animation: radarSpin 40s linear infinite; }
+.ark-radar-ring-outer::before, .ark-radar-ring-outer::after { content: ""; position: absolute; background: var(--signal); }
+.ark-radar-ring-outer::before { top: -4px; left: 50%; width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 10px var(--signal); }
+.ark-radar-ring-outer::after { bottom: -4px; left: 50%; width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 10px var(--signal); }
+.ark-radar-ring-inner { position: absolute; inset: 15%; border-radius: 50%; border: 1px solid var(--line-l2); border-top-color: var(--signal); border-bottom-color: var(--signal); animation: radarSpinReverse 30s linear infinite; }
+.ark-radar-crosshair-x { position: absolute; top: 50%; left: -10%; width: 120%; height: 1px; background: linear-gradient(to right, transparent, var(--line-l2) 20%, var(--line-l2) 80%, transparent); }
+.ark-radar-crosshair-y { position: absolute; left: 50%; top: -10%; height: 120%; width: 1px; background: linear-gradient(to bottom, transparent, var(--line-l2) 20%, var(--line-l2) 80%, transparent); }
+@keyframes radarBurstSpin { 0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); } 50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.05); } 100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); } }
+@keyframes radarSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes radarSpinReverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+
+/* ==========================================================================
+   3. SLIDE LAYOUT
+   ========================================================================== */
+
+.ark-project-slides {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 1600px; 
+    z-index: 2;
+}
+
+.ark-project-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+    transform: translateX(40px);
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding-top: 0; 
+    gap: 4rem;
+}
+
+.ark-project-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.ark-project-slide.is-prev {
+    transform: translateX(-40px);
+}
+
+/* ==========================================================================
+   4. LEFT COLUMN: IMAGE (3D BOARD)
+   ========================================================================== */
+
+.ark-project-visual {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    perspective: 1500px; /* Strong perspective for the 3D effect */
+}
+
+.ark-project-img-wrapper {
+    position: relative;
+    width: 90%;
+    height: 65vh;
+    transform-style: preserve-3d;
+}
+
+.ark-board-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden; /* Hides the mirrored side */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    background: rgba(16,17,16,0.4);
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+    overflow: hidden;
+}
+
+.ark-board-front {
+    z-index: 2;
+}
+
+.ark-board-back {
+    transform: rotateY(180deg); /* Faces backwards by default */
+    z-index: 1;
+}
+
+.ark-board-face img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: grayscale(1) brightness(1.2) contrast(1.2); 
+    mix-blend-mode: screen;
+    transition: filter 0.4s ease;
+}
+
+.ark-project-visual:hover .ark-board-face img {
+    filter: grayscale(0) brightness(1.5) contrast(1.1) drop-shadow(0 0 20px rgba(var(--signal-rgb), 0.5));
+}
+/* ==========================================================================
+   5. RIGHT COLUMN: TEXT INFO
+   ========================================================================== */
+
+.ark-project-info {
+    width: 340px; 
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    top: -4rem; 
+    padding-bottom: 2rem; 
+    position: relative;
+}
+
+/* Horizontal line cutting across the background */
+.ark-project-info::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 150vw; 
+    height: 1px;
+    background: linear-gradient(to left, rgba(255,255,255,0.1), transparent);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.ark-project-info, .ark-project-info *, .ark-project-visual {
+    background: transparent !important; 
+}
+
+.ark-project-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.ark-project-kicker {
+    font-family: var(--mono);
+    font-size: 0.55rem; 
+    letter-spacing: 0.2em;
+    color: var(--ink-mute); 
+    margin-bottom: 0.5rem; 
+    text-transform: uppercase;
+}
+
+/* Removed clip-path so typewriter can work properly */
+.ark-project-title {
+    font-family: var(--sans);
+    font-size: 2.2rem; 
+    font-weight: 400; 
+    line-height: 1; 
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem; 
+    
+    /* Keeps layout from jumping while text types */
+    min-height: 2.2rem; 
+}
+
+.ark-project-desc {
+    color: var(--ink-soft);
+    font-size: 0.75rem; 
+    line-height: 1.5;
+    margin-bottom: 1.5rem; 
+}
+
+.ark-project-tags {
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: var(--ink-mute);
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
+
+/* Text Fade-in Delays (Triggered by JS AFTER typewriter) */
+.ark-project-desc,
+.ark-project-tags {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* This class is added by JS when typing is complete */
+.ark-project-info.show-text .ark-project-desc { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+.ark-project-info.show-text .ark-project-tags { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+
+/* ==========================================================================
+   6. GLOBAL CONTROLS (YOUR EXACT REFERENCE DESIGN)
+   ========================================================================== */
+
+.ark-project-global-controls {
+    position: absolute;
+    bottom: 8rem;
+    right: 0rem; 
+    width: 340px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; 
+    z-index: 10; 
+}
+
+.ark-project-left-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    width: 200px; 
+}
+
+.ark-project-controls-top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between; 
+    width: 100%; 
+}
+
+.ark-project-global-controls .ark-btn {
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    opacity: 1 !important;
+    transform: none !important;
+    background: transparent; 
+    border: 1px solid var(--line-l2);
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px; 
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    white-space: nowrap; 
+    flex-shrink: 0; 
+    transition: all 0.3s ease;
+}
+
+.ark-project-global-controls .ark-btn:hover {
+    border-color: var(--signal);
+    color: var(--signal);
+}
+
+.ark-project-counter { 
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    font-family: var(--mono); 
+    font-size: 0.65rem; 
+    color: var(--ink-mute); 
+}
+
+.ark-project-counter::before {
+    content: "▽ ───";
+    font-size: 0.45rem;
+    color: var(--line-l2);
+    letter-spacing: -1px;
+    opacity: 0.6;
+    margin-right: 0.2rem;
+}
+
+.ark-project-counter .proj-current-num {
+    color: var(--signal);
+    font-weight: 700;
+}
+
+.ark-project-counter-sep {
+    margin: 0 2px;
+    opacity: 0.5;
+}
+
+.ark-project-progress {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    height: 4px; 
+}
+
+.ark-progress-segment {
+    flex: 1; 
+    height: 2px; 
+    background: repeating-linear-gradient(to right, var(--line-l2) 0, var(--line-l2) 4px, transparent 4px, transparent 8px);
+    transition: all 0.4s ease;
+}
+
+.ark-progress-segment.is-active {
+    flex: 1.5; 
+    height: 2px; 
+    background: var(--signal); 
+    box-shadow: 0 0 8px rgba(var(--signal-rgb), 0.8);
+}
+
+.ark-project-arrows { 
+    display: flex; 
+    align-items: center;
+    gap: 1.75rem; 
+    padding: 0.25rem;
+    background: repeating-linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.05) 4px,
+        transparent 4px,
+        transparent 8px
+    );
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+}
+
+.ark-project-arrows button { 
+    background: #ffffff; 
+    border: none; 
+    border-radius: 50%; 
+    width: 25px; 
+    height: 25px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    color: #000000; 
+    cursor: pointer; 
+    transition: all 0.2s ease; 
+}
+
+.ark-project-arrows button svg { 
+    width: 16px; 
+    height: 16px; 
+    stroke-width: 3; 
+}
+
+.ark-project-arrows button:hover { 
+    background: #e0e0e0; 
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   7. MOBILE RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 900px), (orientation: portrait) and (max-width: 1100px) {
+    .ark-project-section {
+        height: auto;
+        min-height: 100vh;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+        overflow-y: auto;
+    }
+    
+    .ark-radar-decor {
+        width: 120vw; 
+        height: 120vw;
+        left: 50%;
+        top: 40%;
+    }
+
+    .ark-project-slide {
+        display: flex; 
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        height: auto;
+        gap: 3rem;
+    }
+
+    .ark-project-visual {
+        width: 100%;
+        height: auto;
+        padding: 0;
+    }
+    
+    .ark-project-img {
+        max-height: 40vh; 
+    }
+
+    .ark-project-info {
+        width: 100%;
+        padding: 0;
+        top: 0;
+    }
+    
+    .ark-project-info::before {
+        display: none; 
+    }
+
+    .ark-project-title {
+        font-size: 2rem;
+    }
+
+    .ark-project-global-controls {
+        position: relative;
+        bottom: auto;
+        right: auto;
+        margin-top: 2rem;
+        justify-content: flex-end;
+        width: 100%;
+    }
 }

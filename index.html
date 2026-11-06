@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Christian Jay Sese — IT infrastructure, networking, and systems automation specialist.">
+    <meta name="description" content="Portfolio of Christian Jay Sese — Full-Stack Developer, IT Graduate, and Database Specialist.">
     <meta name="theme-color" content="#101110">
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="Christian Jay Sese | Portfolio">
-    <meta property="og:description" content="IT Infrastructure & Network Specialist — building secure systems, managing Linux environments, and automating infrastructure workflows.">
+    <meta property="og:description" content="Full-Stack Developer & IT Specialist — building automated workflows, managing databases, and engineering robust software solutions.">
     <meta property="og:url" content="https://jaysese125.github.io/">
-    <meta property="og:image" content="assets/images/og-preview.png">
+    <meta property="og:image" content="assets/images/homeimg.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Christian Jay Sese | Portfolio">
-    <meta name="twitter:description" content="IT Infrastructure & Network Specialist">
+    <meta name="twitter:description" content="Full-Stack Developer & IT Specialist">
 
     <title>Christian Jay Sese | Portfolio</title>
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20x='1'%20y='1'%20width='30'%20height='30'%20fill='%23ffffff'%20stroke='%23101110'%20stroke-width='2'/%3E%3Crect%20x='6'%20y='6'%20width='20'%20height='20'%20fill='none'%20stroke='%23101110'%20stroke-width='1'/%3E%3Ctext%20x='16'%20y='19'%20font-family='monospace'%20font-size='7'%20font-weight='700'%20fill='%23101110'%20text-anchor='middle'%20letter-spacing='1'%3EJAY%3C/text%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20x='3'%20y='3'%20width='26'%20height='26'%20fill='%23101110'%20stroke='%23fff500'%20stroke-width='2.5'/%3E%3Ctext%20x='16'%20y='23'%20font-family='monospace'%20font-size='13'%20font-weight='800'%20fill='%23fff500'%20text-anchor='middle'%20textLength='20'%20lengthAdjust='spacingAndGlyphs'%3EJAY%3C/text%3E%3C/svg%3E">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,18 +33,21 @@
         <style>
             .ark-boot { display: none !important; }
             .ark-skip-link { display: none !important; }
-            [data-reveal],
-            .ark-about-content,
-            .ark-visual-img,
-            .ark-hero-img,
-            .ark-hero-panel,
-            .ark-card,
-            .ark-skill,
-            .ark-contact > * {
-                opacity: 1 !important;
-                transform: none !important;
+            [data-reveal], .ark-about-content, .ark-visual-img, .ark-hero-img,
+            .ark-hero-panel, .ark-skill, .ark-contact > * {
+                opacity: 1 !important; 
+                transform: none !important; 
                 clip-path: none !important;
             }
+            .ark-project-slide { display: none; }
+            .ark-project-slide.is-active { 
+                display: flex !important; 
+                opacity: 1 !important; 
+                transform: none !important; 
+                visibility: visible !important;
+            }
+            .ark-project-title { clip-path: none !important; opacity: 1 !important; }
+            .ark-project-desc, .ark-project-tags { opacity: 1 !important; transform: none !important; }
         </style>
     </noscript>
 
@@ -81,9 +84,9 @@
         </a>
 
         <nav class="ark-rail-nav" aria-label="Primary navigation">
-            <a href="#home" class="ark-rail-link active">
+            <a href="#home" class="ark-rail-link active" aria-label="Home">
                 <span class="ark-rail-link-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="square" stroke-linejoin="miter">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                         <polyline points="9 22 9 12 15 12 15 22"/>
                     </svg>
@@ -94,9 +97,9 @@
                 </span>
             </a>
 
-            <a href="#about" class="ark-rail-link">
+            <a href="#about" class="ark-rail-link" aria-label="About">
                 <span class="ark-rail-link-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="square" stroke-linejoin="miter">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                         <circle cx="12" cy="7" r="4"/>
                     </svg>
@@ -107,9 +110,9 @@
                 </span>
             </a>
 
-            <a href="#projects" class="ark-rail-link">
+            <a href="#projects" class="ark-rail-link" aria-label="Projects">
                 <span class="ark-rail-link-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="square" stroke-linejoin="miter">
                         <polygon points="12 2 2 7 12 12 22 7 12 2"/>
                         <polyline points="2 17 12 22 22 17"/>
                         <polyline points="2 12 12 17 22 12"/>
@@ -121,9 +124,9 @@
                 </span>
             </a>
 
-            <a href="#skills" class="ark-rail-link">
+            <a href="#skills" class="ark-rail-link" aria-label="Skills">
                 <span class="ark-rail-link-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="square" stroke-linejoin="miter">
                         <rect x="4" y="4" width="16" height="16"/>
                         <rect x="9" y="9" width="6" height="6"/>
                         <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>
@@ -135,9 +138,9 @@
                 </span>
             </a>
 
-            <a href="#contact" class="ark-rail-link">
+            <a href="#contact" class="ark-rail-link" aria-label="Contact">
                 <span class="ark-rail-link-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="square" stroke-linejoin="miter">
                         <rect x="2" y="4" width="20" height="16"/>
                         <polyline points="22,6 12,13 2,6"/>
                     </svg>
@@ -161,7 +164,6 @@
                 SECURE CONNECTION
                 <span class="ark-topbar-date" id="liveDate">-- --- ----</span>
                 <span class="ark-topbar-time" id="liveClock">--:--:-- LOCAL</span>
-
                 <button class="ark-palette-toggle" id="paletteToggle" type="button" aria-label="Toggle accent palette">
                     <span class="ark-palette-swatch ark-palette-swatch--ember" aria-hidden="true"></span>
                     <span class="ark-palette-swatch ark-palette-swatch--tidal" aria-hidden="true"></span>
@@ -172,21 +174,21 @@
 
         <div class="ark-marquee" aria-hidden="true">
             <div class="ark-marquee-track" id="marqueeTrack">
-                <span>SECURE SYSTEMS</span>
+                <span>FULL-STACK DEV</span>
                 <span class="ark-marquee-sep">/</span>
-                <span>LINUX</span>
+                <span>DATABASES</span>
                 <span class="ark-marquee-sep">/</span>
-                <span>NETWORKING</span>
-                <span class="ark-marquee-sep">/</span>
-                <span>CYBERSECURITY</span>
+                <span>SOFTWARE ENG</span>
                 <span class="ark-marquee-sep">/</span>
                 <span>PYTHON</span>
                 <span class="ark-marquee-sep">/</span>
-                <span>ACTIVE DEFENSE</span>
+                <span>DOCKER</span>
                 <span class="ark-marquee-sep">/</span>
-                <span>HARDENING</span>
+                <span>ORACLE</span>
                 <span class="ark-marquee-sep">/</span>
-                <span>BUILDING IN PUBLIC</span>
+                <span>AUTOMATION</span>
+                <span class="ark-marquee-sep">/</span>
+                <span>JAPANESE N5</span>
                 <span class="ark-marquee-sep">/</span>
             </div>
         </div>
@@ -208,10 +210,10 @@
                         </p>
                         <h1 class="ark-display">Christian Jay Sese</h1>
                         <div class="ark-rule" aria-hidden="true"></div>
-                        <h2 class="ark-subtitle">IT Infrastructure &amp; Network Specialist</h2>
+                        <h2 class="ark-subtitle">Full-Stack Developer &amp; IT Specialist</h2>
                         <p class="ark-lead">
-                            Building secure systems, managing Linux environments,
-                            and automating infrastructure workflows.
+                            Highly adaptable IT graduate with hands-on experience in full-stack 
+                            development, AI/Machine Learning (PyTorch), and enterprise IT support.
                         </p>
                         <div class="ark-status">
                             <span class="ark-status-dot" aria-hidden="true"></span>
@@ -219,7 +221,7 @@
                             <span class="ark-status-verified">VERIFIED</span>
                         </div>
                         <div class="ark-meta">
-                            <div><span>FOCUS</span><strong>INFRASTRUCTURE</strong></div>
+                            <div><span>FOCUS</span><strong>FULL STACK &amp; IT</strong></div>
                             <div><span>MODE</span><strong>OPEN TO WORK</strong></div>
                             <div><span>YEAR</span><strong class="js-year">2026</strong></div>
                         </div>
@@ -239,7 +241,7 @@
 
                 <p class="ark-kicker" data-reveal>
                     02 / PROFILE
-                    <span class="ark-kicker-code">// SECTOR.ABT</span>
+                    <span class="ark-kicker-code">// ARCHIVE.02</span>
                 </p>
                 <h2 class="ark-title" data-reveal>About Me</h2>
 
@@ -252,33 +254,31 @@
                         <div class="ark-split-main" tabindex="0" role="region" aria-label="Profile details">
                             <h3>Professional Summary</h3>
                             <p class="ark-about-summary">
-                                Information Technology graduate specializing in
-                                IT infrastructure, network administration, and
-                                systems automation. Experienced in managing
-                                Linux environments, deploying Docker containers,
-                                and streamlining operational workflows using
-                                Python and Microsoft Power Automate. Passionate
-                                about building secure, reliable networks and
-                                scalable infrastructure solutions.
+                                Highly adaptable IT graduate with hands-on experience in full-stack 
+                                software development, AI/Machine Learning (PyTorch), and enterprise 
+                                IT infrastructure support. Quick to learn new technologies, with proven 
+                                automation work during a corporate internship. Actively studying Japanese 
+                                (Marugoto) and seeking to apply technical and troubleshooting skills in 
+                                a global, Japanese-oriented technology company.
                             </p>
 
                             <h3>Detailed Background</h3>
-                            <p>Hello! I'm Christian Jay Sese, an Information Technology graduate from Quezon City University with a strong focus on IT infrastructure, networking, and system security.</p>
-                            <p>My technical journey is driven by a hands-on approach to problem-solving. During my internship as an IT Infrastructure &amp; Network Intern at DENSO TEN Solutions Philippines Corporation, I gained real-world experience diagnosing network issues, handling asset management, and improving service desk efficiency by building automated workflows with Microsoft Power Apps and Power Automate.</p>
-                            <p>Beyond corporate experience, I love challenging myself through self-hosted labs and development projects. I regularly work with Ubuntu Server, Oracle VirtualBox, Nginx, and security tools like UFW and Fail2Ban. Whether I am leading a capstone project on predictive analytics or containerizing full-stack applications with Docker and Oracle Database, I am always eager to bridge the gap between software development and robust IT operations.</p>
+                            <p>Hello! I'm Christian Jay Sese, an Information Technology graduate from Quezon City University with a strong focus on software engineering, database management, and full-stack architecture.</p>
+                            <p>During my internship at DENSO TEN Solutions Philippines Corporation, I provided first and second-line technical support, engineered automated ticket reassignment workflows using Power Apps and Power Automate, and performed remote diagnostics across enterprise subnets.</p>
+                            <p>Beyond corporate experience, I lead end-to-end development projects. Whether I'm architecting a campus asset tracking system with predictive analytics, containerizing applications with Docker and Oracle Database, or building machine learning pipelines with PyTorch to classify brain MRI images, I thrive on bridging the gap between robust backend systems and intuitive user experiences.</p>
 
                             <h3>Core Focus Areas</h3>
                             <ul class="ark-about-list">
-                                <li><strong>Infrastructure &amp; Security:</strong> Linux/Ubuntu server administration, networking fundamentals, firewalls (UFW, Fail2Ban), and web servers (Nginx).</li>
-                                <li><strong>Automation &amp; Development:</strong> Workflow automation (Power Automate), scripting (Python, PHP, JavaScript), and containerization (Docker).</li>
-                                <li><strong>Collaboration &amp; Management:</strong> Project leadership, technical documentation, Git/GitHub version control, and cross-functional team coordination.</li>
+                                <li><strong>Full-Stack Development:</strong> Building scalable applications using Python, Java, JavaScript, PHP, Flask, and REST APIs.</li>
+                                <li><strong>Databases &amp; Containers:</strong> Database administration (MySQL, Oracle), SQL query optimization, and Docker containerization.</li>
+                                <li><strong>Workflow Automation &amp; ML:</strong> Enterprise automation (Power Apps), plus machine learning pipelines using PyTorch and Scikit-learn.</li>
                             </ul>
                         </div>
 
                         <div class="ark-split-side">
                             <div class="ark-keyrow"><span>STATUS</span><strong>OPEN TO WORK</strong></div>
-                            <div class="ark-keyrow"><span>FOCUS</span><strong>INFRASTRUCTURE</strong></div>
-                            <div class="ark-keyrow"><span>FOUNDATION</span><strong>NETWORKING</strong></div>
+                            <div class="ark-keyrow"><span>FOCUS</span><strong>FULL STACK</strong></div>
+                            <div class="ark-keyrow"><span>LANGUAGE</span><strong>JP / EN</strong></div>
                         </div>
                     </div>
 
@@ -286,38 +286,152 @@
                     <span class="ark-visual-crosshair br" aria-hidden="true"></span>
                 </div>
 
-                <span class="ark-field-label ark-field-label--light ark-field-label--br" aria-hidden="true">
+                <span class="ark-field-label ark-field-label--br" aria-hidden="true">
                     <span class="ark-field-label-dot"></span>
                     SECTOR / ABT-02
                 </span>
             </section>
 
-            <section id="projects" class="ark-section">
+            <section id="projects" class="ark-section ark-project-section">
                 <span class="ark-section-numeral" aria-hidden="true">03</span>
-
+                
                 <p class="ark-kicker" data-reveal>
                     03 / PROJECTS
                     <span class="ark-kicker-code">// ARCHIVE.03</span>
                 </p>
-                <h2 class="ark-title" data-reveal>Selected Projects</h2>
-                <div class="ark-card-grid">
-                    <article class="ark-card">
-                        <span class="ark-card-corner tl" aria-hidden="true"></span>
-                        <span class="ark-card-corner br" aria-hidden="true"></span>
-                        <p class="ark-card-index">PROJECT / 01</p>
-                        <h3>Ubuntu Active Defense Lab</h3>
-                        <p>A hardened Ubuntu Server environment focused on host security, intrusion prevention, and automated defense. Uses UFW, Fail2Ban, and Nginx hardening.</p>
-                        <span class="ark-card-tags">LINUX · SECURITY · NETWORKING</span>
-                    </article>
-                    <article class="ark-card">
-                        <span class="ark-card-corner tl" aria-hidden="true"></span>
-                        <span class="ark-card-corner br" aria-hidden="true"></span>
-                        <p class="ark-card-index">PROJECT / 02</p>
-                        <h3>Containerized Full-Stack App</h3>
-                        <p>A full-stack application deployed with Docker and Oracle Database, with scripts and configuration managed through Git and GitHub.</p>
-                        <span class="ark-card-tags">DOCKER · ORACLE · DEVOPS</span>
-                    </article>
-                </div>
+
+                <div class="ark-project-viewer">
+                    
+                    <div class="ark-radar-decor" id="radarDecor" aria-hidden="true">
+                        <div class="ark-radar-ring-outer"></div>
+                        <div class="ark-radar-ring-inner"></div>
+                        <div class="ark-radar-crosshair-x"></div>
+                        <div class="ark-radar-crosshair-y"></div>
+                    </div>
+
+                    <div class="ark-project-slides">
+                        
+                        <!-- Slide 1 -->
+                        <div class="ark-project-slide is-active" data-index="0">
+                            <div class="ark-project-visual">
+                                <div class="ark-project-img-wrapper">
+                                    <div class="ark-board-face ark-board-front">
+                                        <img src="assets/images/project-mri.png" alt="Brain MRI Classification" class="ark-project-img" loading="lazy">
+                                    </div>
+                                    <div class="ark-board-face ark-board-back">
+                                        <img src="assets/images/project-mri.png" alt="" class="ark-project-img" style="transform: scaleX(-1);" loading="lazy">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ark-project-info" translate="no">
+                                <div class="ark-project-text">
+                                    <p class="ark-project-kicker">// PROJECT.01 // AI / MACHINE LEARNING</p>
+                                    <h2 class="ark-project-title">BRAIN MRI CLASSIFICATION</h2>
+                                    <p class="ark-project-desc">Deep learning pipeline for Brain MRI tumor classification using PyTorch. Features ResNet50, EfficientNetB0, feature-level ensembling, attention mechanisms, and Grad-CAM explainability.</p>
+                                    <div class="ark-project-tags">PYTORCH · OPENCV · SCIKIT-LEARN</div>
+                                    <a href="https://github.com/Jaysese125/brain-mri-classification" class="hidden-project-link" style="display:none;"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="ark-project-slide" data-index="1">
+                            <div class="ark-project-visual">
+                                <div class="ark-project-img-wrapper">
+                                    <div class="ark-board-face ark-board-front">
+                                        <img src="assets/images/project-asset.jpg" alt="Asset Management System" class="ark-project-img" loading="lazy">
+                                    </div>
+                                    <div class="ark-board-face ark-board-back">
+                                        <img src="assets/images/project-asset.jpg" alt="" class="ark-project-img" style="transform: scaleX(-1);" loading="lazy">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ark-project-info" translate="no">
+                                <div class="ark-project-text">
+                                    <p class="ark-project-kicker">// PROJECT.02 // CAPSTONE</p>
+                                    <h2 class="ark-project-title">ASSET MANAGEMENT SYSTEM</h2>
+                                    <p class="ark-project-desc">A Capstone Project for Quezon City University featuring Descriptive and Predictive Analytics for the Computer Laboratory. Built using Agile Project Management principles on an Ubuntu Server.</p>
+                                    <div class="ark-project-tags">MYSQL · DOCKER · PYTHON · ANALYTICS</div>
+                                    <a href="https://www.linkedin.com/in/sesechristianjayb0125/details/projects/" class="hidden-project-link" style="display:none;"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="ark-project-slide" data-index="2">
+                            <div class="ark-project-visual">
+                                <div class="ark-project-img-wrapper">
+                                    <div class="ark-board-face ark-board-front">
+                                        <img src="assets/images/project-active-defense.png" alt="Active Defense Lab" class="ark-project-img" loading="lazy">
+                                    </div>
+                                    <div class="ark-board-face ark-board-back">
+                                        <img src="assets/images/project-active-defense.png" alt="" class="ark-project-img" style="transform: scaleX(-1);" loading="lazy">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ark-project-info" translate="no">
+                                <div class="ark-project-text">
+                                    <p class="ark-project-kicker">// PROJECT.03 // CYBERSECURITY</p>
+                                    <h2 class="ark-project-title">ACTIVE DEFENSE LAB</h2>
+                                    <p class="ark-project-desc">An enterprise-grade, host-hardened Ubuntu Server deployment featuring an active-defense Intrusion Prevention System (IPS) and automated perimeter containment using Nginx and Nmap.</p>
+                                    <div class="ark-project-tags">UBUNTU · UFW · FAIL2BAN · NGINX</div>
+                                    <a href="https://github.com/Jaysese125/Active-Defense-Ubuntu-Lab" class="hidden-project-link" style="display:none;"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4 -->
+                        <div class="ark-project-slide" data-index="3">
+                            <div class="ark-project-visual">
+                                <div class="ark-project-img-wrapper">
+                                    <div class="ark-board-face ark-board-front">
+                                        <img src="assets/images/project-alumni.png" alt="QCU Alumni Website" class="ark-project-img" loading="lazy">
+                                    </div>
+                                    <div class="ark-board-face ark-board-back">
+                                        <img src="assets/images/project-alumni.png" alt="" class="ark-project-img" style="transform: scaleX(-1);" loading="lazy">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ark-project-info" translate="no">
+                                <div class="ark-project-text">
+                                    <p class="ark-project-kicker">// PROJECT.04 // FULL STACK</p>
+                                    <h2 class="ark-project-title">QCU ALUMNI WEBSITE</h2>
+                                    <p class="ark-project-desc">Developed a full-stack alumni tracking website with Oracle DB hosted via Docker. Created modules for profile management, event tracking, and batch records using GitHub for collaborative version control.</p>
+                                    <div class="ark-project-tags">ORACLE DB · DOCKER · PHP · JS</div>
+                                    <a href="https://www.linkedin.com/in/sesechristianjayb0125/details/projects/" class="hidden-project-link" style="display:none;"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GLOBAL CONTROLS -->
+                    <div class="ark-project-global-controls">
+                        <div class="ark-project-left-controls">
+                            <div class="ark-project-controls-top">
+                                <a href="https://github.com/Jaysese125/brain-mri-classification" target="_blank" rel="noopener noreferrer" class="ark-btn" id="globalProjectBtn">SEE PROJECT</a>
+                                <span class="ark-project-counter">
+                                    <span class="proj-current-num">01</span> <span class="ark-project-counter-sep">/</span> 04
+                                </span>
+                            </div>
+                            <div class="ark-project-progress">
+                                <span class="ark-progress-segment is-active"></span>
+                                <span class="ark-progress-segment"></span>
+                                <span class="ark-progress-segment"></span>
+                                <span class="ark-progress-segment"></span>
+                            </div>
+                        </div>
+
+                        <div class="ark-project-arrows">
+                            <button class="proj-prev" aria-label="Previous project" type="button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                            </button>
+                            <button class="proj-next" aria-label="Next project" type="button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                </div> 
 
                 <span class="ark-field-label ark-field-label--br" aria-hidden="true">
                     <span class="ark-field-label-dot"></span>
@@ -330,16 +444,16 @@
 
                 <p class="ark-kicker" data-reveal>
                     04 / SYSTEM CAPABILITIES
-                    <span class="ark-kicker-code">// SYSTEM.04</span>
+                    <span class="ark-kicker-code">// ARCHIVE.04</span>
                 </p>
                 <h2 class="ark-title" data-reveal>Skills</h2>
                 <div class="ark-skill-grid">
-                    <div class="ark-skill"><span>01</span><h3>PROGRAMMING</h3><p>Python · PHP · JavaScript</p></div>
-                    <div class="ark-skill"><span>02</span><h3>LINUX</h3><p>Ubuntu Server · Nginx · Bash</p></div>
-                    <div class="ark-skill"><span>03</span><h3>NETWORKING</h3><p>TCP/IP · Nmap · Wireshark</p></div>
-                    <div class="ark-skill"><span>04</span><h3>SECURITY</h3><p>UFW · Fail2Ban · Hardening</p></div>
-                    <div class="ark-skill"><span>05</span><h3>AUTOMATION</h3><p>Power Automate · Power Apps</p></div>
-                    <div class="ark-skill"><span>06</span><h3>TOOLS</h3><p>Git · GitHub · Docker · VirtualBox</p></div>
+                    <div class="ark-skill"><span>01</span><h3>PROGRAMMING</h3><p>Python · Java · JavaScript · PHP · Bash</p></div>
+                    <div class="ark-skill"><span>02</span><h3>WEB &amp; FRAMEWORKS</h3><p>HTML5 · CSS3 · REST APIs · Flask</p></div>
+                    <div class="ark-skill"><span>03</span><h3>DATABASES</h3><p>MySQL · Oracle · SQL Optimization</p></div>
+                    <div class="ark-skill"><span>04</span><h3>DEVOPS &amp; TOOLS</h3><p>Docker · Git · GitHub · VS Code · Eclipse</p></div>
+                    <div class="ark-skill"><span>05</span><h3>AUTOMATION</h3><p>Power Apps · Power Automate</p></div>
+                    <div class="ark-skill"><span>06</span><h3>MACHINE LEARNING</h3><p>PyTorch · Scikit-learn · OpenCV</p></div>
                 </div>
 
                 <span class="ark-field-label ark-field-label--br" aria-hidden="true">
@@ -353,18 +467,19 @@
 
                 <p class="ark-kicker" data-reveal>
                     05 / COMMUNICATION
-                    <span class="ark-kicker-code">// CHANNEL.05</span>
+                    <span class="ark-kicker-code">// ARCHIVE.05</span>
                 </p>
                 <h2 class="ark-title" data-reveal>Contact</h2>
                 <div class="ark-contact">
                     <div class="ark-contact-message">
                         <span class="ark-contact-tag">SYS / CONTACT</span>
                         <h3>Let's build something.</h3>
-                        <p>I'm currently open to opportunities in IT infrastructure, network administration, and systems automation. Feel free to reach out.</p>
+                        <p>I'm currently open to opportunities in full-stack development, database management, and software engineering. Feel free to reach out.</p>
                     </div>
                     <div class="ark-contact-links">
                         <a href="https://github.com/Jaysese125" target="_blank" rel="noopener noreferrer"><span>01</span>GITHUB</a>
-                        <a href="mailto:sese.christianjay.bayaron@gmail.com"><span>02</span>EMAIL</a>
+                        <a href="https://linkedin.com/in/sesechristianjayb0125" target="_blank" rel="noopener noreferrer"><span>02</span>LINKEDIN</a>
+                        <a href="mailto:sese.christianjay.bayaron@gmail.com"><span>03</span>EMAIL</a>
                     </div>
                 </div>
 

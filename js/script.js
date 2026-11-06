@@ -1,30 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   CJS INTERACTION LAYER — v8
-
-   FIX FOR THE CLICK FREEZE:
-
-   Rapid anchor clicks were firing overlapping
-   `scrollIntoView({ behavior: "smooth" })` calls. Chromium runs
-   those scrolls on the compositor thread; when a second smooth
-   scroll starts before the first finishes, the compositor's
-   hit-test tree can fall out of sync with the visual tree. The
-   symptom is exactly what you described: wheel scroll keeps
-   working (different code path) but pointer events — hover,
-   click — resolve against stale coordinates, so the rail never
-   expands and nothing responds.
-
-   Two changes fix it:
-
-   1. CANCEL the in-flight smooth scroll before starting a new one.
-      `window.scrollTo(0, window.scrollY)` performs an instant
-      write at the current position, which halts any smooth scroll
-      animation in Chromium. Then the new scrollIntoView starts
-      from a clean state.
-
-   2. REPAIR the hit-test tree once after navigation settles.
-      Toggling `body.style.pointerEvents` off and back on forces
-      Chromium to rebuild its hit-test tree. It happens in a single
-      frame — no visual flash, no layout thrash.
+   CJS INTERACTION LAYER — v16
    ═══════════════════════════════════════════════════════════════ */
 
 (() => {
@@ -40,14 +15,10 @@
     function repairHitTest() {
         const b = document.body;
         if (!b) return;
-        // Toggle pointer-events off and back on. Reading offsetHeight
-        // in between forces a synchronous layout, which causes
-        // Chromium to rebuild its hit-test tree from the fresh
-        // layout. The user never sees a change — this happens
-        // within a single frame.
+        const prev = b.style.pointerEvents;
         b.style.pointerEvents = "none";
         void b.offsetHeight;
-        b.style.pointerEvents = "";
+        b.style.pointerEvents = prev;
     }
 
     let repairTimer = null;
@@ -73,24 +44,25 @@
         const counterEl = document.getElementById("bootCounter");
         if (!logEl || !barEl || !counterEl) { bootEl.remove(); return; }
 
-        root.classList.add("ark-no-scroll");
+        const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+        if (scrollbarW > 0) root.style.setProperty("--scrollbar-w", scrollbarW + "px");
+        root.classList.add("ark-scroll-lock", "ark-no-scroll");
 
-        setTimeout(() => {
+        function releaseLock() {
+            root.classList.remove("ark-no-scroll", "ark-scroll-lock");
+            root.style.removeProperty("--scrollbar-w");
+        }
+
+        const fallbackTimer = setTimeout(() => {
             const b = document.getElementById("arkBoot");
             if (b) {
                 b.classList.add("is-dead");
                 b.remove();
             }
-            root.classList.remove("ark-no-scroll");
+            releaseLock();
         }, 4000);
 
-        const logs = [
-            "INITIALIZING CORE",
-            "LOADING INTERFACE",
-            "ESTABLISHING LINK",
-            "CALIBRATING SENSORS",
-            "SYSTEM READY"
-        ];
+        const logs = ["INITIALIZING CORE", "LOADING INTERFACE", "ESTABLISHING LINK", "CALIBRATING SENSORS", "SYSTEM READY"];
 
         logs.forEach((text, i) => {
             setTimeout(() => {
@@ -108,14 +80,15 @@
         function tick(now) {
             const t = Math.min((now - start) / duration, 1);
             barEl.style.transform = `scaleX(${t})`;
-            counterEl.textContent = String(Math.floor(t * 100)).padStart(2, "0");
+            counterEl.textContent = String(Math.round(t * 100)).padStart(2, "0");
             if (t < 1) requestAnimationFrame(tick);
             else setTimeout(finish, 250);
         }
 
         function finish() {
+            clearTimeout(fallbackTimer);
             bootEl.classList.add("is-revealing");
-            root.classList.remove("ark-no-scroll");
+            releaseLock();
             setTimeout(() => {
                 bootEl.classList.add("is-dead");
                 bootEl.remove();
@@ -126,7 +99,7 @@
     })();
 
     /* ═══════════════════════════════════════════════════════
-       2. PALETTE TOGGLE
+       2. PALETTE TOGGLE + DYNAMIC FAVICON
        ═══════════════════════════════════════════════════════ */
 
     (function paletteToggle() {
@@ -136,12 +109,27 @@
 
         const STORAGE_KEY = "jayfield-palette";
         const PALETTES = { ember: "EMBER", tidal: "TIDAL" };
+        const SIGNAL_HEX = { ember: "%23fff500", tidal: "%2314d0d0" };
+        const faviconEl = document.querySelector("link[rel='icon']");
+
+        function updateFavicon(name) {
+            if (!faviconEl) return;
+            const signal = SIGNAL_HEX[name] || SIGNAL_HEX.ember;
+            faviconEl.href =
+                "data:image/svg+xml," +
+                "%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E" +
+                "%3Crect%20x='3'%20y='3'%20width='26'%20height='26'%20fill='%23101110'%20stroke='" + signal +
+                "'%20stroke-width='2.5'/%3E" +
+                "%3Ctext%20x='16'%20y='23'%20font-family='monospace'%20font-size='13'%20font-weight='800'%20fill='" + signal +
+                "'%20text-anchor='middle'%20textLength='20'%20lengthAdjust='spacingAndGlyphs'%3EJAY%3C/text%3E%3C/svg%3E";
+        }
 
         function applyPalette(name) {
             const safe = PALETTES[name] ? name : "ember";
             root.setAttribute("data-palette", safe);
             label.textContent = PALETTES[safe];
             toggle.setAttribute("aria-label", `Toggle accent palette (currently ${PALETTES[safe]})`);
+            updateFavicon(safe);
         }
 
         let saved = "ember";
@@ -166,18 +154,13 @@
 
     const panels = Array.from(document.querySelectorAll(".ark-section"));
     const navLinks = Array.from(document.querySelectorAll(".ark-rail-link"));
-
     let currentSectionId = null;
 
     function setActiveSection(id) {
         if (id === currentSectionId) return;
         currentSectionId = id;
-        panels.forEach((panel) => {
-            panel.classList.toggle("is-active", panel.id === id);
-        });
-        navLinks.forEach((link) => {
-            link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
-        });
+        panels.forEach((panel) => panel.classList.toggle("is-active", panel.id === id));
+        navLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${id}`));
     }
 
     if ("IntersectionObserver" in window) {
@@ -189,7 +172,6 @@
                 }
             });
         }, { rootMargin: "0px 0px -15% 0px", threshold: 0 });
-
         panels.forEach((panel) => revealObserver.observe(panel));
     } else {
         panels.forEach((p) => p.classList.add("is-revealed", "is-active"));
@@ -201,13 +183,11 @@
         spyTicking = false;
         const probeLine = window.innerHeight * 0.42;
         let activeId = panels[0] ? panels[0].id : null;
-
         for (let i = 0; i < panels.length; i++) {
             const rect = panels[i].getBoundingClientRect();
             if (rect.top <= probeLine) activeId = panels[i].id;
             else break;
         }
-
         if (activeId) setActiveSection(activeId);
     }
 
@@ -229,54 +209,50 @@
     const railEl = document.getElementById("arkRail");
 
     (function railControl() {
-        const rail = railEl;
-        if (!rail) return;
-
+        if (!railEl) return;
         let closeTimer = null;
 
         function forceClose() {
             if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
-            rail.classList.remove("is-open");
+            railEl.classList.remove("is-open");
         }
 
         function open() {
             if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
-            rail.classList.add("is-open");
+            railEl.classList.add("is-open");
         }
 
         function railContainsFocus() {
             const ae = document.activeElement;
-            if (!ae || !rail.contains(ae)) return false;
-            try { return ae.matches(":focus-visible"); }
-            catch (_) { return true; }
+            if (!ae || !railEl.contains(ae)) return false;
+            try { return ae.matches(":focus-visible"); } catch (_) { return true; }
         }
 
         function scheduleClose(delay) {
             if (closeTimer) clearTimeout(closeTimer);
             closeTimer = setTimeout(() => {
                 closeTimer = null;
-                if (!rail.matches(":hover") && !railContainsFocus()) {
-                    rail.classList.remove("is-open");
-                }
+                if (!railEl.matches(":hover") && !railContainsFocus()) railEl.classList.remove("is-open");
             }, typeof delay === "number" ? delay : 80);
         }
 
-        rail.addEventListener("pointerenter", open);
-        rail.addEventListener("pointerleave", () => scheduleClose(80));
-
-        rail.addEventListener("focusin", (e) => {
-            if (e.target && e.target.matches && e.target.matches(":focus-visible")) open();
+        railEl.addEventListener("pointerenter", open);
+        railEl.addEventListener("pointerleave", () => scheduleClose(80));
+        
+        railEl.addEventListener("focusin", (e) => {
+            if (e.target.matches && e.target.matches(":focus-visible")) open();
         });
-        rail.addEventListener("focusout", () => {
+        
+        railEl.addEventListener("focusout", () => {
             setTimeout(() => {
                 if (!railContainsFocus()) scheduleClose(0);
             }, 0);
         });
-
+        
         document.addEventListener("click", (e) => {
-            if (!rail.contains(e.target)) forceClose();
+            if (!railEl.contains(e.target)) forceClose();
         }, true);
-
+        
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) forceClose();
         });
@@ -284,9 +260,6 @@
 
     /* ═══════════════════════════════════════════════════════
        5. NAVIGATION
-       Cancel any in-flight smooth scroll before starting a new
-       one, then repair the hit-test tree after the new scroll
-       settles.
        ═══════════════════════════════════════════════════════ */
 
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
@@ -300,27 +273,15 @@
             e.preventDefault();
             try { link.blur(); } catch (_) {}
             if (railEl) railEl.classList.remove("is-open");
-
             try { history.replaceState(null, "", `#${id}`); } catch (_) {}
 
-            // ── CRITICAL: cancel any in-flight smooth scroll ──
-            // Writing the current scroll position performs an
-            // instant scroll at the current location, which halts
-            // any Chromium smooth-scroll animation still running.
-            // The user sees no jump — we're writing the exact
-            // position they're already at.
-            if (!prefersReduced) {
-                window.scrollTo(0, window.scrollY);
-            }
+            if (!prefersReduced) window.scrollTo(0, window.scrollY);
 
             target.scrollIntoView({
                 behavior: prefersReduced ? "auto" : "smooth",
                 block: "start"
             });
 
-            // After the new scroll settles, repair the hit-test
-            // tree once. Debounced: if another nav happens before
-            // the timer fires, the timer resets.
             scheduleRepair(400);
 
             if (link.classList.contains("ark-skip-link")) {
@@ -339,11 +300,15 @@
        6. KEYBOARD SECTION NAV
        ═══════════════════════════════════════════════════════ */
 
+    function stickyChromeHeight() {
+        const topbar = document.querySelector(".ark-topbar");
+        const marquee = document.querySelector(".ark-marquee");
+        return (topbar ? topbar.offsetHeight : 0) + (marquee ? marquee.offsetHeight : 0);
+    }
+
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
-            if (document.activeElement && document.activeElement.blur) {
-                document.activeElement.blur();
-            }
+            if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
             if (railEl) railEl.classList.remove("is-open");
             return;
         }
@@ -359,7 +324,11 @@
         const activeIdx = panels.findIndex((p) => p.classList.contains("is-active"));
         const current = activeIdx === -1 ? 0 : activeIdx;
         const currentPanel = panels[current];
-        if (currentPanel && currentPanel.scrollHeight > window.innerHeight + 4) return;
+        
+        if (currentPanel) {
+            const usable = window.innerHeight - stickyChromeHeight();
+            if (currentPanel.scrollHeight > usable + 4) return;
+        }
 
         const dir = prevKeys.includes(e.key) ? -1 : 1;
         const next = Math.max(0, Math.min(panels.length - 1, current + dir));
@@ -390,16 +359,13 @@
 
     const clockEl = document.getElementById("liveClock");
     const dateEl = document.getElementById("liveDate");
-
     const pad = (n) => String(n).padStart(2, "0");
-    const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-                    "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
     const tzAbbr = (() => {
         try {
-            const parts = new Intl.DateTimeFormat("en-US", { timeZoneName: "short" })
-                .formatToParts(new Date());
+            const parts = new Intl.DateTimeFormat("en-US", { timeZoneName: "short" }).formatToParts(new Date());
             const tz = parts.find((p) => p.type === "timeZoneName");
             return tz ? tz.value : "";
         } catch (_) { return ""; }
@@ -408,13 +374,10 @@
     function tickClock() {
         const d = new Date();
         if (clockEl) {
-            clockEl.textContent =
-                `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}` +
-                (tzAbbr ? ` ${tzAbbr}` : "");
+            clockEl.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}` + (tzAbbr ? ` ${tzAbbr}` : "");
         }
         if (dateEl) {
-            dateEl.textContent =
-                `${WEEKDAYS[d.getDay()]} ${pad(d.getDate())} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+            dateEl.textContent = `${WEEKDAYS[d.getDay()]} ${pad(d.getDate())} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
         }
     }
 
@@ -435,6 +398,7 @@
         const originalHTML = track.innerHTML;
         const targetWidth = Math.max(window.innerWidth, 900);
         let guard = 0;
+        
         while (track.getBoundingClientRect().width < targetWidth && guard++ < 10) {
             track.innerHTML += originalHTML;
         }
@@ -448,8 +412,14 @@
         void marquee.offsetHeight;
         [track, clone].forEach((el) => { el.style.animation = ""; });
 
-        const trackWidth = track.scrollWidth;
-        const durationSec = Math.max(trackWidth / 60, 20);
+        const cs = getComputedStyle(track);
+        const padL = parseFloat(cs.paddingLeft) || 0;
+        const padR = parseFloat(cs.paddingRight) || 0;
+        const contentWidth = track.scrollWidth - padL - padR;
+
+        marquee.style.setProperty("--marquee-distance", contentWidth + "px");
+
+        const durationSec = Math.max(contentWidth / 60, 20);
         [track, clone].forEach((el) => {
             el.style.animationDuration = `${durationSec}s`;
         });
@@ -457,12 +427,204 @@
 
     /* ═══════════════════════════════════════════════════════
        10. HIT-TEST REPAIR ON TAB FOCUS
-       Coming back to the tab after alt-tabbing is a common
-       moment for the hit-test tree to be stale.
        ═══════════════════════════════════════════════════════ */
 
     window.addEventListener("focus", () => {
+        if (document.visibilityState !== "visible") return;
         scheduleRepair(50);
     });
+
+       /* ═══════════════════════════════════════════════════════
+       11. PROJECT SLIDER & ANIMATIONS
+       ═══════════════════════════════════════════════════════ */
+
+    (function projectSlider() {
+        const slides = Array.from(document.querySelectorAll(".ark-project-slide"));
+        const prevBtns = Array.from(document.querySelectorAll(".ark-project-global-controls .proj-prev"));
+        const nextBtns = Array.from(document.querySelectorAll(".ark-project-global-controls .proj-next"));
+        const currentNumEls = Array.from(document.querySelectorAll(".ark-project-global-controls .proj-current-num"));
+        const progressSegments = Array.from(document.querySelectorAll(".ark-progress-segment"));
+        
+        const globalProjectBtn = document.getElementById("globalProjectBtn");
+        const radarDecor = document.getElementById("radarDecor");
+        
+        if (!slides.length || !prevBtns.length || !nextBtns.length) return;
+
+        let currentIndex = 0;
+        let isAnimating = false;
+        let globalRotation = 0; 
+        let slowSpinAnim = null;
+
+        // --- TYPEWRITER FUNCTION ---
+        function typeWriter(element, text, speed, callback) {
+            element.textContent = "";
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    if (callback) callback();
+                }
+            }
+            type();
+        }
+
+        slides.forEach(slide => {
+            const title = slide.querySelector(".ark-project-title");
+            const desc = slide.querySelector(".ark-project-desc");
+            const tags = slide.querySelector(".ark-project-tags");
+            if (title) title.dataset.original = title.textContent.trim();
+            if (desc) desc.dataset.original = desc.textContent.trim();
+            if (tags) tags.dataset.original = tags.textContent.trim();
+        });
+
+        // Start the continuous slow spin
+        function startSlowSpin(wrapper, startAngle = 0) {
+            if (!wrapper) return;
+            if (slowSpinAnim) slowSpinAnim.cancel();
+            
+            slowSpinAnim = wrapper.animate(
+                [
+                    { transform: `rotateY(${startAngle}deg)` },
+                    { transform: `rotateY(${startAngle + 360}deg)` }
+                ],
+                {
+                    duration: 25000, // 25 seconds for one full rotation
+                    iterations: Infinity,
+                    easing: 'linear'
+                }
+            );
+        }
+
+        // Get the exact current angle of the board
+        function getCurrentRotation(el) {
+            const st = window.getComputedStyle(el);
+            const tm = st.getPropertyValue("transform");
+            if (tm && tm !== "none") {
+                const values = tm.split('(')[1].split(')')[0].split(',');
+                const m11 = parseFloat(values[0]);
+                const m13 = parseFloat(values[2]);
+                let angle = Math.atan2(m13, m11) * (180 / Math.PI);
+                return angle < 0 ? angle + 360 : angle;
+            }
+            return 0;
+        }
+
+        // Initialize first slide
+        const firstWrapper = slides[0].querySelector(".ark-project-img-wrapper");
+        if (firstWrapper) startSlowSpin(firstWrapper, 0);
+
+        function updateSlide(index, direction) {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const currentSlide = slides[currentIndex];
+            const nextSlide = slides[index];
+            const currentWrapper = currentSlide.querySelector(".ark-project-img-wrapper");
+            
+            // 1. Radar Burst
+            if (radarDecor) {
+                radarDecor.classList.remove("spin-burst");
+                void radarDecor.offsetWidth;
+                radarDecor.classList.add("spin-burst");
+            }
+
+            // 2. Fast Double Spin Calculation
+            const currentAngle = getCurrentRotation(currentWrapper);
+            const spinDir = direction === 'next' ? 1 : -1;
+            const targetAngle = currentAngle + (360 * 2 * spinDir); // 720 degrees!
+
+            if (slowSpinAnim) slowSpinAnim.cancel();
+
+            // Animate the current board spinning fast
+            const fastSpin = currentWrapper.animate(
+                [
+                    { transform: `rotateY(${currentAngle}deg)` },
+                    { transform: `rotateY(${targetAngle}deg)` }
+                ],
+                {
+                    duration: 1200, // 1.2 seconds total for the fast spin
+                    easing: 'cubic-bezier(0.4, 0, 0.2, 1)', // Smooth ease-in-out
+                    fill: 'forwards'
+                }
+            );
+
+            // Prepare next text
+            const nextInfo = nextSlide.querySelector(".ark-project-info");
+            const nextTitle = nextSlide.querySelector(".ark-project-title");
+            nextInfo.classList.remove("show-text");
+            nextTitle.textContent = ""; 
+
+            // 3. THE MAGIC TRICK: Swap slides exactly at 600ms (when the board is sideways)
+            setTimeout(() => {
+                fastSpin.cancel(); // Stop the current animation
+                const midAngle = currentAngle + (360 * spinDir); // It's currently at 360deg (sideways)
+                
+                // Swap DOM classes
+                currentSlide.classList.remove("is-active");
+                if (direction === "next") {
+                    currentSlide.classList.add("is-prev");
+                } else {
+                    currentSlide.classList.remove("is-prev");
+                }
+
+                nextSlide.classList.remove("is-prev");
+                nextSlide.classList.add("is-active");
+
+                currentIndex = index;
+                
+                // Update UI
+                currentNumEls.forEach(el => el.textContent = String(currentIndex + 1).padStart(2, "0"));
+                progressSegments.forEach((seg, i) => seg.classList.toggle("is-active", i === currentIndex));
+
+                if (globalProjectBtn) {
+                    const newLinkEl = nextSlide.querySelector(".hidden-project-link");
+                    if (newLinkEl) globalProjectBtn.href = newLinkEl.getAttribute("href");
+                }
+
+                // 4. Animate the new board for the remaining 360 degrees
+                const nextWrapper = nextSlide.querySelector(".ark-project-img-wrapper");
+                const secondHalfSpin = nextWrapper.animate(
+                    [
+                        { transform: `rotateY(${midAngle}deg)` },
+                        { transform: `rotateY(${targetAngle}deg)` }
+                    ],
+                    {
+                        duration: 600, // Remaining 0.6 seconds
+                        easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                        fill: 'forwards'
+                    }
+                );
+
+                // 5. When the fast spin finishes, hand it over to the slow infinite spin
+                secondHalfSpin.onfinish = () => {
+                    secondHalfSpin.cancel();
+                    globalRotation = targetAngle % 360;
+                    startSlowSpin(nextWrapper, globalRotation);
+                    
+                    // Trigger typewriter
+                    typeWriter(nextTitle, nextTitle.dataset.original, 40, () => {
+                        nextInfo.classList.add("show-text");
+                        isAnimating = false;
+                    });
+                };
+
+            }, 600); // 600ms is exactly halfway through the 1200ms fast spin
+        }
+
+        nextBtns.forEach(btn => btn.addEventListener("click", () => updateSlide((currentIndex + 1) % slides.length, "next")));
+        prevBtns.forEach(btn => btn.addEventListener("click", () => updateSlide((currentIndex - 1 + slides.length) % slides.length, "prev")));
+
+        // Initialize text
+        const initialInfo = slides[0].querySelector(".ark-project-info");
+        const initialTitle = slides[0].querySelector(".ark-project-title");
+        setTimeout(() => {
+            typeWriter(initialTitle, initialTitle.dataset.original, 40, () => {
+                initialInfo.classList.add("show-text");
+            });
+        }, 500);
+    })();
 
 })();
