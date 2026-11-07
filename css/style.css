@@ -218,28 +218,21 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
-    /* CHANGED THIS: Reduced from 1.6rem to 0.5rem */
     gap: 0.5rem; 
-    
     z-index: 2;
     transition: opacity 0.35s ease;
 }
 
 .ark-boot-mark {
-    /* Remove old text styling (font, border, padding) */
     display: flex;
     align-items: center;
     justify-content: center;
-    
     opacity: 0;
     transform: scale(0.9);
     animation: bootMarkIn 0.7s var(--rail-ease) 0.1s forwards;
 }
 
-/* Add this new class for the image */
 .ark-boot-logo {
-    /* Change this number to make it bigger! (e.g., 120px, 150px, 200px) */
     width: 150px; 
     height: auto;
     object-fit: contain;
@@ -481,6 +474,7 @@ a {
     pointer-events: none;
 }
 
+
 /* ═══════════════════════════════════════════════════════════════
    PART 06 — LEFT RAIL
    ═══════════════════════════════════════════════════════════════ */
@@ -510,52 +504,43 @@ a {
     box-shadow: var(--rail-shadow-hover);
 }
 
-/* --- THE LOGO & TEXT CONTAINER --- */
 .ark-rail-mark {
     position: absolute;
     top: 1.1rem;
     left: calc((var(--rail-w) - 2.4rem) / 2);
     width: 2.4rem;
     height: 2.4rem; 
-    
     background: transparent;
     border: none;
     padding: 0;
-    
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Align to the left, logo stays put */
+    justify-content: flex-start; 
     text-decoration: none;
     transition: left 0.55s var(--rail-ease), width 0.55s var(--rail-ease);
     z-index: 10;
 }
 
-/* Expanded state for the logo container */
 .ark-rail.is-open .ark-rail-mark {
     left: 1.25rem;
     width: calc(var(--rail-w-open) - 2.5rem);
     height: 2.4rem;
 }
 
-/* --- THE LOGO IMAGE --- */
 .ark-rail-logo {
     width: 2.4rem;
     height: 2.4rem;
-    flex-shrink: 0; /* CRITICAL FIX: Prevents logo from disappearing */
+    flex-shrink: 0; 
     object-fit: contain;
     transition: transform 0.3s var(--ease-out), filter 0.3s ease;
-    
-    /* Adds a tiny glow to the white sticker so it pops on dark backgrounds */
     filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.2)); 
 }
 
-/* Hover effect for the logo */
 .ark-rail-mark:hover .ark-rail-logo {
     transform: scale(1.1);
     filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
 }
 
-/* --- THE TEXT --- */
 .ark-rail-mark-text {
     font-family: var(--mono);
     font-size: 0.85rem;
@@ -563,8 +548,6 @@ a {
     letter-spacing: 0.2em;
     color: var(--rail-ink);
     white-space: nowrap;
-    
-    /* Hide text by default */
     opacity: 0;
     width: 0;
     overflow: hidden;
@@ -575,10 +558,9 @@ a {
 .ark-rail.is-open .ark-rail-mark-text {
     opacity: 1;
     width: auto;
-    margin-left: 0.75rem; /* Space between logo and text */
+    margin-left: 0.75rem; 
 }
 
-/* --- NAVIGATION LINKS (Unchanged) --- */
 .ark-rail-nav {
     position: absolute;
     top: 50%;
@@ -742,40 +724,6 @@ a {
     opacity: 0;
 }
 
-/* ==========================================================================
-   MOBILE OVERRIDES FOR THE LOGO
-   ========================================================================== */
-@media (max-width: 900px), (orientation: portrait) and (max-width: 1100px) {
-    .ark-rail-mark {
-        position: static;
-        left: auto;
-        width: auto;
-        height: auto;
-        padding: 0.25rem 0.5rem;
-        justify-content: flex-start;
-        gap: 0.5rem;
-    }
-    
-    .ark-rail.is-open .ark-rail-mark {
-        left: auto;
-        width: auto;
-        height: auto;
-    }
-    
-    .ark-rail-logo {
-        width: 2rem;
-        height: 2rem;
-    }
-    
-    /* Force text to show on mobile */
-    .ark-rail-mark-text {
-        display: block !important;
-        opacity: 1 !important;
-        width: auto !important;
-        margin-left: 0.5rem !important;
-        font-size: 0.75rem;
-    }
-}
 
 /* ═══════════════════════════════════════════════════════════════
    PART 08 — SHELL
@@ -1047,7 +995,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     box-shadow: 0 0 6px currentColor;
     animation: dotPulse 2.4s ease-in-out infinite;
     flex-shrink: 0;
-        /* ADD THIS LINE */
     border: 1px solid #101110;
 }
 
@@ -1328,11 +1275,10 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     padding:
         clamp(1.75rem, 3.5vh, 2.75rem)
         calc(var(--rail-buffer) + clamp(2rem, 4vw, 4rem))
-        clamp(2rem, 4vh, 3rem) /* Increased bottom padding */
+        clamp(2rem, 4vh, 3rem) 
         calc(var(--rail-buffer) + clamp(2rem, 4vw, 4rem));
 }
 
-/* --- GIANT BACKGROUND WATERMARK --- */
 .ark-about-watermark {
     position: absolute;
     top: 10%;
@@ -1353,7 +1299,7 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Pushes content to the bottom */
+    justify-content: flex-end; 
     flex: 1 1 auto;
     min-height: 0;
     height: 100%;
@@ -1362,7 +1308,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     padding-bottom: 1rem; 
 }
 
-/* --- IMAGE VISUAL --- */
 .ark-about-visual {
     position: absolute;
     top: 0;
@@ -1403,17 +1348,15 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     transition-delay: 0.15s;
 }
 
-/* --- TEXT CONTENT --- */
 .ark-about-content {
     position: relative;
     z-index: 3;
     display: flex;
     flex-direction: column;
-    gap: 1rem; /* Tighter gap between elements */
+    gap: 1rem; 
     width: min(45%, 32rem); 
     min-width: 0;
     max-width: 32rem;
-    
     opacity: 0;
     transform: translate3d(-40px, 0, 0);
     transition: none;
@@ -1428,7 +1371,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     transition-delay: 0.5s;
 }
 
-/* Header Group */
 .ark-about-header {
     margin-bottom: 0.25rem;
 }
@@ -1450,10 +1392,9 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     color: var(--ink-light);
 }
 
-/* Smaller Title */
 .ark-about-section .ark-title {
     color: var(--ink-light);
-    font-size: clamp(1.8rem, 2.5vw, 2.2rem); /* Reduced from 3rem */
+    font-size: clamp(1.8rem, 2.5vw, 2.2rem); 
     font-weight: 600;
     line-height: 1;
     letter-spacing: -0.02em;
@@ -1461,7 +1402,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     text-transform: uppercase;
 }
 
-/* Progress Bar */
 .ark-op-progress {
     width: 100%;
     height: 6px;
@@ -1478,7 +1418,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     box-shadow: 0 0 8px rgba(var(--signal-rgb), 0.5);
 }
 
-/* Quote Block */
 .ark-op-quote {
     font-family: var(--mono);
     font-size: 0.8rem; 
@@ -1490,7 +1429,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     font-style: italic;
 }
 
-/* Detailed Text */
 .ark-split-main {
     padding: 0;
     border: none;
@@ -1523,36 +1461,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     display: none; 
 }
 
-/* Mobile Responsive Adjustments */
-@media (max-width: 900px) {
-    .ark-about-watermark {
-        font-size: 40vw;
-        top: 20%;
-        left: 5%;
-    }
-    
-    .ark-about-layout {
-        justify-content: flex-start; 
-        padding-bottom: 0;
-    }
-    
-    .ark-about-content {
-        width: 100%;
-        max-width: none;
-        padding-top: 2rem;
-        gap: 1rem;
-    }
-    
-    .ark-about-visual {
-        width: 100%;
-        opacity: 0.3; 
-        justify-content: center;
-    }
-    
-    .ark-visual-img {
-        height: 100%;
-    }
-}
 
 /* ═══════════════════════════════════════════════════════════════
    PART 16 — SKILLS (YOUR CUSTOM LAYOUT)
@@ -1572,12 +1480,10 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     overflow: hidden;
     background-color: var(--paper);
     
-    /* ADD THESE LINES */
     background-image: 
         linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
     background-size: 40px 40px;
-    /* ----------------- */
     
     min-height: calc(100vh - var(--topbar-h) - var(--marquee-h));
 }
@@ -1586,13 +1492,11 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     display: none;
 }
 
-/* Make the big number visible on the white background */
 #skills .ark-section-numeral {
     display: block;
-    color: rgba(16, 17, 16, 0.05); /* Dark gray instead of invisible white */
+    color: rgba(16, 17, 16, 0.05); 
 }
 
-/* --- FIX: INVISIBLE TEXT CONTRAST --- */
 #skills .ark-kicker {
     color: var(--ink-mute); 
     margin-bottom: 0.5rem;
@@ -1604,12 +1508,11 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
 }
 
 #skills .ark-kicker-code {
-    color: var(--ink); /* Makes the text black instead of invisible white */
+    color: var(--ink); 
     border: 1px solid var(--line-l2);
     background: transparent;
 }
 
-/* --- MAIN LAYOUT CONTAINER --- */
 .ark-skills-layout {
     display: flex;
     width: 100%;
@@ -1621,9 +1524,7 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     box-sizing: border-box;
 }
 
-/* --- LEFT YELLOW BANNER --- */
 .ark-skills-banner {
-    /* YOUR EXACT SIZE AND POSITION */
     width: 50px; 
     flex-shrink: 0;
     background-color: var(--signal); 
@@ -1678,19 +1579,15 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     color: var(--ink);
 }
 
-/* --- RIGHT MAIN CONTENT --- */
 .ark-skills-content {
     flex: 1;
     display: flex;
     flex-direction: column;
     min-width: 0; 
     position: relative;
-    
-    /* FIX: Adds a bit of padding on the right so text doesn't touch the edge */
     padding-right: 2rem; 
 }
 
-/* --- HEADER AREA --- */
 .ark-skills-header {
     margin-bottom: 1.5rem; 
 }
@@ -1730,7 +1627,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     background: var(--line-l2);
 }
 
-/* --- SLIDER CONTAINER --- */
 .ark-skills-slider-wrap {
     position: relative;
     width: 100%;
@@ -1756,14 +1652,9 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     padding-right: 100vw; 
 }
 
-/* --- CARDS --- */
 .ark-skill-slide {
-    /* CHANGE THIS: From 420px to 300px */
     flex: 0 0 320px; 
-    
-    /* CHANGE THIS: From 260px to 220px */
     height: 180px; 
-    
     opacity: 0.4;
     filter: grayscale(1);
     transform: scale(0.85); 
@@ -1800,10 +1691,7 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     top: -1rem;
     right: 1rem;
     font-family: var(--mono);
-    
-    /* CHANGE THIS: From 8rem to 6rem */
     font-size: 6rem; 
-    
     font-weight: 700;
     color: rgba(0, 0, 0, 0.03);
     line-height: 1;
@@ -1813,10 +1701,7 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
 
 .ark-skill-card h3 {
     font-family: var(--sans);
-    
-    /* CHANGE THIS: From 1.4rem to 1.2rem */
     font-size: 1.2rem; 
-    
     font-weight: 600;
     letter-spacing: 0.02em;
     color: var(--ink);
@@ -1828,10 +1713,7 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
 
 .ark-skill-card p {
     font-family: var(--mono);
-    
-    /* CHANGE THIS: From 0.8rem to 0.75rem */
     font-size: 0.75rem; 
-    
     color: var(--ink-soft);
     line-height: 1.6;
     position: relative;
@@ -1850,7 +1732,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     font-weight: 700;
 }
 
-/* --- CONTROLS --- */
 .ark-skills-controls {
     display: flex;
     align-items: center;
@@ -1933,48 +1814,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     margin-left: 0.5rem;
 }
 
-/* Mobile Responsive */
-@media (max-width: 900px) {
-    .ark-skills-layout {
-        flex-direction: column;
-        padding: 1rem;
-        gap: 1rem;
-    }
-    
-    .ark-skills-banner {
-        width: 100%;
-        height: 60px;
-        margin-left: 0; /* Reset margin on mobile */
-        flex-direction: row;
-        padding: 0 1.5rem;
-    }
-    
-    .ark-skills-banner-text-group {
-        margin-bottom: 0;
-        flex-direction: row;
-        gap: 1rem;
-    }
-    
-    .ark-skills-banner-line {
-        width: 20px;
-        height: 2px;
-    }
-    
-    .ark-skills-banner-text, 
-    .ark-skills-banner-vertical {
-        writing-mode: horizontal-tb;
-        transform: none;
-        font-size: 1rem;
-    }
-    
-    .ark-skills-news-title {
-        font-size: 2rem;
-    }
-    
-    .ark-skills-content {
-        padding-right: 0;
-    }
-}
 
 /* ═══════════════════════════════════════════════════════════════
    PART 17 — CONTACT (CENTERED LAYOUT WITH LINES)
@@ -1983,19 +1822,15 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
 #contact {
     min-height: auto; 
     justify-content: flex-start; 
-    padding-top: 3rem; 
+    padding-top: 3rem; /* Moved up */
     padding-bottom: 3rem; 
     background-color: var(--paper);
     background-image: 
-        /* Horizontal line */
         linear-gradient(to bottom, transparent calc(50% - 1px), rgba(255, 255, 255, 0.05) 50%, transparent calc(50% + 1px)),
-        /* Left line */
         linear-gradient(to right, transparent calc(20% - 1px), rgba(255, 255, 255, 0.05) 20%, transparent calc(20% + 1px)),
-        /* Right line */
         linear-gradient(to right, transparent calc(80% - 1px), rgba(255, 255, 255, 0.05) 80%, transparent calc(80% + 1px));
 }
 
-/* Use Flexbox to center everything */
 .ark-contact-endfield {
     display: flex;
     flex-wrap: wrap; 
@@ -2005,12 +1840,11 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     width: 100%;
     max-width: 900px; 
     margin: 0 auto;
-    padding-top: 1rem;
+    padding-top: 0; /* Removed extra padding */
 }
 
-/* Logo sizing */
 .ark-contact-logo {
-    width: 140px; 
+    width: 200px; /* Bigger logo */
     height: auto;
     filter: drop-shadow(0 0 15px rgba(255,255,255,0.15)); 
     transition: transform 0.3s ease, filter 0.3s ease;
@@ -2021,43 +1855,37 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     filter: drop-shadow(0 0 25px rgba(255,255,255,0.3));
 }
 
-/* Vertical Links with Divider Lines */
 .ark-contact-links-row {
     display: flex;
     flex-direction: column; 
     align-items: center; 
-    gap: 0; /* No gap so the lines connect smoothly */
+    gap: 0; 
 }
 
 .ark-contact-links-row a {
     font-family: var(--sans);
-    font-size: 1.1rem; 
+    font-size: 1rem; /* Smaller font */
     font-weight: 600;
     letter-spacing: 0.15em;
     color: var(--ink-soft);
     text-transform: uppercase;
     text-decoration: none;
     transition: color 0.3s ease, text-shadow 0.3s ease;
-    
-    /* The Lines */
-    padding: 1rem 3rem; /* Vertical and Horizontal padding */
+    padding: 0.75rem 2rem; /* Smaller padding */
     width: 100%;
     text-align: center;
-    border-bottom: 1px solid var(--line-l2); /* Adds the line under each link */
+    border-bottom: 1px solid var(--line-l2); 
 }
 
-/* Hover effect for links */
 .ark-contact-links-row a:hover {
     color: var(--signal);
     text-shadow: 0 0 10px rgba(var(--signal-rgb), 0.5);
 }
 
-/* Remove the line from the very last link */
 .ark-contact-links-row a:last-child {
     border-bottom: none;
 }
 
-/* Legal text */
 .ark-contact-legal {
     flex-basis: 100%; 
     font-family: var(--mono);
@@ -2083,25 +1911,10 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     letter-spacing: 0.1em;
 }
 
-/* Hide old elements */
 .ark-contact-divider,
 .ark-contact {
     display: none; 
 }
-
-/* Mobile Responsive Fix */
-@media (max-width: 768px) {
-    #contact {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
-    
-    .ark-contact-endfield {
-        flex-direction: column; 
-        gap: 2rem; 
-    }
-}
-
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -2150,7 +1963,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     box-shadow: 0 0 8px currentColor;
     vertical-align: middle;
     animation: dotPulse 2.4s ease-in-out infinite;
-        /* ADD THIS LINE */
     border: 1px solid #101110; 
 }
 
@@ -2333,534 +2145,26 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
 
 
 /* ═══════════════════════════════════════════════════════════════
-   PART 21 — RESPONSIVE — MOBILE
+   PART 24 — ENDFIELD PROJECT VIEWER (DESKTOP)
    ═══════════════════════════════════════════════════════════════ */
-
-@media (max-width: 900px), (orientation: portrait) and (max-width: 1100px) {
-
-    .ark-bg-glow {
-        width: 100vw;
-        height: 100vw;
-        top: -30%;
-        right: -30%;
-    }
-
-    .ark-rail {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: auto;
-        width: 100%;
-        height: var(--rail-mobile-h);
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 0.9rem;
-        border-right: 0;
-        border-bottom: 1px solid var(--rail-line);
-        box-shadow:
-            0 1px 0 rgba(16, 17, 16, 0.05),
-            0 6px 20px rgba(0, 0, 0, 0.35);
-        overflow: hidden;
-        z-index: 200;
-    }
-
-    .ark-rail,
-    .ark-rail.is-open {
-        width: 100%;
-        box-shadow:
-            0 1px 0 rgba(16, 17, 16, 0.05),
-            0 6px 20px rgba(0, 0, 0, 0.35);
-        background: var(--rail-bg);
-    }
-
-    .ark-rail-mark {
-        position: static;
-        left: auto;
-        width: auto;
-        height: auto;
-        text-align: left;
-        font-size: 0.62rem;
-        padding: 0.28rem 0.5rem;
-        letter-spacing: 0.14em;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .ark-rail.is-open .ark-rail-mark {
-        left: auto;
-        width: auto;
-        height: auto;
-        font-size: 0.62rem;
-        letter-spacing: 0.14em;
-        padding: 0.28rem 0.5rem;
-    }
-
-    .ark-rail-mark-short {
-        position: static;
-        opacity: 1 !important;
-    }
-
-    .ark-rail-mark-long {
-        display: none !important;
-    }
-
-    .ark-rail-nav {
-        position: static;
-        transform: none;
-        flex-direction: row;
-        gap: 0.1rem;
-        overflow: hidden;
-    }
-
-    .ark-rail-link {
-        padding: 0.45rem 0.6rem;
-        gap: 0;
-        animation: none;
-    }
-
-    .ark-rail.is-open .ark-rail-link {
-        padding-left: 0.6rem;
-    }
-
-    .ark-rail-link-icon {
-        width: 17px;
-        height: 17px;
-        color: var(--rail-ink-icon);
-    }
-
-    .ark-rail-link-text {
-        display: none;
-    }
-
-    .ark-rail-link::before {
-        left: 50%;
-        top: auto;
-        bottom: 0;
-        width: 0;
-        height: 0;
-        transform: translateX(-50%);
-        transition: width 0.3s var(--ease-out), height 0.3s var(--ease-out);
-    }
-
-    .ark-rail-link.active::before {
-        width: 60%;
-        height: 3px;
-    }
-
-    .ark-rail-link.active {
-        background: var(--rail-selected-bg);
-        color: var(--rail-ink);
-    }
-
-    .ark-rail-link.active .ark-rail-link-icon {
-        color: var(--rail-ink);
-    }
-
-    .ark-rail-link:hover {
-        background: var(--rail-hover-bg);
-        color: var(--rail-ink);
-    }
-
-    .ark-rail-link:hover .ark-rail-link-icon {
-        color: var(--rail-ink);
-    }
-
-    .ark-rail-foot {
-        display: none;
-    }
-
-    .ark-shell {
-        margin-left: 0;
-        padding-top: var(--rail-mobile-h);
-        min-height: 100vh;
-        min-height: 100svh;
-    }
-
-    .ark-topbar {
-        top: var(--rail-mobile-h);
-        padding: 0 1.25rem;
-    }
-
-    .ark-marquee {
-        top: calc(var(--rail-mobile-h) + var(--topbar-h));
-    }
-
-    .ark-section {
-        min-height: calc(100vh - var(--rail-mobile-h) - var(--topbar-h) - var(--marquee-h));
-        min-height: calc(100svh - var(--rail-mobile-h) - var(--topbar-h) - var(--marquee-h));
-        padding: 1.5rem 1.25rem 2rem;
-        overflow: hidden;
-        scroll-margin-top: calc(var(--rail-mobile-h) + var(--topbar-h) + var(--marquee-h));
-    }
-
-    .ark-section::before {
-        left: 1.25rem;
-        top: 0.75rem;
-    }
-
-    .ark-section-numeral {
-        display: none;
-    }
-
-    .ark-field-label--br {
-        bottom: 0.75rem;
-        right: 1.25rem;
-    }
-
-    .ark-hero-section {
-        padding: 0;
-        justify-content: flex-end;
-        align-items: stretch;
-        height: calc(100vh - var(--rail-mobile-h) - var(--topbar-h) - var(--marquee-h));
-        height: calc(100svh - var(--rail-mobile-h) - var(--topbar-h) - var(--marquee-h));
-        max-height: calc(100vh - var(--rail-mobile-h) - var(--topbar-h) - var(--marquee-h));
-        max-height: calc(100svh - var(--rail-mobile-h) - var(--topbar-h) - var(--marquee-h));
-    }
-
-    .ark-hero-visual {
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        justify-content: flex-end;
-        align-items: flex-end;
-    }
-
-    .ark-hero-img {
-        object-fit: cover;
-        object-position: right 25%;
-    }
-
-    .ark-section.is-revealed .ark-hero-img {
-        opacity: 0.55;
-    }
-
-    .ark-hero-scrim {
-        background:
-            linear-gradient(
-                to top,
-                rgba(16, 17, 16, 0.90) 0%,
-                rgba(16, 17, 16, 0.72) 28%,
-                rgba(16, 17, 16, 0.40) 52%,
-                rgba(16, 17, 16, 0.12) 78%,
-                transparent 100%
-            );
-    }
-
-    .ark-hero-grid {
-        -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 40%, transparent 75%);
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 40%, transparent 75%);
-    }
-
-    .ark-hero-grid::before {
-        animation-duration: 70s;
-    }
-
-    .ark-hero-content {
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-        transform: none;
-        padding: 1.25rem 1.25rem 1.5rem;
-        justify-content: flex-end;
-        align-items: stretch;
-    }
-
-    .ark-hero-panel {
-        max-width: none;
-        border-left-width: 2px;
-        padding: 1rem 1rem 1.15rem;
-        transform: translate3d(0, 30px, 0);
-    }
-
-    .ark-section.is-revealed .ark-hero-panel {
-        transform: translate3d(0, 0, 0);
-    }
-
-    .ark-hero-panel::before,
-    .ark-hero-panel::after {
-        display: none;
-    }
-
-    .ark-display {
-        font-size: clamp(1.8rem, min(9vw, 8vh), 3.5rem);
-    }
-
-    .ark-title {
-        font-size: clamp(1.5rem, min(6vw, 5.5vh), 2.25rem);
-        margin-bottom: 0.5rem;
-    }
-
-    .ark-meta {
-        flex-wrap: wrap;
-        gap: 1.75rem;
-    }
-
-    .ark-meta > div:not(:last-child)::after {
-        right: -0.85rem;
-    }
-
-    .ark-about-section {
-        padding: 1.5rem 1.25rem 1rem;
-        overflow: hidden;
-    }
-
-    .ark-about-section::before {
-        top: 0.95rem;
-    }
-
-    .ark-about-section .ark-title {
-        font-size: clamp(1.4rem, min(6vw, 5vh), 2rem);
-        margin-bottom: 0.5rem;
-    }
-
-    .ark-about-layout {
-        min-height: 0;
-    }
-
-    .ark-about-content {
-        width: 100%;
-        max-width: none;
-        gap: clamp(0.4rem, 0.8vh, 0.65rem);
-        transform: translate3d(40px, 0, 0);
-    }
-
-    .ark-about-visual {
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: auto;
-        width: 90%;
-        align-items: flex-end;
-        justify-content: flex-end;
-    }
-
-    .ark-visual-img {
-        height: 100%;
-        width: auto;
-        max-width: none;
-        object-position: right bottom;
-        transform: translate3d(35%, 8%, 0) scale(1.5);
-    }
-
-    .ark-section.is-revealed .ark-visual-img {
-        opacity: 0.62;
-        transform: translate3d(0, 0, 0) scale(1.5);
-        transition:
-            opacity 1.2s var(--ease-out),
-            transform 5s var(--ease-out);
-    }
-
-    .ark-visual-crosshair {
-        display: none;
-    }
-
-    .ark-split-main {
-        max-height: min(38vh, 20rem);
-        overscroll-behavior: auto;
-    }
-
-    .ark-split-main p {
-        font-size: clamp(0.85rem, 1vh + 0.3vw, 0.92rem);
-    }
-
-    .ark-split-side {
-        margin-top: 0.6rem;
-        padding: 0.5rem 0.9rem 0.55rem 1.25rem;
-    }
-
-    .ark-contact {
-        grid-template-columns: 1fr;
-        gap: 1.75rem;
-    }
-
-    .ark-contact-message {
-        padding-left: 1.25rem;
-    }
-
-    .ark-contact-links {
-        padding-right: 0;
-    }
-
-    .ark-skill-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .ark-footer {
-        flex-direction: column;
-        gap: 0.4rem;
-        padding: 0.75rem 1.25rem;
-        text-align: center;
-        font-size: 0.65rem;
-    }
-
-    .ark-marquee {
-        font-size: 0.65rem;
-        letter-spacing: 0.2em;
-        padding: 0.6rem 0;
-    }
-}
-
-
-/* ═══════════════════════════════════════════════════════════════
-   PART 22 — RESPONSIVE — SMALL
-   ═══════════════════════════════════════════════════════════════ */
-
-@media (max-width: 640px) {
-    .ark-topbar-date {
-        display: none;
-    }
-}
-
-@media (max-width: 520px) {
-    .ark-skill-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .ark-topbar-readout {
-        display: none;
-    }
-
-    .ark-boot-log {
-        font-size: 0.6rem;
-        letter-spacing: 0.16em;
-    }
-
-    .ark-boot-bar {
-        width: 160px;
-    }
-
-    .ark-marquee {
-        font-size: 0.6rem;
-        letter-spacing: 0.16em;
-    }
-
-    .ark-kicker-code {
-        display: none;
-    }
-
-    .ark-status-verified {
-        display: none;
-    }
-
-    .ark-hero-panel {
-        padding: 0.85rem 0.9rem 1rem;
-    }
-
-    .ark-palette-label {
-        display: none;
-    }
-
-    .ark-palette-toggle {
-        padding: 0.28rem 0.4rem;
-    }
-
-    .ark-field-label {
-        font-size: 0.55rem;
-        padding: 0.25rem 0.5rem;
-    }
-}
-
-
-/* ═══════════════════════════════════════════════════════════════
-   PART 23 — REDUCED MOTION
-   ═══════════════════════════════════════════════════════════════ */
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-
-    .ark-bg-grid,
-    .ark-bg-contour,
-    .ark-bg-scan,
-    .ark-bg-noise,
-    .ark-hero-grid {
-        display: none;
-    }
-
-    .ark-boot {
-        display: none;
-    }
-
-    .ark-marquee-track {
-        animation: none;
-    }
-
-    [data-reveal] {
-        opacity: 1 !important;
-        clip-path: none !important;
-        transform: none !important;
-        transition: none !important;
-    }
-
-    .ark-about-content,
-    .ark-visual-img,
-    .ark-hero-img,
-    .ark-hero-panel,
-    .ark-card,
-    .ark-skill,
-    .ark-contact > * {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-    }
-
-    .ark-hero-scrim::after {
-        animation: none !important;
-    }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   PART 24 — ENDFIELD PROJECT VIEWER (CINEMATIC LAYOUT)
-   ═══════════════════════════════════════════════════════════════ */
-
-/* ==========================================================================
-   1. THE OUTER SECTION CONTAINER
-   ========================================================================== */
 
 .ark-project-section {
     display: flex;
     flex-direction: column;
     justify-content: center; 
-    
     min-height: calc(100vh - var(--topbar-h) - var(--marquee-h));
     min-height: calc(100svh - var(--topbar-h) - var(--marquee-h));
     height: auto; 
-    
-    padding:
-        clamp(2rem, 5vh, 4rem)
-        calc(var(--rail-buffer) + clamp(2rem, 4vw, 4rem));
-    
+    padding: clamp(2rem, 5vh, 4rem) calc(var(--rail-buffer) + clamp(2rem, 4vw, 4rem));
     overflow: hidden;
     background-color: var(--paper);
-    
-    /* DENSE GRID LINES SPANNING THE ENTIRE SECTION */
     background-image: 
-        /* 1. Main Horizontal Line (Centered) */
         linear-gradient(to bottom, transparent calc(50% - 1px), rgba(255, 255, 255, 0.08) 50%, transparent calc(50% + 1px)),
-        
-        /* 2. Far Left Lines (Framing the edge) */
         linear-gradient(to right, transparent calc(3% - 1px), rgba(255, 255, 255, 0.08) 3%, transparent calc(3% + 1px)),
         linear-gradient(to right, transparent calc(7% - 1px), rgba(255, 255, 255, 0.08) 7%, transparent calc(7% + 1px)),
-        
-        /* 3. Inner Left Line */
         linear-gradient(to right, transparent calc(15% - 1px), rgba(255, 255, 255, 0.05) 15%, transparent calc(15% + 1px)),
-        
-        /* 4. Center Vertical Line (Aligns perfectly with the Radar) */
         linear-gradient(to right, transparent calc(35% - 1px), rgba(255, 255, 255, 0.08) 35%, transparent calc(35% + 1px)),
-        
-        /* 5. Inner Right Line */
         linear-gradient(to right, transparent calc(85% - 1px), rgba(255, 255, 255, 0.05) 85%, transparent calc(85% + 1px)),
-        
-        /* 6. Far Right Lines (Framing the edge) */
         linear-gradient(to right, transparent calc(93% - 1px), rgba(255, 255, 255, 0.08) 93%, transparent calc(93% + 1px)),
         linear-gradient(to right, transparent calc(97% - 1px), rgba(255, 255, 255, 0.08) 97%, transparent calc(97% + 1px));
 }
@@ -2876,28 +2180,20 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     padding-bottom: 0; 
 }
 
-/* Remove the old pseudo-elements */
 .ark-project-viewer::before,
 .ark-project-viewer::after {
     display: none;
 }
-
-
-/* ==========================================================================
-   2. BACKGROUND RADAR DECORATION
-   ========================================================================== */
 
 .ark-radar-decor {
     position: absolute;
     top: 50%; 
     left: 35%; 
     transform: translate(-50%, -50%);
-    
     width: 90vh; 
     height: 90vh;
     max-width: 900px;
     max-height: 900px;
-    
     z-index: 1;
     pointer-events: none;
     opacity: 0.85; 
@@ -2954,10 +2250,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
 @keyframes radarSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes radarSpinReverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 
-/* ==========================================================================
-   3. SLIDE LAYOUT
-   ========================================================================== */
-
 .ark-project-slides {
     position: relative;
     width: 100%;
@@ -2971,9 +2263,7 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     inset: 0;
     opacity: 0;
     visibility: hidden;
-    /* Cleaned up duplicate transition rule here */
     transition: opacity 0.3s ease, visibility 0.3s;
-    
     display: flex;
     justify-content: space-between;
     align-items: center; 
@@ -2985,10 +2275,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     opacity: 1;
     visibility: visible;
 }
-
-/* ==========================================================================
-   4. LEFT COLUMN: IMAGE (3D BOARD)
-   ========================================================================== */
 
 .ark-project-visual {
     flex: 1;
@@ -3004,9 +2290,7 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     width: 90%;
     height: 65vh;
     transform-style: preserve-3d;
-    /* Ensure no CSS transitions interfere with JS animations */
     transition: none; 
-    /* Hardware acceleration to prevent flicker */
     will-change: transform;
 }
 
@@ -3024,14 +2308,8 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     overflow: hidden;
 }
 
-.ark-board-front {
-    z-index: 2;
-}
-
-.ark-board-back {
-    transform: rotateY(180deg); 
-    z-index: 1;
-}
+.ark-board-front { z-index: 2; }
+.ark-board-back { transform: rotateY(180deg); z-index: 1; }
 
 .ark-board-face img {
     width: 100%;
@@ -3045,10 +2323,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     filter: grayscale(0) brightness(1.5) contrast(1.1) drop-shadow(0 0 20px rgba(var(--signal-rgb), 0.5));
 }
 
-/* ==========================================================================
-   5. RIGHT COLUMN: TEXT INFO
-   ========================================================================== */
-
 .ark-project-info {
     width: 340px; 
     flex-shrink: 0;
@@ -3060,7 +2334,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     position: relative;
 }
 
-/* Horizontal line cutting across the background */
 .ark-project-info::before {
     content: "";
     position: absolute;
@@ -3077,10 +2350,7 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     background: transparent !important; 
 }
 
-.ark-project-text {
-    display: flex;
-    flex-direction: column;
-}
+.ark-project-text { display: flex; flex-direction: column; }
 
 .ark-project-kicker {
     font-family: var(--mono);
@@ -3091,7 +2361,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     text-transform: uppercase;
 }
 
-/* Removed clip-path so typewriter can work properly */
 .ark-project-title {
     font-family: var(--sans);
     font-size: 2.2rem; 
@@ -3101,8 +2370,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     color: var(--ink);
     text-transform: uppercase;
     margin-bottom: 0.75rem; 
-    
-    /* Keeps layout from jumping while text types */
     min-height: 2.2rem; 
 }
 
@@ -3122,7 +2389,6 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     text-transform: uppercase;
 }
 
-/* Text Fade-in Delays (Triggered by JS AFTER typewriter) */
 .ark-project-desc,
 .ark-project-tags {
     opacity: 0;
@@ -3130,13 +2396,8 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-/* This class is added by JS when typing is complete */
 .ark-project-info.show-text .ark-project-desc { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
 .ark-project-info.show-text .ark-project-tags { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
-
-/* ==========================================================================
-   6. GLOBAL CONTROLS (YOUR EXACT REFERENCE DESIGN)
-   ========================================================================== */
 
 .ark-project-global-controls {
     position: absolute;
@@ -3278,65 +2539,498 @@ html[data-palette="ember"] .ark-palette-swatch--tidal { opacity: 0.35; }
     transform: scale(1.05);
 }
 
-/* ==========================================================================
-   7. MOBILE RESPONSIVE
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════
+   NEW: RESUME BUTTON (HERO SECTION)
+   ═══════════════════════════════════════════════════════════════ */
+
+.ark-hero-resume-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding: 0.65rem 1.5rem;
+    background: transparent;
+    border: 1px solid var(--signal);
+    color: var(--signal);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    pointer-events: auto; 
+    z-index: 10;
+}
+
+.ark-hero-resume-btn:hover {
+    background: var(--signal);
+    color: var(--paper);
+    box-shadow: 0 0 20px rgba(var(--signal-rgb), 0.4);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   PART 21 — RESPONSIVE — MOBILE & TABLET (FIXED)
+   ═══════════════════════════════════════════════════════════════ */
 
 @media (max-width: 900px), (orientation: portrait) and (max-width: 1100px) {
+    /* --- GLOBAL LAYOUT --- */
+    .ark-shell {
+        margin-left: 0;
+        padding-top: var(--rail-mobile-h);
+        min-height: 100vh;
+        min-height: 100svh;
+    }
+
+    .ark-section {
+        min-height: calc(100vh - var(--rail-mobile-h) - var(--topbar-h) - var(--marquee-h));
+        min-height: calc(100svh - var(--rail-mobile-h) - var(--topbar-h) - var(--marquee-h));
+        padding: 2rem 1.25rem;
+        overflow: hidden;
+        scroll-margin-top: calc(var(--rail-mobile-h) + var(--topbar-h) + var(--marquee-h));
+    }
+
+    .ark-section::before { left: 1.25rem; top: 0.75rem; }
+    .ark-section-numeral { display: none; }
+    #skills .ark-section-numeral { display: none; }
+    .ark-field-label--br { bottom: 0.75rem; right: 1.25rem; }
+
+    /* --- NAV RAIL --- */
+    .ark-rail {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: auto;
+        width: 100%;
+        height: var(--rail-mobile-h);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 0.9rem;
+        border-right: 0;
+        border-bottom: 1px solid var(--rail-line);
+        box-shadow: 0 1px 0 rgba(16, 17, 16, 0.05), 0 6px 20px rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+        z-index: 200;
+    }
+
+    .ark-rail, .ark-rail.is-open {
+        width: 100%;
+        box-shadow: 0 1px 0 rgba(16, 17, 16, 0.05), 0 6px 20px rgba(0, 0, 0, 0.35);
+        background: var(--rail-bg);
+    }
+
+    .ark-rail-mark {
+        position: static;
+        left: auto;
+        width: auto;
+        height: auto;
+        text-align: left;
+        font-size: 0.62rem;
+        padding: 0.28rem 0.5rem;
+        letter-spacing: 0.14em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ark-rail.is-open .ark-rail-mark {
+        left: auto;
+        width: auto;
+        height: auto;
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        padding: 0.28rem 0.5rem;
+    }
+
+    .ark-rail-mark-short { position: static; opacity: 1 !important; }
+    .ark-rail-mark-long { display: none !important; }
+
+    .ark-rail-nav {
+        position: static;
+        transform: none;
+        flex-direction: row;
+        gap: 0.1rem;
+        overflow: hidden;
+    }
+
+    .ark-rail-link {
+        padding: 0.45rem 0.6rem;
+        gap: 0;
+        animation: none;
+    }
+
+    .ark-rail.is-open .ark-rail-link { padding-left: 0.6rem; }
+    .ark-rail-link-icon { width: 17px; height: 17px; color: var(--rail-ink-icon); }
+    .ark-rail-link-text { display: none; }
+
+    .ark-rail-link::before {
+        left: 50%;
+        top: auto;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        transform: translateX(-50%);
+        transition: width 0.3s var(--ease-out), height 0.3s var(--ease-out);
+    }
+
+    .ark-rail-link.active::before { width: 60%; height: 3px; }
+    .ark-rail-link.active { background: var(--rail-selected-bg); color: var(--rail-ink); }
+    .ark-rail-link.active .ark-rail-link-icon { color: var(--rail-ink); }
+    .ark-rail-link:hover { background: var(--rail-hover-bg); color: var(--rail-ink); }
+    .ark-rail-link:hover .ark-rail-link-icon { color: var(--rail-ink); }
+    .ark-rail-foot { display: none; }
+
+    /* --- TOPBAR --- */
+    .ark-topbar {
+        top: var(--rail-mobile-h);
+        padding: 0 1.25rem;
+    }
+    
+    .ark-marquee { top: calc(var(--rail-mobile-h) + var(--topbar-h)); }
+    .ark-marquee { font-size: 0.65rem; letter-spacing: 0.2em; padding: 0.6rem 0; }
+
+    /* --- HERO SECTION --- */
+    .ark-hero-section {
+        padding: 2rem 1.25rem;
+        justify-content: flex-start;
+        align-items: stretch;
+        height: auto;
+        min-height: calc(100vh - var(--rail-mobile-h) - var(--topbar-h) - var(--marquee-h));
+        min-height: calc(100svh - var(--rail-mobile-h) - var(--topbar-h) - var(--marquee-h));
+        max-height: none;
+    }
+
+    .ark-hero-visual {
+        top: 0; right: 0; bottom: 0; left: 0;
+        width: 100%;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+
+    .ark-hero-img { 
+        object-fit: cover; 
+        object-position: center; 
+        opacity: 0.4; 
+    }
+    .ark-section.is-revealed .ark-hero-img { opacity: 0.4; }
+
+    .ark-hero-scrim {
+        background: linear-gradient(to top, rgba(16, 17, 16, 0.90) 0%, rgba(16, 17, 16, 0.72) 28%, rgba(16, 17, 16, 0.40) 52%, rgba(16, 17, 16, 0.12) 78%, transparent 100%);
+    }
+
+    .ark-hero-content {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        transform: none;
+        padding: 0;
+        justify-content: flex-start;
+        align-items: stretch;
+    }
+
+    .ark-hero-panel {
+        max-width: none;
+        border-left-width: 2px;
+        padding: 1.25rem;
+        transform: translate3d(0, 30px, 0);
+    }
+
+    .ark-section.is-revealed .ark-hero-panel { transform: translate3d(0, 0, 0); }
+    .ark-hero-panel::before, .ark-hero-panel::after { display: none; }
+
+    .ark-display { font-size: clamp(1.8rem, min(9vw, 8vh), 3.5rem); }
+    .ark-title { font-size: clamp(1.5rem, min(6vw, 5.5vh), 2.25rem); margin-bottom: 0.5rem; }
+    
+    .ark-hero-resume-btn { width: 100%; margin-top: 1.25rem; }
+
+    /* Hero Meta Stacked */
+    .ark-meta { flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .ark-meta > div {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--line-l1);
+        padding-bottom: 0.5rem;
+    }
+    .ark-meta > div:last-child { border-bottom: none; padding-bottom: 0; }
+    .ark-meta > div::after { display: none; }
+
+    /* --- ABOUT SECTION --- */
+    .ark-about-section { padding: 2rem 1.25rem; overflow: hidden; }
+    .ark-about-layout { justify-content: flex-start; padding-bottom: 0; }
+    
+    .ark-about-content {
+        width: 100%;
+        max-width: none;
+        gap: 1.25rem;
+        transform: translate3d(0, 0, 0);
+    }
+
+    .ark-about-visual {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        opacity: 0.3; 
+        align-items: center;
+        justify-content: center;
+        z-index: 0;
+    }
+
+    .ark-visual-img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        transform: scale(1);
+    }
+
+    .ark-section.is-revealed .ark-visual-img { opacity: 1; transform: scale(1); }
+    .ark-split-main { max-height: none; overflow: visible; position: relative; z-index: 2; }
+    .ark-split-main p { font-size: 0.9rem; }
+
+    /* --- PROJECTS SECTION --- */
     .ark-project-section {
         height: auto;
         min-height: 100vh;
-        padding-top: 4rem;
-        padding-bottom: 4rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
         overflow-y: auto;
     }
-    
+
+    .ark-project-viewer {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        padding-top: 0;
+        gap: 2rem;
+        position: relative;
+    }
+
     .ark-radar-decor {
         width: 120vw; 
         height: 120vw;
         left: 50%;
-        top: 40%;
+        top: 30%;
+        opacity: 0.3;
+    }
+
+    .ark-project-slides {
+        display: grid;
+        width: 100%;
+        height: auto;
     }
 
     .ark-project-slide {
+        grid-area: 1 / 1;
+        position: relative;
+        inset: auto;
         display: flex; 
         flex-direction: column;
         justify-content: flex-start;
-        align-items: flex-start;
+        align-items: center;
         height: auto;
-        gap: 3rem;
+        gap: 1.5rem;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.4s ease, visibility 0.4s;
+    }
+
+    .ark-project-slide.is-active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        z-index: 2;
     }
 
     .ark-project-visual {
         width: 100%;
-        height: auto;
+        height: 30vh;
+        min-height: 200px;
+        max-height: 280px;
         padding: 0;
-    }
-    
-    .ark-project-img {
-        max-height: 40vh; 
+        margin-bottom: 1rem;
     }
 
+    .ark-project-img-wrapper { width: 85%; height: 100%; }
+    
     .ark-project-info {
         width: 100%;
         padding: 0;
         top: 0;
+        text-align: center;
     }
     
-    .ark-project-info::before {
-        display: none; 
-    }
+    .ark-project-info::before { display: none; }
+    .ark-project-kicker, .ark-project-title, .ark-project-desc, .ark-project-tags { text-align: center; }
 
     .ark-project-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        min-height: auto;
+        margin-bottom: 0.5rem;
     }
+
+    .ark-project-desc { font-size: 0.85rem; }
 
     .ark-project-global-controls {
         position: relative;
         bottom: auto;
         right: auto;
-        margin-top: 2rem;
-        justify-content: flex-end;
+        margin-top: 1rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .ark-project-left-controls {
+        width: 100%;
+        align-items: center;
+        max-width: 300px;
+    }
+
+    .ark-project-controls-top {
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .ark-project-progress { width: 100%; }
+    .ark-project-arrows { justify-content: center; }
+
+    /* --- SKILLS SECTION --- */
+    #skills {
+        padding-bottom: 4rem; 
+    }
+
+    .ark-skills-layout {
+        flex-direction: column;
+        padding: 1rem 0 2rem 0;
+        gap: 2rem;
+    }
+    
+    .ark-skills-banner {
+        width: 100%;
+        height: auto;
+        min-height: 60px;
+        margin: 0 1rem 1rem 1rem;
+        align-self: center;
+        flex-direction: row;
+        padding: 1rem;
+    }
+    
+    .ark-skills-banner-text-group {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
         width: 100%;
     }
+    
+    .ark-skills-banner-line { width: 20px; height: 2px; }
+    
+    .ark-skills-banner-text, 
+    .ark-skills-banner-vertical {
+        writing-mode: horizontal-tb;
+        transform: none;
+        font-size: 1rem;
+        letter-spacing: 0.1em;
+    }
+
+    .ark-skills-content { padding: 0 1rem; }
+    .ark-skills-header { text-align: center; }
+    .ark-skills-breadcrumb { justify-content: center; }
+    
+    .ark-skills-track { padding-left: 1rem; padding-right: 2rem; }
+    .ark-skill-slide { flex: 0 0 280px; height: 200px; }
+
+    .ark-skills-controls { 
+        margin-left: 0; 
+        justify-content: center; 
+        flex-wrap: wrap; 
+        gap: 1rem; 
+        margin-top: 1rem;
+        margin-bottom: 2.5rem; 
+    }
+
+    /* --- CONTACT SECTION --- */
+    #contact { 
+        padding-top: 1rem; /* Moved up on mobile */
+        padding-bottom: 3rem; 
+    }
+    
+    .ark-contact-endfield { 
+        flex-direction: column; 
+        gap: 2rem; 
+        margin-top: -0.5rem; /* Nudge up on mobile */
+    }
+    
+    .ark-contact-links-row { width: 100%; }
+    
+    .ark-contact-links-row a { 
+        padding: 1rem 0.5rem; /* Smaller padding on mobile */
+        font-size: 0.85rem; /* Smaller font on mobile */
+    }
+    
+    .ark-contact-legal { margin-top: 0; text-align: center; }
+    
+    .ark-contact-logo { width: 150px; } /* Medium logo on mobile */
+
+    /* --- FOOTER --- */
+    .ark-footer {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PART 22 — RESPONSIVE — SMALL PHONES
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+    .ark-topbar-date { display: none; }
+}
+
+@media (max-width: 520px) {
+    .ark-topbar-readout { font-size: 0; gap: 0; }
+    .ark-topbar-date, .ark-topbar-time, .ark-topbar-dot { display: none; }
+    
+    .ark-palette-toggle { font-size: 0.6rem; padding: 0.3rem 0.5rem; }
+
+    .ark-kicker-code { display: none; }
+    .ark-hero-panel { padding: 1rem; }
+    .ark-display { font-size: 1.8rem; }
+    .ark-subtitle { font-size: 0.9rem; }
+    
+    .ark-project-visual { height: 25vh; }
+    .ark-skill-slide { flex: 0 0 260px; }
+    .ark-boot-logo { width: 100px; }
+    
+    .ark-field-label { font-size: 0.55rem; padding: 0.25rem 0.5rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PART 23 — REDUCED MOTION
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .ark-bg-grid, .ark-bg-contour, .ark-bg-scan, .ark-bg-noise, .ark-hero-grid { display: none; }
+    .ark-boot { display: none; }
+    .ark-marquee-track { animation: none; }
+    [data-reveal] { opacity: 1 !important; clip-path: none !important; transform: none !important; transition: none !important; }
+    .ark-about-content, .ark-visual-img, .ark-hero-img, .ark-hero-panel, .ark-card, .ark-skill, .ark-contact > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .ark-hero-scrim::after { animation: none !important; }
 }
